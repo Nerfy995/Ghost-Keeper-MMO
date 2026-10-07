@@ -261,7 +261,9 @@ function sbErr(e){const c=(e&&e.code)||'',m=(e&&e.message)||'';
    ห้อง = "channel" ชื่อขึ้นต้น gk: (เช่น gk:global, gk:m0, gk:house:<uid>)
    priv = ห้องแบบต้องล็อกอิน (ใช้สิทธิ์จาก supabase/schema.sql ส่วน Realtime) — ถ้าเซิร์ฟเวอร์ยังไม่ได้ตั้งสิทธิ์ จะถอยไปใช้ห้องสาธารณะเอง */
 const RT=(()=>{let ws=null,ref=0,hb=null,live=false,want=false,retry=0,rtm=null,TOK=null;const CH={};
- const api={priv:true,stat:{tx:0,rx:0},onStatus:null};
+ /* priv: ใช้ห้องแบบต้องล็อกอิน — ปิดไว้ก่อน (ตั้ง ONLINE.rtPrivate:true ใน config.js เพื่อเปิด)
+    เพราะเซิร์ฟเวอร์จริงตอบ MissingPartition กับห้องแบบนี้เป็นบางครั้ง ถ้าบางคนเข้าได้บางคนไม่ได้ จะอยู่คนละห้องและมองไม่เห็นกัน */
+ const api={priv:!!ONLINE.rtPrivate,stat:{tx:0,rx:0},onStatus:null};
  const url=()=>ONLINE.url.replace(/^http/,'ws').replace(/\/+$/,'')+'/realtime/v1/websocket?apikey='+encodeURIComponent(ONLINE.key)+'&vsn=1.0.0';
  const raw=(topic,event,payload,jr)=>{if(!live||!ws||ws.readyState!==1)return null;const r=String(++ref);try{ws.send(JSON.stringify({topic,event,payload,ref:r,join_ref:jr===undefined?null:jr}))}catch(e){return null}api.stat.tx++;return r};
  function connect(){want=true;if(ws)return;try{ws=new WebSocket(url())}catch(e){ws=null;return later()}
@@ -273,17 +275,16 @@ const RT=(()=>{let ws=null,ref=0,hb=null,live=false,want=false,retry=0,rtm=null,
  function close(){want=false;clearTimeout(rtm);Object.keys(CH).forEach(k=>delete CH[k]);if(ws){try{ws.close()}catch(e){}}ws=null;live=false;clearInterval(hb)}
  function join(ch){if(!live)return;ch.st='joining';const r=String(++ref);ch.jr=r;ch.pres={};
   try{ws.send(JSON.stringify({topic:ch.topic,event:'phx_join',payload:{config:{broadcast:{ack:false,self:false},presence:{key:ch.key||'',enabled:true},postgres_changes:[],private:!!(api.priv&&ch.priv)},access_token:TOK||ONLINE.key},ref:r,join_ref:r}))}catch(e){}api.stat.tx++}
- function denied(p){const s=JSON.stringify(p||'');return /unauthori|private|not allowed|permission|rls/i.test(s)}
  function msg(ch,m){const p=m.payload||{};
   if(m.event=='phx_reply'&&m.ref===ch.jr){if(p.status=='ok'){ch.st='joined';if(ch.meta)raw(ch.topic,'presence',{type:'presence',event:'track',payload:ch.meta},ch.jr);ch.on._joined&&ch.on._joined()}
-   else if(api.priv&&ch.priv&&denied(p)){api.priv=false;console.warn('[RT] ห้องแบบล็อกอินใช้ไม่ได้ (ยังไม่ได้รันส่วน Realtime ใน schema.sql?) → ใช้ห้องสาธารณะแทน',p);Object.values(CH).forEach(join)}
+   else if(api.priv&&ch.priv){api.priv=false;console.warn('[RT] ห้องแบบล็อกอินใช้ไม่ได้ → ใช้ห้องสาธารณะแทน:',JSON.stringify(p.response||p));Object.values(CH).forEach(join)}   // เข้าห้องแบบล็อกอินไม่ได้ด้วยเหตุผลใดก็ตาม (เช่น ยังไม่ได้ตั้งสิทธิ์ / MissingPartition ฝั่งเซิร์ฟเวอร์) → ถอยไปห้องสาธารณะ
    else{ch.st='closed';setTimeout(()=>{if(CH[ch.topic]===ch&&ch.st=='closed')join(ch)},3000)}return}
   if(m.event=='broadcast'){const f=ch.on[p.event];if(f)try{f(p.payload||{})}catch(e){console.error(e)}return}
   if(m.event=='presence_state'){ch.pres={};for(const k in p)ch.pres[k]=(p[k].metas||[]).slice();ch.emitP();return}
   if(m.event=='presence_diff'){const J=p.joins||{},L=p.leaves||{};for(const k in J){ch.pres[k]=(ch.pres[k]||[]).concat(J[k].metas||[])}
    for(const k in L){const refs=(L[k].metas||[]).map(x=>x.phx_ref);if(ch.pres[k]){ch.pres[k]=ch.pres[k].filter(x=>!refs.includes(x.phx_ref));if(!ch.pres[k].length)delete ch.pres[k]}}ch.emitP();return}
   if(m.event=='phx_error'||m.event=='phx_close'||(m.event=='system'&&p.status=='error')){
-   if(m.event=='system'&&api.priv&&ch.priv&&denied(p)){api.priv=false;Object.values(CH).forEach(join);return}
+   if(m.event=='system'&&api.priv&&ch.priv&&ch.st=='joining'){api.priv=false;Object.values(CH).forEach(join);return}
    if(CH[ch.topic]===ch&&ch.st!='joining'){ch.st='closed';ch.pres={};ch.emitP();setTimeout(()=>{if(CH[ch.topic]===ch&&ch.st=='closed')join(ch)},2000)}}}
  /* เปิดห้อง: RT.channel('gk:m0',{key:uid,priv:true}) */
  api.channel=(name,o={})=>{const topic='realtime:'+name;if(CH[topic])return CH[topic];
