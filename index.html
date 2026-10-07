@@ -222,8 +222,8 @@ const cv=$('#cv'),c=cv.getContext('2d');
    url / key ว่าง = เล่นแบบออฟไลน์ (เซฟในเครื่องเหมือนเดิม) */
 const ONLINE={
  url:'https://mhirslhysgbmlrswdizx.supabase.co',
- key:'',   // anon public key (ขึ้นต้นด้วย eyJ... หรือ sb_publishable_...) — ใส่ในเกมได้ ปลอดภัยเพราะมี RLS คุม
- google:true,  // แสดงปุ่มเข้าสู่ระบบด้วย Google (ต้องเปิด Google provider ใน Supabase ก่อน)
+ key:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1oaXJzbGh5c2dibWxyc3dkaXp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEzNDk2MjUsImV4cCI6MjEwNjkyNTYyNX0.SEvHHSg7_mX3AfwjO8aGaVWkYgnO-O7FI-SLKg5qjeI',   // anon public key — ใส่ในเกมได้ ปลอดภัยเพราะมี RLS คุม
+ google:false,  // แสดงปุ่มเข้าสู่ระบบด้วย Google (ต้องเปิด Google provider ใน Supabase ก่อน แล้วเปลี่ยนเป็น true)
 };
 /* ตัวเชื่อม Supabase แบบเบา (ไม่ต้องโหลดไลบรารี): ล็อกอิน (อีเมล/Google), ต่ออายุ token, เรียกตาราง (PostgREST) */
 const SB=(()=>{const K='gk_auth';let S=null;
