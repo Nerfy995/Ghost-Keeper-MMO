@@ -1550,8 +1550,9 @@ function gview(i){const g=stock[i],f=(l,v)=>`<div class="fl"><span class="sh">${
  openM('รายละเอียดผี',`<div class="sm"><div>${f('ชื่อ',nm(g))}${f('เลเวล',g.lv)}${f('HP / SP',g.mx+' / '+g.mxsp)}${f('ATK/DEF/SPD',g.atk+' / '+g.def+' / '+g.spd)}${f('สกิลประจำตัว',uTxt(g))}<div class="sh" style="font-weight:700;margin:.4cqh 0">สกิล</div>${g.sk.map(k=>`<div class="fv" style="margin-bottom:.4cqh">${skd(k)}</div>`).join('')}</div><div class="sr"><canvas id="sc" width="48" height="48"></canvas><br><span class="et" style="background:${EC[g.sp.e]}">${g.sp.e}</span></div></div><button class="bn" onclick="breeder()">← กลับ</button>`);spr($('#sc'),g,3)}
 function starter(){openM('เลือกผีคู่ใจ',`<div style="display:flex;gap:1.5cqw;justify-content:center">${[0,1,2].map(i=>`<div class="cd" style="text-align:center;flex:1"><canvas data-s="${i}" width="48" height="48" style="width:100%;max-width:14cqw;image-rendering:pixelated"></canvas><br><b>${SP[i].n}</b><br><span style="color:${EC[SP[i].e]}">● ธาตุ${SP[i].e}</span><br><button class="bn" onclick="pick(${i})">เลือกตัวนี้</button></div>`).join('')}</div>`,0);document.querySelectorAll('#mb canvas[data-s]').forEach(k=>dg(k.getContext('2d'),24,44,{sp:SP[+k.dataset.s],shiny:0},3,0))}
 /* ผีคู่ใจตอนเริ่มเกม: ได้สกิลโจมตีธาตุตัวเองติดตัว 1 สกิล + อีกสกิลสุ่มตามปกติ */
+const STARTER_LV=5;   // เลเวลผีคู่ใจตอนเริ่มเกม
 const STARTER_SK={'ไฟ':'fire_01','น้ำ':'water_01','ลม':'wind_01','ดิน':'earth_01'};   // ไฟลอย · พ่นน้ำ · วายุพัด · เขวี้ยงดิน
-function starterG(i){const g=mk(i,3,false,1),s=SKI[STARTER_SK[g.sp.e]],n=g.sk.length;if(s){g.sk=[s];while(g.sk.length<n&&learn(g)){}}return g}
+function starterG(i){const g=mk(i,STARTER_LV,false,1),s=SKI[STARTER_SK[g.sp.e]],n=g.sk.length;if(s){g.sk=[s];while(g.sk.length<n&&learn(g)){}}return g}
 function pick(i){if(party.length)return;party=[starterG(i)];dx[i]=1;hud();save();help()}
 /* ไหวิญญาณ: หลอมรวม, อัญเชิญ, บันทึกไห, แปลงกายไห, กล่องสุ่มไห */
 const SO={so_d:'ดิน',so_w:'น้ำ',so_a:'ลม',so_f:'ไฟ'};let JS=null;
