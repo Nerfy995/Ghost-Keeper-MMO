@@ -136,12 +136,26 @@ kbd{background:#2b3a34;border:1px solid #6a7a70;border-bottom-width:3px;border-r
 #g:has(#md[style*="display: flex"] .bx.wide) #dbg,#g:has(#md[style*="display: flex"] .bx.wide) #fs{visibility:hidden}
 
 .gr div{position:relative}.gr .dno{position:absolute;left:.4cqw;top:.2cqh;font-size:.75em;color:#ffd84a;opacity:.85;font-weight:700}
+
+/* ธนาคาร (Ver.0.1.3) */
+.wide .bk{display:grid;grid-template-columns:1.25fr 1fr;gap:1.2cqw;height:100%;min-height:0}
+.bkg{display:flex;flex-direction:column;min-height:0;background:#0d1210;border:1px solid var(--ln);border-radius:6px;padding:.8cqh .8cqw}
+.bkh{display:flex;justify-content:space-between;align-items:flex-start;gap:1cqw;margin-bottom:.4cqh}.bkh .bn{padding:.3cqh .7cqw;font-size:.85em}
+.bkp{font-size:1.35em;line-height:1.2}.bkp b{color:#ffd84a;font-size:1.25em}
+#bkc{flex:1;min-height:0;width:100%;border-radius:4px;display:block}
+.bko{font-size:.78em;opacity:.8;margin-top:.3cqh}
+.bkm{display:flex;flex-direction:column;min-height:0;overflow:hidden}.bkm .wt .bn{padding:.6cqh 1cqw}
+.bkb{flex:1;min-height:0;overflow:hidden}
+.bkmsg{padding:.5cqh .8cqw;margin-bottom:.6cqh;color:#ffd84a;font-size:.9em}
+.bkr{padding:.45cqh .8cqw;margin-bottom:.45cqh}.bkr .bn{margin:0;white-space:nowrap}.bks{opacity:.4;margin:0 .2cqw}
+.bkin{display:flex;gap:.3cqw;align-items:center}.bkin input{flex:1;min-width:0}.bkin .bn{margin:0;padding:.4cqh .6cqw;font-size:.85em}
+.bkss{display:grid;gap:.5cqh}.bkst{display:flex;justify-content:space-between;gap:1cqw;background:#0d1210;border:1px solid var(--ln);border-radius:4px;padding:.6cqh .9cqw}.bkst b{color:#ffd84a;text-align:right}
 </style>
 </head><body>
 <div id="rt" onclick="this.remove()">📱 หมุนเครื่องเป็นแนวนอน แล้วกดปุ่ม ⛶ มุมขวาบนเพื่อเล่นเต็มจอ (แตะเพื่อปิด)</div>
 <div id="g">
 <canvas id="cv" width="480" height="270"></canvas><canvas id="lb"></canvas>
-<div id="hud" class="a sh"><div style="font-size:.75em;opacity:.85">Ghost Keeper v0.1.2</div><div>🗺️ <span id="mapn">หมู่บ้านแห่งการเริ่มต้น</span></div><div>🌤️ <span id="ck"></span></div><div>📍 <span id="loc">ลานต้นไม้ศักดิ์สิทธิ์</span></div><div id="qp"></div><div class="cur"><div>🪙 <span id="gc">0</span> GC</div><div>🥇 <span id="gd">0</span> ทอง</div></div><div id="bfs"></div></div>
+<div id="hud" class="a sh"><div style="font-size:.75em;opacity:.85">Ghost Keeper v0.1.3</div><div>🗺️ <span id="mapn">หมู่บ้านแห่งการเริ่มต้น</span></div><div>🌤️ <span id="ck"></span></div><div>📍 <span id="loc">ลานต้นไม้ศักดิ์สิทธิ์</span></div><div id="qp"></div><div class="cur"><div>🪙 <span id="gc">0</span> GC</div><div>🥇 <span id="gd">0</span> ทอง</div></div><div id="bfs"></div></div>
 <div id="hot" class="a"></div>
 <div id="pty" class="a"></div>
 <div id="mn" class="a"><button title="สมุดผี" onclick="dex()">📖</button><button title="กระเป๋า" onclick="bag()">🎒</button><button title="ไหวิญญาณ" onclick="jarHub()">🏺</button><button title="อารีน่า" onclick="arenaUI()">🏆</button><button data-x="pty" title="ปาร์ตี้ (ออนไลน์)" onclick="PTY.ui()">🤝</button><button title="ตลาด" onclick="soon('ตลาดเทรดผีและไอเทม')">🛒</button><button title="ตำราวิชาโลก" onclick="book()">📜</button><button title="เซฟ / ย้ายข้อมูลเซฟ" onclick="saveUI()">💾</button><button id="hbtn" title="บ้านพกพา (กดวางบ้าน / กดอีกครั้งเพื่อเก็บบ้าน)" onclick="useHouse()">🏠</button><button title="Auto" onclick="autoUI()">🤖</button><button title="ฉุกเฉิน: กลับจุดเซฟ" onclick="sos()">🆘</button></div>
@@ -155,7 +169,7 @@ kbd{background:#2b3a34;border:1px solid #6a7a70;border-bottom-width:3px;border-r
  <div id="bl" class="bx a"></div>
  <div id="bc" class="a"></div>
 </div>
-<div id="vp"><div class="bx"><h3>Ghost Keeper Ver 0.1.2 ทำการทดสอบเกม</h3><p style="margin:.6cqh 0"><b>เป้าหมายของการทดสอบรอบนี้</b></p><div>1. ทำเควสที่มีในเกมให้หมด</div><div>2. ชนะอาจารย์ยอดและเข้าเมืองไปให้ได้</div><div>3. ล้มบอสตัวแรกของเกมให้ได้</div><div style="text-align:center;margin-top:1.2cqh"><button class="bn" onclick="$('#vp').style.display='none'">✖ ปิด</button></div></div></div>
+<div id="vp"><div class="bx"><h3>Ghost Keeper Ver 0.1.3 ทำการทดสอบเกม</h3><p style="margin:.6cqh 0"><b>เป้าหมายของการทดสอบรอบนี้</b></p><div>1. ทำเควสที่มีในเกมให้หมด</div><div>2. ชนะอาจารย์ยอดและเข้าเมืองไปให้ได้</div><div>3. ล้มบอสตัวแรกของเกมให้ได้</div><div>4. ลองซื้อ-ขายทองกับนายธนาคาร</div><div style="text-align:center;margin-top:1.2cqh"><button class="bn" onclick="$('#vp').style.display='none'">✖ ปิด</button></div></div></div>
 <div id="ev"><div id="evt" class="sh"></div><canvas id="evc" width="48" height="48"></canvas></div>
 <button id="fs" class="a" title="เต็มจอ" onclick="toggleFS()">⛶</button><button id="hdec" class="a bn" onclick="hdecor()">🛠️ ปรับแต่งบ้าน</button><div id="hed" class="a"></div><div id="nme" class="a"></div><button id="dbg" class="a" title="เสกไอเทม (โหมดทดสอบ)" onclick="dbgUI()">🛠️</button>
 <div id="aub" onclick="autoStop()"></div><div id="md"><div class="bx"><div class="mh"><h3 id="mt"></h3><button class="bn" id="mx" onclick="closeM()">✖ ปิด</button></div><div id="mb"></div></div></div>
@@ -662,10 +676,10 @@ function gLoadSave(g,lg){const id=g.gid||(lg?LEGACY_SP[g.si]:SP[g.si]&&SP[g.si].
  g.st=[];g.uq={};g.dfd=0;delete g.buf;delete g.slow;delete g.bnew;delete g.slowNew;fixSk(g);while(g.sk.length<Math.min(4,n0)&&learn(g)){}return g}
 /* ระหว่างประลองอารีน่า HP/SP ของทีมถูกเติมเต็มชั่วคราว → เซฟค่าก่อนเข้าอารีน่า (กันออกเกมกลางคันแล้วได้ HP เต็มฟรี) */
 function snap(){const T=typeof ARS!='undefined'&&ARS?ARS.map(([g,h,s])=>{const o=[g,g.hp,g.sp2];g.hp=h;g.sp2=s;return o}):null;try{return snap0()}finally{if(T)T.forEach(([g,h,s])=>{g.hp=h;g.sp2=s})}}
-function snap0(){return JSON.stringify({party:party.map(gSave),box:box.map(gSave),dxi:Object.keys(dx).filter(i=>dx[i]&&SP[i]).map(i=>SP[i].id),gc,inv,pname,av,gold,stock:stock.map(gSave),stockT,passed,mv:MAPV,qs,qc,qk,qb,qt,qf,qa,ush:USH,arIn:typeof ARS!='undefined'&&ARS?1:0,shu:SHU,hc:HC,qv:5,npcp:NPCP,ap:AP,ar:AR,jk:{u:JKU,s:JSK},hot,newb:NEWB,job:JOB,jq:JQ,stall:typeof STALL!='undefined'?STALL:undefined,boss:mons.map(m=>({g:gSave(m.g),dead:m.dead,rt:m.rt})),wb:typeof WSY!='undefined'?WSY.dump():undefined,house:HOUSE,au:{...AU,on:false},aud:AUD})}
+function snap0(){return JSON.stringify({party:party.map(gSave),box:box.map(gSave),dxi:Object.keys(dx).filter(i=>dx[i]&&SP[i]).map(i=>SP[i].id),gc,inv,pname,av,gold,stock:stock.map(gSave),stockT,passed,mv:MAPV,qs,qc,qk,qb,qt,qf,qa,ush:USH,arIn:typeof ARS!='undefined'&&ARS?1:0,shu:SHU,hc:HC,qv:5,npcp:NPCP,ap:AP,ar:AR,jk:{u:JKU,s:JSK},hot,newb:NEWB,job:JOB,jq:JQ,stall:typeof STALL!='undefined'?STALL:undefined,sto:typeof STO!='undefined'?STO:undefined,bank:typeof BANK!='undefined'?BANK.dump():undefined,boss:mons.map(m=>({g:gSave(m.g),dead:m.dead,rt:m.rt})),wb:typeof WSY!='undefined'?WSY.dump():undefined,house:HOUSE,au:{...AU,on:false},aud:AUD})}
 function save(){if(!hasChar())return;if(SB.on()){try{stSet(snap())}catch(e){}cloudSave();return}try{stSet(snap());SVERR=''}catch(e){SVERR=e.message}if(LSBAD||SVERR)svWarn()}
 let LOADERR='';
-function load(raw0){let raw=null;try{raw=raw0!=null?raw0:stGet();const d=JSON.parse(raw);if(d&&d.party&&(d.party.length||d.newb)){NEWB=d.party.length?0:d.newb?1:0;JOB=JOBS[d.job]?d.job:'';JQ=!JOB&&JOBS[d.jq]?d.jq:'';STALL=Array.from({length:STALL_N},(_,i)=>{const x=(d.stall||[])[i];return x&&ALL[x.k]&&x.n>0&&x.p>0?{k:x.k,n:x.n|0,p:x.p|0,on:x.on?1:0}:null});const lg=(d.qv||0)<5;({party,box,gc,inv}=d);dx={};if(Array.isArray(d.dxi))d.dxi.forEach(id=>{const i=gi(id);if(i!=null)dx[i]=1});else Object.keys(d.dx||{}).forEach(k=>{const i=gi(LEGACY_SP[k]);if(i!=null&&d.dx[k])dx[i]=1});if(inv.book){inv.book_c=(inv.book_c||0)+inv.book}delete inv.book;pname=d.pname||'ผู้เล่น';inv={sp:2,book_c:0,book_r:0,book_l:0,ch100:0,orange:0,house:0,master:1,mind:0,jk_cat:0,jk_pha:0,jk_hulk:0,jk_yak:0,jk_war:0,jbox:0,dust:0,so_d:0,so_w:0,so_a:0,so_f:0,ch_life:2,ch_hold:2,ch_crit:2,ch_buf:2,deed:0,bottle:0,...inv};inv.house=0;gold=d.gold??100;stock=(d.stock||[]).map(g=>g&&gLoadSave(g,lg));stockT=d.stockT||0;if(stock.some(g=>g&&g.lv!=6)||(d.stock||[]).some((g,i)=>g&&!stock[i])){stock=[];stockT=0}passed=!!d.passed;if(d.qv>=2){qs={1:0,2:0,3:0,4:0,5:0,...d.qs};qk=d.qk||0}else{const o=d.qs||{};qs={1:0,2:o[1]||0,3:o[2]||0,4:o[3]||0,5:0};qk=0}if((d.qv||0)<3){const a=qs[4];qs[4]=qs[5];qs[5]=a}qc=d.qc||0;qb=d.qb||0;qt=d.qt||0;qf=d.qf||0;qa=d.qa||0;USH=d.ush&&Array.isArray(d.ush.it)?d.ush:USH;ARQ=!!d.arIn;if((d.qv||0)<4&&qt)qt=7;SHU=d.shu||0;NPCP=d.mv==MAPV&&d.npcp&&typeof d.npcp=='object'?d.npcp:{};npcApply();AP=Math.max(0,+d.ap||0);AR={w:0,l:0,...(d.ar||{})};if(d.jk){JKU=[...new Set(['normal',...(Array.isArray(d.jk.u)?d.jk.u:[])])].filter(x=>JKL.some(j=>j[0]==x));JSK=JKU.includes(d.jk.s)?d.jk.s:'normal'}HC={sz:0,sh:null,pl:null,pg:[],...(d.hc||{})};hot=Array.from({length:9},(_,i)=>{const k=(d.hot||[])[i];return k&&ALL[k]?k:null});HOUSE=d.mv==MAPV?d.house||null:null;if(HOUSE&&!HOUSE.owner)HOUSE.owner=pname;if(d.au)AU={...AU,...d.au,on:false};AUD=d.aud||AUD;if(HOUSE)npcOf(HOUSE.map).push(hnode());av=d.av||av;if(d.wb&&typeof WSY!='undefined')WSY.restore(d.wb);if(Array.isArray(d.boss))d.boss.forEach((o,i)=>{const m=mons[i];if(!m||!o||!o.g)return;const g=gLoadSave(o.g,lg);if(!g||d.mv!=MAPV||(m.sp&&SP[g.si].id!=m.sp))return;g.boss=1;m.g=g;m.lv=g.lv;m.dead=o.dead||0;m.rt=o.rt||0});party=party.map(g=>gLoadSave(g,lg)).filter(Boolean);box=box.map(g=>gLoadSave(g,lg)).filter(Boolean);if(!party.length&&box.length)party.push(box.shift());return 1}}catch(e){LOADERR=e.message;try{if(raw)localStorage.setItem('gho1_bak',raw)}catch(_){}toast('⚠️ โหลดเซฟเดิมไม่สำเร็จ: '+e.message)}}
+function load(raw0){let raw=null;try{raw=raw0!=null?raw0:stGet();const d=JSON.parse(raw);if(d&&d.party&&(d.party.length||d.newb)){NEWB=d.party.length?0:d.newb?1:0;JOB=JOBS[d.job]?d.job:'';JQ=!JOB&&JOBS[d.jq]?d.jq:'';STO={};if(d.sto&&typeof d.sto=='object')for(const k in d.sto){const n=Math.floor(+d.sto[k]);if(ALL[k]&&n>0)STO[k]=n}if(typeof BANK!='undefined')BANK.restore(d.bank);STALL=Array.from({length:STALL_N},(_,i)=>{const x=(d.stall||[])[i];return x&&ALL[x.k]&&x.n>0&&x.p>0?{k:x.k,n:x.n|0,p:x.p|0,on:x.on?1:0}:null});const lg=(d.qv||0)<5;({party,box,gc,inv}=d);dx={};if(Array.isArray(d.dxi))d.dxi.forEach(id=>{const i=gi(id);if(i!=null)dx[i]=1});else Object.keys(d.dx||{}).forEach(k=>{const i=gi(LEGACY_SP[k]);if(i!=null&&d.dx[k])dx[i]=1});if(inv.book){inv.book_c=(inv.book_c||0)+inv.book}delete inv.book;pname=d.pname||'ผู้เล่น';inv={sp:2,book_c:0,book_r:0,book_l:0,ch100:0,orange:0,house:0,master:1,mind:0,jk_cat:0,jk_pha:0,jk_hulk:0,jk_yak:0,jk_war:0,jbox:0,dust:0,so_d:0,so_w:0,so_a:0,so_f:0,ch_life:2,ch_hold:2,ch_crit:2,ch_buf:2,deed:0,bottle:0,...inv};inv.house=0;gold=d.gold??100;stock=(d.stock||[]).map(g=>g&&gLoadSave(g,lg));stockT=d.stockT||0;if(stock.some(g=>g&&g.lv!=6)||(d.stock||[]).some((g,i)=>g&&!stock[i])){stock=[];stockT=0}passed=!!d.passed;if(d.qv>=2){qs={1:0,2:0,3:0,4:0,5:0,...d.qs};qk=d.qk||0}else{const o=d.qs||{};qs={1:0,2:o[1]||0,3:o[2]||0,4:o[3]||0,5:0};qk=0}if((d.qv||0)<3){const a=qs[4];qs[4]=qs[5];qs[5]=a}qc=d.qc||0;qb=d.qb||0;qt=d.qt||0;qf=d.qf||0;qa=d.qa||0;USH=d.ush&&Array.isArray(d.ush.it)?d.ush:USH;ARQ=!!d.arIn;if((d.qv||0)<4&&qt)qt=7;SHU=d.shu||0;NPCP=d.mv==MAPV&&d.npcp&&typeof d.npcp=='object'?d.npcp:{};npcApply();AP=Math.max(0,+d.ap||0);AR={w:0,l:0,...(d.ar||{})};if(d.jk){JKU=[...new Set(['normal',...(Array.isArray(d.jk.u)?d.jk.u:[])])].filter(x=>JKL.some(j=>j[0]==x));JSK=JKU.includes(d.jk.s)?d.jk.s:'normal'}HC={sz:0,sh:null,pl:null,pg:[],...(d.hc||{})};hot=Array.from({length:9},(_,i)=>{const k=(d.hot||[])[i];return k&&ALL[k]?k:null});HOUSE=d.mv==MAPV?d.house||null:null;if(HOUSE&&!HOUSE.owner)HOUSE.owner=pname;if(d.au)AU={...AU,...d.au,on:false};AUD=d.aud||AUD;if(HOUSE)npcOf(HOUSE.map).push(hnode());av=d.av||av;if(d.wb&&typeof WSY!='undefined')WSY.restore(d.wb);if(Array.isArray(d.boss))d.boss.forEach((o,i)=>{const m=mons[i];if(!m||!o||!o.g)return;const g=gLoadSave(o.g,lg);if(!g||d.mv!=MAPV||(m.sp&&SP[g.si].id!=m.sp))return;g.boss=1;m.g=g;m.lv=g.lv;m.dead=o.dead||0;m.rt=o.rt||0});party=party.map(g=>gLoadSave(g,lg)).filter(Boolean);box=box.map(g=>gLoadSave(g,lg)).filter(Boolean);if(!party.length&&box.length)party.push(box.shift());return 1}}catch(e){LOADERR=e.message;try{if(raw)localStorage.setItem('gho1_bak',raw)}catch(_){}toast('⚠️ โหลดเซฟเดิมไม่สำเร็จ: '+e.message)}}
 addEventListener('pagehide',()=>{save();if(SB.on())cloudSave(1,1)});document.addEventListener('visibilitychange',()=>{if(document.hidden){save();if(SB.on())cloudSave(1,1)}});
 const b64e=t=>btoa(unescape(encodeURIComponent(t))),b64d=t=>decodeURIComponent(escape(atob(t.trim())));
 function saveUI(m){if(SB.on())return accUI(m);save();openM('💾 เซฟเกม',`<p>เกมเซฟอัตโนมัติทุก 15 วินาที ${LSBAD?'<b style="color:#ff6a6a">แต่เบราว์เซอร์นี้บล็อกการเซฟ</b> — ให้คัดลอกรหัสด้านล่างเก็บไว้ แล้ววางกลับมาเมื่อเปิดใหม่':'(ถ้าเปลี่ยนเครื่อง/เบราว์เซอร์ ให้ใช้รหัสเซฟด้านล่างย้ายข้อมูล)'}</p>${m?`<p style="color:#ffd84a">${m}</p>`:''}<div class="cd"><b>รหัสเซฟของคุณ</b><br><textarea id="svc" readonly style="width:100%;height:9cqh;background:#0b0f0d;color:#9fe;font-size:.8em" onclick="this.select()">${b64e(snap())}</textarea><button class="bn" onclick="svCopy()">📋 คัดลอก</button></div><div class="cd"><b>โหลดจากรหัสเซฟ</b><br><textarea id="svi" placeholder="วางรหัสเซฟที่นี่" style="width:100%;height:9cqh;background:#0b0f0d;color:#fff;font-size:.8em"></textarea><button class="bn" onclick="svImport()">📥 โหลดรหัสนี้ (เกมจะรีโหลด)</button></div>`)}
@@ -835,6 +849,15 @@ function drawDeco(d,tm){const k=d.k;
  else if(k=='sign')sign(c,d.x,d.y,d.col);else if(k=='lotus')lotus(c,d.x,d.y);else if(k=='shelf')shelf(c,d.x,d.y);else if(k=='mat')mat(c,d.x,d.y);else if(k=='lamp')lamp(c,d.x,d.y,tm)}
 /* เรนเดอร์ 2.5D: กล้อง, พื้น, billboard, หมอก, แปลงจุดคลิก, ฉากหลังต่อสู้ */
 /* ---------- เรนเดอร์ 2.5D (กล้องเอียง): แผนที่โลก + พื้นหลังฉากต่อสู้ ---------- */
+/* ผีเดินตามหลังผู้เล่น: ตัวที่ i อยู่ห่างตามรอยเท้า FOLLOW_GAP*(i+1) จุด · ผีที่สลบแสดงจางๆ (ใช้กับตัวเองและผู้เล่นคนอื่น) */
+const FOLLOW_GAP=14,TRAIL_MAX=FOLLOW_GAP*4+12,TRAIL_STEP=1.2;
+/* เก็บรอยเท้าตามระยะทาง (ทุก 1.2 พิกเซล) — ระยะห่างผีเท่ากันทุกเครื่องไม่ว่าจอจะลื่น (fps) แค่ไหน */
+function trailPush(tr,x,y){const a=tr[0];if(!a){tr.unshift({x,y});return}let d=Math.hypot(x-a.x,y-a.y);if(d<TRAIL_STEP)return;if(d>96){tr.length=0;tr.unshift({x,y});return}
+ const n=Math.floor(d/TRAIL_STEP);for(let i=1;i<=n;i++){const k=i*TRAIL_STEP/d;tr.unshift({x:a.x+(x-a.x)*k,y:a.y+(y-a.y)*k})}if(tr.length>TRAIL_MAX)tr.length=TRAIL_MAX}
+function followers(add,tm,L,tr,o,d0,mv){const dv={u:[0,1],d:[0,-1],l:[1,0],r:[-1,0]}[d0]||[-1,0];
+ L.forEach(({g,ko},i)=>{if(!g||!g.sp)return;const k=FOLLOW_GAP*(i+1),f=tr[k]||{x:o.x+dv[0]*10*(i+1),y:o.y+dv[1]*7*(i+1)},ta=tr[k-1],tb=tr[k+1];
+  const dir=ta&&tb&&Math.abs(ta.x-tb.x)+Math.abs(ta.y-tb.y)>.01?(Math.abs(ta.x-tb.x)>Math.abs(ta.y-tb.y)?(ta.x<tb.x?'l':'r'):(ta.y<tb.y?'u':'d')):d0;
+  add(f.y,f.x,f.y,()=>{if(ko)c.globalAlpha=.45;try{dg(c,f.x,f.y,g,1,tm,{pose:'walk',dir,mv})}finally{c.globalAlpha=1}})})}
 const R25=(()=>{
 /* ---------- ตั้งค่ากล้อง ---------- */
 const V={Yh:-400,Yp:172,kv:1.35};   // Yh=เส้นขอบฟ้า(นอกจอ) Yp=แถวจอที่ตัวละครยืน kv=ความเอียงพื้น
@@ -889,8 +912,7 @@ function draw25(tm){
  WL().forEach(w=>add(w.y,w.x,w.y,()=>{dg(c,w.x,w.y,w.g,1,tm,{pose:'walk',vx:w.vx,vy:w.vy,mem:w});if(w.g.shiny){c.fillStyle='#ffd84a';c.fillRect(w.x-1,w.y-17,2,2)}if(w.bz)label('⚔️',w.x,w.y-18,'#ff9a9a')}));
 (MAPID==1?bots:[]).forEach(b=>{add(b.y,b.x,b.y,()=>{ppl(c,b.x,b.y,b.a,b.d,b.st);label(b.n,b.x,b.y-22);if(b.bub&&tm<b.bub.until)label('💬 '+b.bub.txt,b.x,b.y-32,'#fff')});add(b.y+1,b.x,b.y,()=>dg(c,b.x-10,b.y,b.g,.7,tm,{pose:'walk',dir:b.d,mv:!!(b.vx||b.vy)}))});
  NET.draw(add,tm);   // ผู้เล่นคนอื่น (ออนไลน์)
- const L=party.find(g=>g.hp>0),f=trail[12]||{x:P.x-10,y:P.y};
- if(L){const ta=trail[11],tb=trail[13],fo={pose:'walk',dir:ta&&tb?(Math.abs(ta.x-tb.x)>Math.abs(ta.y-tb.y)?(ta.x<tb.x?'l':'r'):(ta.y<tb.y?'u':'d')):P.d,mv:performance.now()-(P.mv||0)<160};add(f.y,f.x,f.y,()=>dg(c,f.x,f.y,L,1,tm,fo))}
+ followers(add,tm,[...party.filter(g=>g.hp>0),...party.filter(g=>g.hp<=0)].map(g=>({g,ko:g.hp<=0})),trail,P,P.d,performance.now()-(P.mv||0)<160);   // ผีในทีมเดินตามครบทุกตัว (Ver.0.1.3)
  add(P.y,P.x,P.y,()=>{ppl(c,P.x,P.y,av,P.d,P.st);label(pname,P.x,P.y-22,'#ffe27a');if(P.bub&&tm<P.bub.until)label('💬 '+P.bub.txt,P.x,P.y-32,'#fff')});
  NPC.forEach(n=>add(n.y,n.x,n.y,()=>{drawN(n,tm);label(n.name,n.x,n.y-n.lh,'#ffe9a8')}));
  if(TG){const p=proj(TG.x,TG.y);if(p){c.setTransform(p.s,0,0,p.s,p.x-TG.x*p.s,p.y-TG.y*p.s);const r=3+Math.sin(tm/120)*1.5;c.fillStyle='#ffe27a';c.globalAlpha=.85;[[-1,-1],[1,-1],[-1,1],[1,1]].forEach(o=>c.fillRect(TG.x+o[0]*r-1,TG.y+o[1]*r*.6-1,2,2));c.globalAlpha=1}}
@@ -1006,6 +1028,7 @@ function goW(k,msg){const w=WARPS[k];setMap(w[0],w[1],w[2]);P.safe=performance.n
  npc.push({t:'shop',name:'พ่อค้าใต้ดิน',act:'ซื้อของ / อาชีพ',x:25*16+8,y:18*16+12,hw:9,lh:24});
  npc.push({t:'quest',name:'คุณทักษิณ',act:'รับเควส',x:14*16+8,y:18*16+12,hw:9,lh:24});
  npc.push({t:'teacher',name:'อาจารย์ยอด',act:'ทดสอบสู้ 2v2',x:22*16+8,y:27*16+4,hw:9,lh:24});
+ npc.push({t:'banker',name:'นายธนาคาร',act:'แลกเปลี่ยนเงิน-ทอง',x:26*16+8,y:12*16+12,hw:13,lh:26});   // Ver.0.1.3: ตลาดทอง (js/systems/bank.js)
  const warps=[{out:1,...wrect(19,0,2,1,()=>goW('forestIn','🌲 เข้าสู่ป่าแห่งการฝึกฝน — ผี Lv.'+wildLv(0)+' · ขาใหญ่ Lv.'+bossLv(0)))},{out:1,...wrect(19,H-1,2,1,()=>goW('wmVillage','🗺️ ออกสู่ World Map'))}];   // out = ทางออกนอกหมู่บ้าน (ผู้เล่นใหม่ต้องคุยกับผู้ใหญ่บ้านก่อน)
  VHOUSES.forEach((h,i)=>{const [hx,hy]=TX(h.tx,h.ty),big=!!h.big;deco.push({k:'thaihouse',roof:h.roof,big,x:hx,y:hy,cw:big?40:30,c0:big?-34:-26,c1:-5});
   if(big)deco.push({k:'none',x:hx-58,y:hy,cw:20,c0:-24,c1:-5});   // ปีกบ้าน (ชนได้)
@@ -1054,7 +1077,7 @@ const WM=MAPDEF[0].M,WN=MAPDEF[0].npc,CM=MAPDEF[1].M,CNP=MAPDEF[1].npc,FM=MAPDEF
 M=CM;NPC=CNP;DECO=MAPDEF[1].deco;
 const blk=(x,y)=>[[-4,0],[4,0],[-4,-4],[4,-4]].some(o=>solid((x+o[0])>>4,(y+o[1])>>4))||NPC.some(n=>n.hw&&Math.abs(x-n.x)<n.hw&&Math.abs(y-n.y)<6)||DECO.some(d=>d.cw&&Math.abs(x-d.x)<d.cw&&y>d.y+d.c0&&y<d.y+d.c1);
 const nearNpc=()=>NPC.find(n=>Math.hypot(P.x-n.x,P.y-n.y)<(n.v=='tree'?34:26));
-const HM=[];for(let y=0;y<8;y++){HM[y]=[];for(let x=0;x<10;x++)HM[y][x]=(x==0||y==0||x==9||y==7)?7:8}HM[7][5]=5;let HC={sz:0,sh:null,pl:null,pg:[]};const HSZ=[[10,8],[14,10],[18,12],[22,14]],HCX=()=>typeof HV!='undefined'&&HV?HV.hc:HC,HS=()=>HSZ[Math.min(HSZ.length-1,HCX().sz||0)];const HNPC=[{t:'hshrine',name:'ศาลในบ้าน',act:'โกดังผี',x:7*16+8,y:3*16+14,hw:12,lh:32}];
+const HM=[];for(let y=0;y<8;y++){HM[y]=[];for(let x=0;x<10;x++)HM[y][x]=(x==0||y==0||x==9||y==7)?7:8}HM[7][5]=5;let HC={sz:0,sh:null,pl:null,bx:null,pg:[]};const HSZ=[[10,8],[14,10],[18,12],[22,14]],HCX=()=>typeof HV!='undefined'&&HV?HV.hc:HC,HS=()=>HSZ[Math.min(HSZ.length-1,HCX().sz||0)];const HNPC=[{t:'hshrine',name:'ศาลในบ้าน',act:'โกดังผี',x:7*16+8,y:3*16+14,hw:12,lh:32}];
 const npcOf=id=>id==2?HNPC:MAPDEF[id]?MAPDEF[id].npc:[];
 let MAPID=1;
 function setMap(id,x,y){if(id!=2&&typeof HV!='undefined')HV=null;const D=MAPDEF[id];MAPID=id;M=id==2?HM:D.M;MW=id==2?HS()[0]:D.w;MH=id==2?HS()[1]:D.h;NPC=npcOf(id);DECO=id==2?[]:D.deco;P.x=x;P.y=y;trail.length=0;TG=null;WLOCK=performance.now()+500;
@@ -1066,7 +1089,7 @@ function warpTick(){if(MAPID==2){if(M[P.y>>4]&&M[P.y>>4][P.x>>4]==5)leaveHouse()
 const toField=()=>goW('jungleIn','🌴 เข้าสู่ป่าดงดิบ'),fromField=()=>goW('wmJungle'),enterCity=()=>goW('villageS'),leaveCity=()=>goW('wmVillage');
 /* NPC ในบ้าน */
 function herbShop(m){openM('หมอยา 🌿',`<p>"ยาสมุนไพรสูตรโบราณ ฟื้นฟูผีของเจ้าได้ดีนัก"</p><p>🪙 GC ของคุณ: <b>${gc.toLocaleString()}</b>${m?`<br><span style="color:#ffd84a">${m}</span>`:''}</p>`+Object.keys(HERB.items).map(k=>`<div class="cd tr"><span style="font-size:2em">${ALL[k][0]}</span><div style="flex:1"><b>${ALL[k][1]}</b> — ${HERB.items[k]} GC<br><small>${ID[k]||ID2[k]||''} · มีอยู่ ${inv[k]||0}</small></div>${HERB.qty.map(q=>`<button class="bn" onclick="herbBuy('${k}',${q})">×${q}</button>`).join('')}</div>`).join('')+'<button class="bn" onclick="herbTalk()">↩ กลับ</button>')}
-function herbBuy(k,n){if(!HERB.items[k])return;const t=HERB.items[k]*n;if(gc<t)return herbShop('GC ไม่พอ!');gc-=t;inv[k]=(inv[k]||0)+n;hud();save();herbShop(`ซื้อ ${ALL[k][1]} ×${n} แล้ว (−${t} GC)`)}
+function herbBuy(k,n){if(!HERB.items[k])return;const t=HERB.items[k]*n;if(gc<t)return herbShop('GC ไม่พอ!');gc-=t;BANK.spend(0,t);inv[k]=(inv[k]||0)+n;hud();save();herbShop(`ซื้อ ${ALL[k][1]} ×${n} แล้ว (−${t} GC)`)}
 function khunTalk(){openM('ขุนอาร์ต 😠','<p style="font-size:1.3em"><b>"ข้าไม่คุยกับพวกไก่อ่อน ไปให้พ้น!!"</b></p>',0);setTimeout(()=>{closeM();if(MAPID==6){const h=VHOUSES.find(v=>v.map==6),[hx,hy]=TX(h.tx,h.ty);setMap(1,hx,hy+20);P.d='d';P.safe=performance.now()+800;toast('💨 ถูกขุนอาร์ตไล่ออกมานอกบ้าน!')}},1800)}
 /* chiefTalk() ย้ายไปอยู่ที่ js/systems/npcs.js (คุยครั้งแรกให้ผีคู่หู) */
 const NPCAV={herb:{sk:1,hc:6,hs:1,hat:0,sh:3,pt:4},khun:{sk:2,hc:0,hs:0,hat:1,sh:1,pt:0},chief:{sk:1,hc:6,hs:2,hat:0,sh:0,pt:3},breeder:{sk:3,hc:2,hs:1,hat:2,sh:4,pt:2}};
@@ -1079,7 +1102,7 @@ function merch(x,y){ppl(c,x,y,{sk:2,hc:0,hs:0,hat:2,sh:5,pt:5},'d',0);c.fillStyl
 function mv(o,mx,my){if(!blk(o.x+mx,o.y))o.x+=mx;if(!blk(o.x,o.y+my))o.y+=my}
 function sos(){openM('🆘 กลับจุดเซฟ','<p>วาร์ปกลับจุดเซฟทันที (ไม่เสียของ/GC) ใช้เมื่อติดหรือเดินไม่ได้</p><button class="bn" onclick="goSave()">✅ กลับจุดเซฟ</button>')}
 function goSave(){closeM();setMap(...WARPS.save);toast('กลับจุดเซฟแล้ว')}
-function drawN(n,tm){if(n.t=='house'||n.t=='rhouse')houseDraw(n.x,n.y);else if(n.t=='shrine'&&n.v=='tree')sacredTree(c,n.x,n.y,tm);else if(n.t=='portal'){if(n.v=='village')wmVillage(c,n.x,n.y,tm);else wmJungle(c,n.x,n.y)}else if(n.t=='shrine'||n.t=='hshrine')shrine(n.x,n.y,tm);else if(n.t=='pillar')pillar(n.x,n.y,tm);else if(n.t=='hghost'){dg(c,n.x,n.y,n.g,1,tm,{pose:'walk',vx:n.vx,vy:n.vy,mem:n});label(n.g.sp.n,n.x,n.y-20,n.g.sp.t==2?'#c58cff':'#bfe8ff')}else if(n.t=='shop')merch(n.x,n.y);else if(n.t=='ptable')ptableDraw(n.x,n.y,tm);else if(n.t=='stall')stallDraw(n.x,n.y,HV?stallList(HV.uid).length>0:stallSelling().length>0);else npcp(n);
+function drawN(n,tm){if(n.t=='house'||n.t=='rhouse')houseDraw(n.x,n.y);else if(n.t=='shrine'&&n.v=='tree')sacredTree(c,n.x,n.y,tm);else if(n.t=='portal'){if(n.v=='village')wmVillage(c,n.x,n.y,tm);else wmJungle(c,n.x,n.y)}else if(n.t=='shrine'||n.t=='hshrine')shrine(n.x,n.y,tm);else if(n.t=='pillar')pillar(n.x,n.y,tm);else if(n.t=='hghost'){dg(c,n.x,n.y,n.g,1,tm,{pose:'walk',vx:n.vx,vy:n.vy,mem:n});label(n.g.sp.n,n.x,n.y-20,n.g.sp.t==2?'#c58cff':'#bfe8ff')}else if(n.t=='shop')merch(n.x,n.y);else if(n.t=='ptable')ptableDraw(n.x,n.y,tm);else if(n.t=='sbox')sboxDraw(n.x,n.y);else if(n.t=='banker')bankerDraw(n.x,n.y,tm);else if(n.t=='stall')stallDraw(n.x,n.y,HV?stallList(HV.uid).length>0:stallSelling().length>0);else npcp(n);
  if(typeof NME!='undefined'&&NME.on&&npcMovable(n)){const on=NME.sel===n;c.strokeStyle=on?'#ffd84a':'#7dd3ff';c.lineWidth=1;c.setLineDash(on?[]:[2,2]);c.strokeRect(n.x-13.5,n.y-n.lh+.5,27,n.lh+4);c.setLineDash([])}
  if(HE.on&&Object.values(HEK).some(v=>v[0]==n.t)){const on=!!HE.sel&&HEK[HE.sel][0]==n.t;c.strokeStyle=on?'#ffd84a':'#7dffa0';c.lineWidth=1;c.strokeRect(n.x-13.5,n.y-n.lh+.5,27,n.lh)}}
 /* ผู้เล่น, บอท, ผีป่า, บอส */
@@ -1101,6 +1124,9 @@ const MS=()=>MAPID==0||MAPID==3?mons.filter(m=>m.map==MAPID):[],WL=()=>MAPID==3?
 /* บ้านพกพา: วาง/เก็บ/เข้า-ออก, เสาตกน้ำมัน, ปรับแต่งบ้าน, ผีเดินในบ้าน */
 let HV=null;   // บ้านของคนอื่นที่กำลังเข้าเยี่ยม (ออนไลน์) — ตั้งค่าโดย js/online/net.js
 const isOwner=()=>!HV&&!!HOUSE&&(HOUSE.owner||pname)==pname;
+const HOWN=['hshrine','pillar','ptable','sbox'];   // ของในบ้านที่ใช้ได้เฉพาะเจ้าของบ้าน (คนมาเยี่ยมกดแล้วใช้ไม่ได้) · โต๊ะขายของ = คนอื่นมาซื้อได้
+const HOWN_N={hshrine:'ศาล',pillar:'เสาตกน้ำมัน',ptable:'โต๊ะปรุงยา',sbox:'กล่องเก็บของ'};
+function hLocked(n){if(!n||!HOWN.includes(n.t)||MAPID!=2||isOwner())return false;toast('🔒 '+HOWN_N[n.t]+'ใช้ได้เฉพาะเจ้าของบ้านเท่านั้น');return true}
 function hwh(){if(!isOwner())return toast('ศาลในบ้านนี้ใช้ได้เฉพาะเจ้าของบ้านเท่านั้น');wh()}
 function houseUiTick(){const o=$('#md').style.display=='flex',a=$('#hdec'),e=$('#hed');if(a)a.style.visibility=o?'hidden':'visible';if(e)e.style.visibility=o?'hidden':'visible'}
 function hnode(){return{t:'house',name:'บ้านของ '+(HOUSE.owner||pname),act:'เข้าบ้าน / เก็บบ้าน',x:HOUSE.x,y:HOUSE.y,hw:8,lh:24}}
@@ -1123,6 +1149,8 @@ function buildHouse(){const[w,h]=HS();HM.length=0;for(let y=0;y<h;y++){HM[y]=[];
  const pt=HV?hc.pt:JOB=='herb'?(hc.pt||PT_DEF):null,st=HV?hc.st:JOB=='merchant'?(hc.st||ST_DEF):null;   // โต๊ะตามสายอาชีพของเจ้าของบ้าน
  if(pt)HNPC.push({t:'ptable',name:'โต๊ะปรุงยา',act:'ผลิตยา',x:pt[0]*16+8,y:pt[1]*16+14,hw:12,lh:30});
  if(st)HNPC.push({t:'stall',name:'โต๊ะขายของ',act:'ซื้อ / ขายของ',x:st[0]*16+8,y:st[1]*16+14,hw:12,lh:36});
+ const bx=hc.bx||SBOX_DEF;HNPC.push({t:'sbox',name:'กล่องเก็บของ',act:'ฝาก / ถอนไอเทม',x:bx[0]*16+8,y:bx[1]*16+14,hw:9,lh:22});   // กล่องเก็บของ: มีทุกบ้านตั้งแต่แรก (Ver.0.1.3)
+ if(HV)HNPC.forEach(n=>{if(HOWN.includes(n.t))n.lock=1});   // บ้านคนอื่น: ของที่ใช้ได้เฉพาะเจ้าของ → ล็อค
  (HV?HV.gs:hgOf()).forEach(g=>{const o=old.find(n=>n.g===g);if(o)return HNPC.push(o);const p=hSpot();HNPC.push({t:'hghost',name:g.sp.n,act:'ดูข้อมูลผี',g,x:p[0],y:p[1],hw:6,lh:20,vx:0,vy:0,tm:0})})}
 function hgMove(n,dt){n.tm-=dt;if(n.tm<=0){n.tm=R(.8,2.4);const a=Math.random()<.4?[0,0]:PK([[1,0],[-1,0],[0,1],[0,-1]]);n.vx=a[0];n.vy=a[1]}
  const ok=(x,y)=>[[0,0],[-5,0],[5,0],[0,-4]].every(o=>{const r=M[(y+o[1])>>4];return r&&r[(x+o[0])>>4]==8})&&!HNPC.some(m=>m!==n&&m.t!='hghost'&&Math.abs(x-m.x)<m.hw+5&&Math.abs(y-m.y)<8)&&Math.hypot(x-P.x,y-P.y)>12,nx=n.x+n.vx*16*dt,ny=n.y+n.vy*16*dt;
@@ -1142,21 +1170,36 @@ function pillarUI(m,top){const cap=pcap(),N=Math.max(1,Math.ceil(box.length/PGN)
  document.querySelectorAll('#mb canvas[data-i]').forEach(q=>spr(q,box[+q.dataset.i],2));if($('#md .bx'))$('#md .bx').scrollTop=old}
 function pillarSel(i){if(!isOwner())return closeM();const g=box[i],j=PS.indexOf(g);if(!g)return;if(j>=0)PS.splice(j,1);else if(PS.length<pcap())PS.push(g);else return pillarUI('เลือกได้สูงสุด '+pcap()+' ตัว');pillarUI()}
 function pillarGo(){if(!isOwner())return closeM();PS=PS.slice(0,pcap());PS.forEach(g=>g.uid=g.uid||('g'+Date.now().toString(36)+Math.random().toString(36).slice(2,7)));HC.pg=PS.map(g=>g.uid);buildHouse();closeM();save();toast(PS.length?'✨ อัญเชิญผี '+PS.length+' ตัวแล้ว':'เก็บผีกลับเข้าโกดังแล้ว')}
-const HEK={sh:['hshrine','ศาล'],pl:['pillar','เสาตกน้ำมัน'],pt:['ptable','โต๊ะปรุงยา'],st:['stall','โต๊ะขายของ']};   // ของที่ย้ายได้ใน "ปรับแต่งบ้าน"
+const HEK={sh:['hshrine','ศาล'],pl:['pillar','เสาตกน้ำมัน'],pt:['ptable','โต๊ะปรุงยา'],st:['stall','โต๊ะขายของ'],bx:['sbox','กล่องเก็บของ']};   // ของที่ย้ายได้ใน "ปรับแต่งบ้าน"
 function heUI(){const e=$('#hed'),b=$('#hdec');if(!e||!b)return;if(!HE.on){e.style.display='none';b.style.display=MAPID==2&&isOwner()?'block':'none';return}b.style.display='none';e.style.display='flex';
- e.innerHTML=`<span>${HE.sel?'เลือก <b>'+HEK[HE.sel][1]+'</b> แล้ว — แตะพื้นที่ที่ต้องการวาง':'แตะที่ <b>ของในบ้าน</b> (ศาล / เสาตกน้ำมัน / โต๊ะ) เพื่อเลือกย้าย'}</span><button class="bn" style="margin:0" onclick="heDone()">✔ เสร็จสิ้น</button>`}
-function hdecor(){if(MAPID!=2||!isOwner()||mode!='world')return;closeM();HE.pub=JSON.parse(JSON.stringify({sh:HC.sh||null,pl:HC.pl||null,pt:HC.pt||null,st:HC.st||null}));HE.on=1;HE.sel=null;TG=null;heUI()}   // HE.pub = ตำแหน่งที่คนอื่นเห็นระหว่างกำลังย้าย (อัปเดตให้คนอื่นเห็นตอนกด เสร็จสิ้น)
+ e.innerHTML=`<span>${HE.sel?'เลือก <b>'+HEK[HE.sel][1]+'</b> แล้ว — แตะพื้นที่ที่ต้องการวาง':'แตะที่ <b>ของในบ้าน</b> (ศาล / เสาตกน้ำมัน / โต๊ะ / กล่องเก็บของ) เพื่อเลือกย้าย'}</span><button class="bn" style="margin:0" onclick="heDone()">✔ เสร็จสิ้น</button>`}
+function hdecor(){if(MAPID!=2||!isOwner()||mode!='world')return;closeM();HE.pub=JSON.parse(JSON.stringify({sh:HC.sh||null,pl:HC.pl||null,pt:HC.pt||null,st:HC.st||null,bx:HC.bx||null}));HE.on=1;HE.sel=null;TG=null;heUI()}   // HE.pub = ตำแหน่งที่คนอื่นเห็นระหว่างกำลังย้าย (อัปเดตให้คนอื่นเห็นตอนกด เสร็จสิ้น)
 function heDone(){HE.on=0;HE.sel=null;HE.pub=null;heUI();save();toast('บันทึกการปรับแต่งบ้านแล้ว')}
 function heClick(e){const q=R25.pt(e);if(!q)return;const wx=q.x,wy=q.y,O={};for(const k in HEK)O[k]=HNPC.find(n=>n.t==HEK[k][0]);
  const hit=Object.keys(HEK).find(k=>{const n=O[k];return n&&Math.abs(wx-n.x)<14&&wy>n.y-(n.lh-2)&&wy<n.y+6});if(hit){HE.sel=hit;return heUI()}
  if(!HE.sel)return;const tx=wx>>4,ty=wy>>4;if(!(M[ty]&&M[ty][tx]==8))return toast('วางตรงนี้ไม่ได้ — เลือกพื้นในบ้าน');
  const o=O[HE.sel],x=tx*16+8,y=ty*16+14;if(Object.keys(O).some(k=>k!=HE.sel&&O[k]&&Math.hypot(x-O[k].x,y-O[k].y)<20))return toast('ตำแหน่งนี้ชนกับของอีกชิ้น');
  o.x=x;o.y=y;HC[HE.sel]=[tx,ty];if(blk(P.x,P.y)){const f=freeNear(P.x,P.y,6);if(f){P.x=f[0];P.y=f[1]}}HE.sel=null;heUI();save()}
+
+/* ---------- กล่องเก็บของ (Ver.0.1.3): ฝาก/ถอนไอเทมจากกระเป๋า · มีในบ้านพกพาตั้งแต่แรก ใช้ได้เฉพาะเจ้าของ ---------- */
+const SBOX_DEF=[5,2],SBOX_N=60,SBOX_NO=['house'];   // ตำแหน่งเริ่มต้น (ไทล์) · จำนวนช่อง (ชนิดไอเทม) · ไอเทมที่ฝากไม่ได้
+let STO={};   // ของในกล่อง {key: จำนวน}
+const stoKinds=()=>Object.keys(STO).filter(k=>STO[k]>0&&ALL[k]);
+function sboxUI(sel,m){if(!isOwner()||MAPID!=2)return toast('🔒 กล่องเก็บของใช้ได้เฉพาะเจ้าของบ้านเท่านั้น');
+ const bagK=Object.keys(ALL).filter(k=>inv[k]>0&&!SBOX_NO.includes(k)),boxK=stoKinds(),cell=(w,k,n)=>`<div class="sl${sel&&sel[0]==w&&sel[1]==k?' on':''}" onclick="sboxUI(['${w}','${k}'])" title="${ALL[k][1]}">${ALL[k][0]}<b>x${n}</b></div>`,pad=(n,c)=>'<div class="sl" style="cursor:default"></div>'.repeat(Math.max(0,c-n));
+ const s=sel&&(sel[0]=='b'?inv[sel[1]]>0:STO[sel[1]]>0)?sel:null,have=s?(s[0]=='b'?inv[s[1]]:STO[s[1]]):0,full=s&&s[0]=='b'&&!(STO[s[1]]>0)&&boxK.length>=SBOX_N;
+ const q=[1,10,100].filter(n=>n<have).map(n=>`<button class="bn" ${full?'disabled':''} onclick="sboxMv('${s[0]}','${s[1]}',${n})">${n}</button>`).join('')+(s?`<button class="bn" ${full?'disabled':''} onclick="sboxMv('${s[0]}','${s[1]}',${have})">ทั้งหมด (${have})</button>`:'');
+ openM('📦 กล่องเก็บของ',`<div class="gr2" style="gap:1.4cqw"><div><h4 class="bh" style="margin-top:0">🎒 กระเป๋า</h4><div class="ig" style="grid-template-columns:repeat(8,1fr)">${bagK.map(k=>cell('b',k,inv[k])).join('')}${pad(bagK.length,24)}</div></div><div><h4 class="bh" style="margin-top:0">📦 กล่องเก็บของ (${boxK.length}/${SBOX_N} ช่อง)</h4><div class="ig" style="grid-template-columns:repeat(8,1fr)">${boxK.map(k=>cell('s',k,STO[k])).join('')}${pad(boxK.length,24)}</div></div></div>
+ <div class="cd" style="margin-top:1cqh">${m?`<div style="color:#ffd84a">${m}</div>`:''}${s?`<b>${ALL[s[1]][0]} ${ALL[s[1]][1]}</b> ×${have} <small>(${s[0]=='b'?'อยู่ในกระเป๋า':'อยู่ในกล่อง'})</small>${full?'<br><small style="color:#ff8080">กล่องเต็มแล้ว ('+SBOX_N+' ช่อง)</small>':''}<br>${s[0]=='b'?'📥 ฝากเข้ากล่อง:':'📤 นำออกใส่กระเป๋า:'} ${q}`:'<small>แตะไอเทมในกระเป๋าเพื่อ <b>ฝาก</b> · แตะไอเทมในกล่องเพื่อ <b>นำออก</b></small>'}</div>`)}
+function sboxMv(w,k,n){if(!isOwner()||MAPID!=2||!ALL[k])return closeM();n=Math.floor(n);const src=w=='b'?inv:STO,dst=w=='b'?STO:inv;if(!(n>=1&&(src[k]||0)>=n))return sboxUI(null,'จำนวนไม่ถูกต้อง');
+ if(w=='b'&&(SBOX_NO.includes(k)||(!(STO[k]>0)&&stoKinds().length>=SBOX_N)))return sboxUI([w,k],'ฝากไม่ได้');
+ src[k]-=n;dst[k]=(dst[k]||0)+n;if(w=='s'&&STO[k]<=0)delete STO[k];hud();save();sboxUI(src[k]>0?[w,k]:null,`${w=='b'?'📥 ฝาก':'📤 นำออก'} ${ALL[k][0]} ${ALL[k][1]} ×${n} แล้ว`)}
+function sboxDraw(x,y){const r=(col,a,b,w,h)=>{c.fillStyle=col;c.fillRect(x+a,y+b,w,h)};r('rgba(0,0,0,.25)',-10,-2,20,4);r('#5a3820',-9,-12,18,11);r('#8a5a32',-8,-11,16,9);r('#6b4226',-9,-15,18,4);r('#a8743e',-8,-15,16,1);r('#caa24a',-9,-9,18,1);r('#caa24a',-1,-11,2,4);r('#3a2a14',0,-9,1,1)}
 /* อัปเดตโลกทุกเฟรม + ลูปหลัก */
 /* ---------- world loop ---------- */
 function upd(dt){let x=0,y=0;if(keys.a||keys.arrowleft)x--;if(keys.d||keys.arrowright)x++;if(keys.w||keys.arrowup)y--;if(keys.s||keys.arrowdown)y++;
  const fo=PTY.follow();if(fo){x=fo.x;y=fo.y;TG=null}else{autoWalk(x,y);if(!x&&!y&&(JOY.x||JOY.y)){x=JOY.x;y=JOY.y}if(x||y)TG=null;else if(TG){const q=TG.x-P.x,r=TG.y-P.y,d=Math.hypot(q,r);if(d<3)TG=null;else{x=q/d;y=r/d}}}
- if(x||y){const l=Math.hypot(x,y);if(l>1){x/=l;y/=l}const ox=P.x,oy=P.y,spd=fo?fo.s||70:70;mv(P,x*spd*dt,y*spd*dt);if(TG){if(Math.hypot(P.x-ox,P.y-oy)<.2){if((stk+=dt)>.3)TG=null}else stk=0}P.d=Math.abs(x)>Math.abs(y)?(x<0?'l':'r'):(y<0?'u':'d');P.st+=dt*60;P.mv=performance.now();trail.unshift({x:P.x,y:P.y});if(trail.length>40)trail.pop()}
+ if(x||y){const l=Math.hypot(x,y);if(l>1){x/=l;y/=l}const ox=P.x,oy=P.y,spd=fo?fo.s||70:70;mv(P,x*spd*dt,y*spd*dt);if(TG){if(Math.hypot(P.x-ox,P.y-oy)<.2){if((stk+=dt)>.3)TG=null}else stk=0}P.d=Math.abs(x)>Math.abs(y)?(x<0?'l':'r'):(y<0?'u':'d');P.st+=dt*60;P.mv=performance.now();trailPush(trail,P.x,P.y)}
  if(MAPID==1)bots.forEach(b=>{b.tm-=dt;if(b.tm<=0){b.tm=R(.5,2);const a=Math.random()<.3?[0,0]:PK([[1,0],[-1,0],[0,1],[0,-1]]);b.vx=a[0];b.vy=a[1];if(a[0]||a[1])b.d=a[0]?(a[0]<0?'l':'r'):(a[1]<0?'u':'d')}
   mv(b,b.vx*30*dt,b.vy*30*dt);if(b.vx||b.vy)b.st+=dt*60});
  const now=performance.now();if(MAPID==2)for(const n of HNPC)if(n.t=='hghost')hgMove(n,dt);
@@ -1549,7 +1592,7 @@ function useDeed(){if(mode!='world')return;if(!(inv.deed>0))return toast('ไม
 /* ร้านค้า GC / ร้านค้าทอง */
 function goldShop(m){if(mode!='world')return;openM('ร้านค้าทอง 🥇',`<p style="margin:.2cqh 0 .8cqh">ทุกอย่างชิ้นละ <b>${SHOPS.gold.price} ทอง</b> · 🥇 ทองของคุณ: <b>${gold}</b>${m?` · <span style="color:#ffd84a">${m}</span>`:''}</p><div class="gr3" style="grid-template-columns:repeat(4,1fr);gap:.5cqw">`+Object.keys(ALL).filter(k=>!goldNo(k)).map(k=>`<div class="cd" style="margin:0;padding:.5cqh .6cqw"><div style="display:flex;align-items:center;gap:.5cqw"><span style="font-size:1.6em">${ALL[k][0]}</span><div style="flex:1;line-height:1.2"><b style="font-size:.9em">${ALL[k][1]}</b><br><small>มี ${inv[k]}</small></div></div><div style="display:flex;gap:.3cqw;margin-top:.3cqh"><button class="bn" style="flex:1;margin:0;padding:.35cqh .1cqw;font-size:.8em" onclick="buyG2('${k}',${SHOPS.gold.qty[0]})">×${SHOPS.gold.qty[0]} · ${SHOPS.gold.price*SHOPS.gold.qty[0]}</button><button class="bn" style="flex:1;margin:0;padding:.35cqh .1cqw;font-size:.8em" onclick="buyG2('${k}',${SHOPS.gold.qty[1]})">×${SHOPS.gold.qty[1]} · ${SHOPS.gold.price*SHOPS.gold.qty[1]}</button></div></div>`).join('')+'</div>')}
 const goldNo=k=>SHOPS.gold.exclude.includes(k)||k.startsWith(SHOPS.gold.excludePrefix);
-function buyG2(k,n){if(goldNo(k))return;const t=SHOPS.gold.price*n;if(gold<t)return goldShop('ทองไม่พอ!');gold-=t;inv[k]+=n;hud();save();goldShop(`ซื้อ ${ALL[k][1]} ×${n} แล้ว (-${t} ทอง)`)}
+function buyG2(k,n){if(goldNo(k))return;const t=SHOPS.gold.price*n;if(gold<t)return goldShop('ทองไม่พอ!');gold-=t;BANK.spend(t,0);inv[k]+=n;hud();save();goldShop(`ซื้อ ${ALL[k][1]} ×${n} แล้ว (-${t} ทอง)`)}
 const pr=k=>Object.prototype.hasOwnProperty.call(SHOPS.gc.special,k)?SHOPS.gc.special[k]:SHOPS.gc.price;
 /* 🕯️ พ่อค้าใต้ดิน: สุ่มไอเทมจากทั้งเกมมาขาย 3 ชิ้น ชิ้นละ 5 ทอง · ชุดใหม่ทุก 1 ชม. · กดสุ่มใหม่ 1 ทอง */
 const UND=SHOPS.under,undPool=()=>Object.keys(ALL).filter(k=>!UND.exclude.includes(k));
@@ -1558,10 +1601,10 @@ function shop(m){if(!USH.it.length||Date.now()-USH.t>=UND.refreshMs){undGen();sa
  openM('พ่อค้าใต้ดิน 🕯️',`<p style="margin:.2cqh 0 .6cqh">"ของหายากหลุดมาจากใต้ดิน... ชิ้นละ <b>${UND.price} ทอง</b> ไม่ซื้อเดี๋ยวก็หายนะ" <small>(ชุดใหม่ในอีก ${left} นาที)</small></p><p style="margin:0 0 .6cqh">🥇 ทองของคุณ: <b>${gold.toLocaleString()}</b>${m?` · <span style="color:#ffd84a">${m}</span>`:''}</p>`
  +USH.it.map((k,i)=>USH.sold.includes(i)?`<div class="cd tr"><span style="font-size:2em;opacity:.35">${ALL[k][0]}</span><div style="flex:1;opacity:.6"><b>${ALL[k][1]}</b><br><small>— ขายแล้ว —</small></div></div>`:`<div class="cd tr"><span style="font-size:2em">${ALL[k][0]}</span><div style="flex:1"><b>${ALL[k][1]}</b> — ${UND.price} ทอง<br><small>${ID[k]||''} · มีอยู่ ${inv[k]||0}</small></div><button class="bn" onclick="buyU(${i})">ซื้อ</button></div>`).join('')
  +`<button class="bn" onclick="undReroll()">🔄 สุ่มของใหม่ทันที (${UND.rerollGold} ทอง)</button><button class="bn" onclick="undTalk()">↩ กลับ</button>`)}
-function buyU(i){const k=USH.it[i];if(!k||USH.sold.includes(i))return;if(gold<UND.price)return shop('ทองไม่พอ!');gold-=UND.price;inv[k]=(inv[k]||0)+1;USH.sold.push(i);hud();save();shop(`ซื้อ ${ALL[k][1]} แล้ว (−${UND.price} ทอง)`)}
-function undReroll(){if(gold<UND.rerollGold)return shop('ทองไม่พอ!');gold-=UND.rerollGold;undGen();hud();save();shop('สุ่มของชุดใหม่แล้ว!')}
+function buyU(i){const k=USH.it[i];if(!k||USH.sold.includes(i))return;if(gold<UND.price)return shop('ทองไม่พอ!');gold-=UND.price;BANK.spend(UND.price,0);inv[k]=(inv[k]||0)+1;USH.sold.push(i);hud();save();shop(`ซื้อ ${ALL[k][1]} แล้ว (−${UND.price} ทอง)`)}
+function undReroll(){if(gold<UND.rerollGold)return shop('ทองไม่พอ!');gold-=UND.rerollGold;BANK.spend(UND.rerollGold,0);undGen();hud();save();shop('สุ่มของชุดใหม่แล้ว!')}
 function shopGC(m){openM('พ่อค้าใต้ดิน 🕯️',`<p>"ของดี ราคามิตรภาพ... ของทั่วไปชิ้นละ ${SHOPS.gc.price} GC ส่วนม้าส้ม ${pr('orange')} GC"</p><p>🪙 GC ของคุณ: <b>${gc.toLocaleString()}</b>${m?`<br><span style="color:#ffd84a">${m}</span>`:''}</p>`+SHOPS.gc.items.map(k=>`<div class="cd tr"><span style="font-size:2em">${IT[k][0]}</span><div style="flex:1"><b>${IT[k][1]}</b> — ${pr(k)} GC<br><small>${ID[k]} · มีอยู่ ${inv[k]}</small></div><button class="bn" onclick="buy('${k}',${SHOPS.gc.qty[0]})">ซื้อ ×${SHOPS.gc.qty[0]}</button><button class="bn" onclick="buy('${k}',${SHOPS.gc.qty[1]})">ซื้อ ×${SHOPS.gc.qty[1]}</button></div>`).join(''))}
-function buy(k,n){const t=pr(k)*n;if(gc<t)return shop('GC ไม่พอ!');gc-=t;inv[k]+=n;hud();save();shop(`ซื้อ ${IT[k][1]} ×${n} แล้ว (-${t} GC)`)}
+function buy(k,n){const t=pr(k)*n;if(gc<t)return shop('GC ไม่พอ!');gc-=t;BANK.spend(0,t);inv[k]+=n;hud();save();shop(`ซื้อ ${IT[k][1]} ×${n} แล้ว (-${t} GC)`)}
 /* เควส: รับ, ส่ง, รับรางวัล, ส่งผี */
 function quest(m){const B_='margin:0;padding:.3cqh 1cqw';openM('คุณทักษิณ 🧑‍💼',`<p style="margin:0 0 .6cqh">"เจ้าหนุ่ม... มีงานให้ทำหลายอย่าง เลือกเควสที่สนใจได้เลย"${m?` · <span style="color:#ffd84a">${m}</span>`:''}</p>`+QS.map((q,i)=>{const n=i+1,st=qs[n],d=qdone(n);
  const act=st==2?'✅ รับรางวัลแล้ว':st==1?(d?`<button class="bn" style="${B_}" onclick="qclaim(${n})">🎁 รับรางวัล</button>`:'⏳ กำลังทำเควส'):n>1&&qs[n-1]!=2?`🔒 ทำเควส ${n-1} ก่อน`:[1,2,3,4,5].some(k=>qs[k]==1)?'🔒 ทำเควสปัจจุบันให้เสร็จก่อน':`<button class="bn" style="${B_}" onclick="qacc(${n})">รับเควส</button>`;
@@ -1581,10 +1624,10 @@ function sensei(fresh){openM('อาจารย์ยอด 🧙',`<p>${passed?
 function challenge(){if(!lead())return toast('ผีสลบหมด ไปฟื้นที่ศาลตายายก่อน');closeM();const t=[mk(gi('prainam'),6,false,1),mk(gi('tani'),6,false,1),mk(gi('dancer'),6,false,1)];t.unshift(t.splice(bestFoeIdx(t,lead()),1)[0]);startBattle({g:t[0],trainer:1},t)}
 function genStock(){const SB=SHOPS.breeder;stock=Array.from({length:SB.slots},()=>{const r=Math.random(),pl=(SB.pools.find(q=>r<q.upTo)||SB.pools[SB.pools.length-1]),si=PK(SP.map((s,i)=>i).filter(i=>SP[i].t==pl.t));return mk(si,SB.level)});stockT=Date.now();save()}
 function breeder(m){if(!stock.length||Date.now()-stockT>SHOPS.breeder.refreshMs)genStock();const left=Math.max(0,Math.ceil((SHOPS.breeder.refreshMs-(Date.now()-stockT))/6e4));
- openM('คนเลี้ยงผี 🐾',`<p>"ผีพวกนี้เพิ่งเลี้ยงเสร็จ ตัวละ ${SHOPS.breeder.price} GC — สุ่มใหม่ทุก ${SHOPS.breeder.refreshMs/36e5} ชั่วโมง (อีก ${left} นาที)"</p><p>🪙 GC: <b>${gc}</b> · 🥇 ทอง: <b>${gold}</b>${m?`<br><span style="color:#ffd84a">${m}</span>`:''}</p>`+stock.map((g,i)=>g?`<div class="cd tr"><canvas data-i="${i}" width="32" height="32"></canvas><div style="flex:1"><b>${nm(g)}</b> ${LV(g)} · ธาตุ${g.sp.e}<br><small>HP ${g.mx} · ATK ${g.atk} · DEF ${g.def} · SPD ${g.spd}</small></div><button class="bn" onclick="gview(${i})">ดูรายละเอียด</button><button class="bn" onclick="buyG(${i})">ซื้อ ${SHOPS.breeder.price} GC</button></div>`:'<div class="cd">— ขายแล้ว —</div>').join('')+'<button class="bn" onclick="rerollS()">🔄 สุ่มใหม่ทันที ('+SHOPS.breeder.rerollGold+' ทอง)</button>');
+ openM('คนเลี้ยงผี 🐾',`<p>"ผีพวกนี้เพิ่งเลี้ยงเสร็จ ตัวละ ${SHOPS.breeder.price} GC — สุ่มใหม่ทุก ${SHOPS.breeder.refreshMs/36e5} ชั่วโมง (อีก ${left} นาที)"</p><p>🪙 GC: <b>${gc}</b> · 🥇 ทอง: <b>${fmtG(gold)}</b>${m?`<br><span style="color:#ffd84a">${m}</span>`:''}</p>`+stock.map((g,i)=>g?`<div class="cd tr"><canvas data-i="${i}" width="32" height="32"></canvas><div style="flex:1"><b>${nm(g)}</b> ${LV(g)} · ธาตุ${g.sp.e}<br><small>HP ${g.mx} · ATK ${g.atk} · DEF ${g.def} · SPD ${g.spd}</small></div><button class="bn" onclick="gview(${i})">ดูรายละเอียด</button><button class="bn" onclick="buyG(${i})">ซื้อ ${SHOPS.breeder.price} GC</button></div>`:'<div class="cd">— ขายแล้ว —</div>').join('')+'<button class="bn" onclick="rerollS()">🔄 สุ่มใหม่ทันที ('+SHOPS.breeder.rerollGold+' ทอง)</button>');
  document.querySelectorAll('#mb canvas[data-i]').forEach(k=>spr(k,stock[+k.dataset.i],2))}
-function buyG(i){const g=stock[i];if(!g)return;if(gc<SHOPS.breeder.price)return breeder('GC ไม่พอ!');gc-=SHOPS.breeder.price;const full=party.length>=4;if(full)box.push(g);else party.push(g);dx[g.si]=1;stock[i]=null;hud();save();breeder(`ซื้อ ${nm(g)} แล้ว!${full?' (ทีมเต็ม ส่งเข้าคลัง)':''}`)}
-function rerollS(){if(gold<SHOPS.breeder.rerollGold)return breeder('ทองไม่พอ!');gold-=SHOPS.breeder.rerollGold;genStock();hud();breeder('สุ่มผีชุดใหม่แล้ว!')}
+function buyG(i){const g=stock[i];if(!g)return;if(gc<SHOPS.breeder.price)return breeder('GC ไม่พอ!');gc-=SHOPS.breeder.price;BANK.spend(0,SHOPS.breeder.price);const full=party.length>=4;if(full)box.push(g);else party.push(g);dx[g.si]=1;stock[i]=null;hud();save();breeder(`ซื้อ ${nm(g)} แล้ว!${full?' (ทีมเต็ม ส่งเข้าคลัง)':''}`)}
+function rerollS(){if(gold<SHOPS.breeder.rerollGold)return breeder('ทองไม่พอ!');gold-=SHOPS.breeder.rerollGold;BANK.spend(SHOPS.breeder.rerollGold,0);genStock();hud();breeder('สุ่มผีชุดใหม่แล้ว!')}
 function gview(i){const g=stock[i],f=(l,v)=>`<div class="fl"><span class="sh">${l}</span><div class="fv">${v}</div></div>`;
  openM('รายละเอียดผี',`<div class="sm"><div>${f('ชื่อ',nm(g))}${f('เลเวล',g.lv)}${f('HP / SP',g.mx+' / '+g.mxsp)}${f('ATK/DEF/SPD',g.atk+' / '+g.def+' / '+g.spd)}${f('สกิลประจำตัว',uTxt(g))}<div class="sh" style="font-weight:700;margin:.4cqh 0">สกิล</div>${g.sk.map(k=>`<div class="fv" style="margin-bottom:.4cqh">${skd(k)}</div>`).join('')}</div><div class="sr"><canvas id="sc" width="48" height="48"></canvas><br><span class="et" style="background:${EC[g.sp.e]}">${g.sp.e}</span></div></div><button class="bn" onclick="breeder()">← กลับ</button>`);spr($('#sc'),g,3)}
 /* ผีคู่ใจตอนเริ่มเกม: สุ่มธาตุตอนได้รับ · ได้สกิลโจมตีธาตุตัวเองติดตัว 1 สกิล + อีกสกิลสุ่มตามปกติ */
@@ -1640,7 +1683,7 @@ function jobLine(j,i){const L=JOBS[j].lines;if(i<L.length-1)return jsay(j,L[i],j
 function jobAccept(j){if(JOB||JQ)return jobAsk(j);JQ=j;hud();save();jsay(j,`ดีมาก! นำเงินค่าครู ${JOBS[j].fee} GC มามอบให้ข้า`,jbtn('ตกลง','closeM()'),`📜 รับเควส “${JOBS[j].q}” แล้ว`)}
 function jobCancel(j){if(JQ!=j)return;JQ='';hud();save();jsay(j,'ไม่เป็นไร เปลี่ยนใจเมื่อไหร่ก็มาหาข้าได้',jbtn('ตกลง','closeM()'),'🗑 ยกเลิกเควสแล้ว')}
 function jobPay(j){const J=JOBS[j];if(JQ!=j||JOB)return jobAsk(j);if(gc<J.fee)return jobAsk(j,`GC ไม่พอ! ต้องใช้ ${J.fee} GC (มี ${gc.toLocaleString()})`);
- gc-=J.fee;JOB=j;JQ='';for(const k in J.reward)inv[k]=(inv[k]||0)+J.reward[k];if(MAPID==2&&isOwner())buildHouse();hud();save();
+ gc-=J.fee;BANK.spend(0,J.fee);JOB=j;JQ='';for(const k in J.reward)inv[k]=(inv[k]||0)+J.reward[k];if(MAPID==2&&isOwner())buildHouse();hud();save();
  jsay(j,`ยินดีด้วย! ตั้งแต่วันนี้เจ้าคือ${J.n}แล้ว`,jbtn('🙏 ขอบคุณ','closeM()'),`🎁 ได้รับ ${J.table} (เพิ่มในบ้านพกพาแล้ว)${Object.keys(J.reward).map(k=>` · ${ALL[k][0]} ${ALL[k][1]} ×${J.reward[k]}`).join('')}`)}
 /* แถบเควสอาชีพ (ใต้เควสหลักบน HUD) */
 const jobQTxt=()=>JQ&&JOBS[JQ]?`📜 <b>${JOBS[JQ].q}</b><br><small>นำเงิน ${JOBS[JQ].fee} GC มามอบให้${JOBS[JQ].npc}${gc>=JOBS[JQ].fee?' ✅ GC พอแล้ว':''}</small>`:'';
@@ -1699,6 +1742,148 @@ function ptableDraw(x,y,tm){const r=(col,a,b,w,h)=>{c.fillStyle=col;c.fillRect(x
 function stallDraw(x,y,sell){const r=(col,a,b,w,h)=>{c.fillStyle=col;c.fillRect(x+a,y+b,w,h)};r('rgba(0,0,0,.25)',-14,-2,28,4);r('#5a3820',-13,-11,3,10);r('#5a3820',10,-11,3,10);r('#8a5a32',-14,-14,28,4);r('#b8332b',-14,-12,28,4);r('#ffd84a',-14,-12,28,1);
  r('#5a3820',-13,-30,2,17);r('#5a3820',11,-30,2,17);r('#d8322a',-15,-32,30,4);r('#fff',-11,-32,4,4);r('#fff',-3,-32,4,4);r('#fff',5,-32,4,4);
  if(sell){r('#ffd84a',-9,-18,4,4);r('#6ec8ff',-2,-19,4,5);r('#7dffa0',5,-18,4,4)}}
+/* ธนาคาร (Ver.0.1.3): NPC นายธนาคาร — ตลาดแลกเปลี่ยน ทอง ⇄ GC ระหว่างผู้เล่น
+   - ซื้อทอง: เห็นรายการที่ผู้เล่นวางขาย (จำนวน · ราคา · ผู้ขาย) กดซื้อได้ ซื้อของตัวเองไม่ได้
+   - ขายทอง: ระบุจำนวน (ขั้นต่ำ 0.1 ทอง) + ราคาต่อทอง (± 15% จากราคากลาง) → วางขาย (ทองถูกพักไว้ในรายการจนขายได้/ยกเลิก)
+   - ราคากลาง: เริ่ม 10,000 GC/ทอง ขยับเองตามการซื้อขายจริง · กราฟแท่งเทียนนาทีละแท่ง (อัปเดตทุก 1 นาที)
+   - ดูข้อมูลตลาด: ทอง/GC ในระบบ, ที่ถูกใช้ไปแล้ว, ผู้ครอบครองมากที่สุด
+   ออนไลน์: ทุกอย่างอยู่บนเซิร์ฟเวอร์ (supabase/schema.sql → ฟังก์ชัน gk_*) · ออฟไลน์: จำลองกฎเดียวกันในเครื่อง (ไว้ทดสอบ)
+   กฎการขยับราคา (ตรงกับ gk__cfg ใน schema.sql — แก้ทั้งสองที่ให้ตรงกัน):
+   1) ซื้อขายสำเร็จ → ราคากลางขยับเข้าหาราคาที่ซื้อขายจริง 25% ต่อ 1 ทอง
+   2) จบแต่ละนาที → ดีมานด์ (ทองที่ถูกซื้อ) มากกว่าซัพพลาย (ทองที่วางขายใหม่) ราคาขึ้น / กลับกันราคาลง สูงสุด ±3%
+   3) จบแต่ละนาที → มีทองวางขายถูกกว่าราคากลางแต่ไม่มีใครซื้อ ราคากลางลดเข้าหา 5% (ตามจำนวนทองที่ค้าง)
+   4) ขยับได้ไม่เกิน ±5% ต่อนาที · ต่ำสุด 1,000 · สูงสุด 1,000,000 */
+const BANK_CFG={start:10000,band:.15,tradeK:.25,flowK:.03,askK:.05,maxMin:.05,floor:1000,ceil:1e6,maxOpen:10,minQty:.1,maxQty:100000};
+const gR=x=>Math.round((+x||0)*10)/10,fmtG=x=>gR(x).toLocaleString('en-US',{maximumFractionDigits:1}),fmtC=x=>Math.round(+x||0).toLocaleString('en-US');
+const BANK=(()=>{
+ const S={st:null,stT:0,tab:'buy',rng:180,pg:0,busy:0,msg:'',stats:null,pend:{g:0,c:0},sellQ:'1',sellU:null,tmr:0,claimT:0};
+ const on=()=>SB.on()&&typeof ACC!='undefined'&&ACC.ready&&!ACC.kick&&!!ACC.prof&&!!SB.uid;
+ /* ---------- ตลาดจำลองในเครื่อง (ออฟไลน์) — กฎเดียวกับเซิร์ฟเวอร์ ---------- */
+ const mn=t=>Math.floor(t/60000)*60000;
+ let LM=null;const L0=()=>({price:BANK_CFG.start,ct:mn(Date.now()),o:BANK_CFG.start,h:BANK_CFG.start,l:BANK_CFG.start,bq:0,lq:0,hist:[],ord:[],nid:1,gu:0,cu:0,tr:0,tq:0,skew:0});
+ const LMk=()=>LM||(LM=L0()),now=()=>Date.now()+(LM?LM.skew:0);
+ const clampP=(p,o)=>Math.round(Math.max(BANK_CFG.floor,Math.min(BANK_CFG.ceil,Math.max(o*(1-BANK_CFG.maxMin),Math.min(o*(1+BANK_CFG.maxMin),p))))*100)/100;
+ function ltick(){const m=LMk(),t=mn(now());if(m.ct>=t)return m;let p=m.price*(1+BANK_CFG.flowK*(m.bq-m.lq)/(m.bq+m.lq+1));
+  const lo=m.ord.filter(o=>o.st=='open'&&o.unit<p);if(lo.length){const ask=Math.min(...lo.map(o=>o.unit)),aq=lo.reduce((a,o)=>a+o.qty,0);p+=BANK_CFG.askK*Math.min(1,aq)*(ask-p)}
+  p=clampP(p,m.o);m.hist.push([m.ct,m.o,Math.max(m.h,p),Math.min(m.l,p),p,gR(m.bq)]);if(m.hist.length>1500)m.hist.splice(0,m.hist.length-1500);
+  Object.assign(m,{price:p,ct:t,o:p,h:p,l:p,bq:0,lq:0});return m}
+ const err=c=>{throw Object.assign(new Error(c),{code:c})};
+ const LB={
+  async state(mins){const m=ltick(),t0=now()-Math.min(1440,Math.max(10,mins))*60000,me=pname;
+   return{price:m.price,now:now(),cur:[m.ct,m.o,m.h,m.l,m.price,gR(m.bq)],hist:m.hist.filter(h=>h[0]>=t0),
+    book:m.ord.filter(o=>o.st=='open').sort((a,b)=>a.unit-b.unit||a.id-b.id).slice(0,60).map(o=>[o.id,o.qty,o.unit,o.total,o.sn,o.sn==me]),
+    mine:m.ord.filter(o=>o.sn==me).sort((a,b)=>b.id-a.id).slice(0,15).map(o=>[o.id,o.qty,o.unit,o.total,o.st,o.bn||null,o.dt||null]),
+    pend:m.ord.filter(o=>(o.sn==me&&((o.st=='sold'&&!o.paid)||(o.st=='cancel'&&!o.ref)))||(o.bn==me&&!o.got)).length}},
+  async list(q,u){const m=ltick();q=Math.floor(gR(q)*10+1e-6)/10;if(!(q>=BANK_CFG.minQty&&q<=BANK_CFG.maxQty))err('bad_qty');const lo=Math.ceil(m.price*(1-BANK_CFG.band)),hi=Math.floor(m.price*(1+BANK_CFG.band));
+   if(!(u>=lo&&u<=hi))err('bad_price:'+lo+':'+hi);if(m.ord.filter(o=>o.sn==pname&&o.st=='open').length>=BANK_CFG.maxOpen)err('too_many');
+   const o={id:m.nid++,sn:pname,qty:q,unit:Math.round(u),total:Math.max(1,Math.round(q*u)),st:'open'};m.ord.push(o);m.lq+=q;return{id:o.id,qty:q,unit:o.unit,total:o.total,price:m.price}},
+  async buy(id,who){const m=ltick(),o=m.ord.find(x=>x.id==id);who=who||pname;if(!o||o.st!='open')err('gone');if(o.sn==who)err('own');
+   o.st='sold';o.bn=who;o.dt=new Date(now()).toISOString();if(who!=pname)o.got=true;if(o.sn!=pname)o.paid=true;   // ผู้เล่นทดสอบ (ไม่มีตัวตนจริง) = รับของแล้ว
+   let p=m.price+BANK_CFG.tradeK*Math.min(1,o.qty)*(o.unit-m.price);p=clampP(p,m.o);
+   Object.assign(m,{price:p,h:Math.max(m.h,p),l:Math.min(m.l,p),bq:m.bq+o.qty,tr:m.tr+1,tq:gR(m.tq+o.qty)});return{id:o.id,qty:o.qty,unit:o.unit,total:o.total,seller:null,seller_name:o.sn,price:p}},
+  async cancel(id){const m=ltick(),o=m.ord.find(x=>x.id==id&&x.sn==pname);if(!o||o.st!='open')err('gone');o.st='cancel';o.dt=new Date(now()).toISOString();return{id:o.id,qty:o.qty}},
+  async claim(){const m=LMk(),me=pname,r={gc:0,gold:0,refund:0,sold:[]};m.ord.forEach(o=>{if(o.sn==me&&o.st=='sold'&&!o.paid){o.paid=true;r.gc+=o.total;r.sold.push([o.qty,o.total,o.bn])}if(o.bn==me&&o.st=='sold'&&!o.got){o.got=true;r.gold+=o.qty}if(o.sn==me&&o.st=='cancel'&&!o.ref){o.ref=true;r.refund+=o.qty}});
+   const keep=o=>o.st=='open'||(o.st=='sold'&&(!o.paid||!o.got))||(o.st=='cancel'&&!o.ref),done=m.ord.filter(o=>!keep(o));m.ord=m.ord.filter(o=>keep(o)||done.indexOf(o)>=done.length-30);r.gold=gR(r.gold);r.refund=gR(r.refund);return r},
+  async spent(g,c){const m=LMk();m.gu=gR(m.gu+Math.max(0,Math.min(1e4,g)));m.cu+=Math.max(0,Math.min(1e8,c))},
+  async stats(){const m=ltick(),esc=m.ord.reduce((a,o)=>a+(o.st=='open'||(o.st=='cancel'&&!o.ref)||(o.st=='sold'&&!o.got)?o.qty:0),0),pay=m.ord.reduce((a,o)=>a+(o.st=='sold'&&!o.paid?o.total:0),0),open=m.ord.filter(o=>o.st=='open');
+   return{price:m.price,trades:m.tr,traded:m.tq,gold_total:gR(gold+esc),gold_used:m.gu,gold_top:gold>0?[pname,gR(gold)]:null,gc_total:gc+pay,gc_used:m.cu,gc_top:gc>0?[pname,gc]:null,players:1,open:open.length,open_q:gR(open.reduce((a,o)=>a+o.qty,0))}}};
+ /* ---------- เซิร์ฟเวอร์ (ออนไลน์) ---------- */
+ const rpc=async(f,b)=>{try{return await SB.q('rpc/'+f,{m:'POST',b:b||{}})}catch(e){const c=String(e&&e.message||'');throw Object.assign(new Error(c),{code:/^(gone|own|too_many|bad_qty|no_char|login|bad_price:\d+:\d+)$/.test(c)?c:'net',net:!!(e&&e.net),raw:e})}};
+ const OB={state:m=>rpc('gk_bank_state',{p_mins:m}),list:(q,u)=>rpc('gk_gold_list',{p_qty:q,p_unit:u}),buy:id=>rpc('gk_gold_buy',{p_id:id}),cancel:id=>rpc('gk_gold_cancel',{p_id:id}),claim:()=>rpc('gk_gold_claim'),spent:(g,c)=>rpc('gk_spent',{p_gold:g,p_gc:c}),stats:()=>rpc('gk_market_stats')};
+ const api=()=>SB.on()?OB:LB;
+ const ERR={gone:'รายการนี้ถูกซื้อหรือยกเลิกไปแล้ว',own:'ซื้อทองของตัวเองไม่ได้',too_many:`วางขายค้างได้สูงสุด ${BANK_CFG.maxOpen} รายการ`,bad_qty:'จำนวนทองไม่ถูกต้อง (ขั้นต่ำ 0.1 ทอง)',no_char:'ยังไม่มีตัวละคร',login:'ต้องเข้าสู่ระบบก่อน',net:'เชื่อมต่อเซิร์ฟเวอร์ไม่ได้ ลองใหม่อีกครั้ง'};
+ const emsg=e=>{const c=e&&e.code||'';const m=/^bad_price:(\d+):(\d+)$/.exec(c);return m?`ราคาต้องอยู่ระหว่าง ${fmtC(m[1])} – ${fmtC(m[2])} GC (± 15% จากราคากลาง) — ราคากลางเพิ่งขยับ ลองใหม่`:ERR[c]||('เกิดข้อผิดพลาด: '+(e&&e.message||c))};
+ const sync=async()=>{save();if(SB.on())await cloudSave(1,1)};   // เซฟทันที (ออนไลน์รอเซฟขึ้นเซิร์ฟเวอร์ก่อนส่งคำสั่งซื้อขาย)
+ const isOpen=()=>$('#md').style.display=='flex'&&/^🏦/.test($('#mt').textContent);
+ /* ---------- ข้อมูล ---------- */
+ async function refresh(){try{S.st=await api().state(Math.max(S.rng,60));S.stT=Date.now();if(S.st.pend>0)claim()}catch(e){S.msg='⚠️ '+emsg(e)}if(isOpen())ui()}
+ async function loadStats(){try{S.stats=await api().stats()}catch(e){S.msg='⚠️ '+emsg(e)}if(isOpen())ui()}
+ let CLM=0;
+ async function claim(quiet){if(CLM||(SB.on()&&!on())||!hasChar())return;CLM=1;try{const r=await api().claim();const g=+r.gc||0,au=gR(+r.gold||0),rf=gR(+r.refund||0);if(!g&&!au&&!rf)return;
+  gc+=g;gold=gR(gold+au+rf);hud();await sync();
+  (r.sold||[]).forEach(x=>say(`💰 ${esc(x[2]||'ผู้เล่น')} ซื้อทอง ${fmtG(x[0])} ทองของคุณ — ได้รับ ${fmtC(x[1])} GC`));
+  if(au)say(`🥇 ได้รับทอง ${fmtG(au)} ทองจากการซื้อ`);if(rf)say(`↩️ ได้ทองคืน ${fmtG(rf)} ทองจากรายการที่ยกเลิก`);if(!quiet&&!isOpen())toast(g?`💰 ขายทองได้ ${fmtC(g)} GC`:au?`🥇 ได้รับทอง ${fmtG(au)}`:`↩️ ได้ทองคืน ${fmtG(rf)}`)}
+  catch(e){}finally{CLM=0}}
+ const esc=t=>String(t==null?'':t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const say=t=>{try{if(typeof NET!='undefined'&&NET.sys)NET.sys(t)}catch(e){}S.msg=t};
+ /* ทอง/GC ที่ใช้ไปกับเกม (ร้านค้า ฯลฯ) — สะสมไว้แล้วส่งขึ้นเซิร์ฟเวอร์ทีเดียว */
+ function spend(g,c){S.pend.g=gR(S.pend.g+(+g||0));S.pend.c+=Math.round(+c||0);if(!SB.on())flush()}
+ async function flush(){const{g,c}=S.pend;if(!g&&!c)return;if(SB.on()&&!on())return;S.pend={g:0,c:0};try{await api().spent(g,c)}catch(e){S.pend.g=gR(S.pend.g+g);S.pend.c+=c}}
+ /* ---------- ซื้อ / ขาย / ยกเลิก ---------- */
+ async function buy(id){if(S.busy)return;const o=(S.st&&S.st.book||[]).find(x=>x[0]==id);if(!o)return note('รายการนี้ไม่อยู่แล้ว');if(o[5])return note('ซื้อทองของตัวเองไม่ได้');const total=+o[3];if(gc<total)return note(`GC ไม่พอ! ต้องใช้ ${fmtC(total)} GC (มี ${fmtC(gc)})`);
+  if(!await ask('🏦 ยืนยันการซื้อทอง',`<p style="font-size:1.15em">ซื้อทอง <b style="color:#ffd84a">${fmtG(o[1])} ทอง</b> จาก <b>${esc(o[4])}</b><br>ราคา <b>${fmtC(total)} GC</b> <small>(${fmtC(o[2])} GC/ทอง)</small></p><div style="text-align:right"><button class="bn" onclick="ans(1)">✅ ซื้อ</button><button class="bn" onclick="ans(0)">ยกเลิก</button></div>`))return ui();
+  S.busy=1;gc-=total;hud();ui();try{await sync();const r=await api().buy(id);if(r.seller&&typeof NET!='undefined'&&NET.S.G)try{NET.S.G.send('gs',{to:r.seller})}catch(e){}S.msg=`✅ ซื้อทอง ${fmtG(r.qty)} ทองจาก ${esc(r.seller_name)} สำเร็จ (−${fmtC(r.total)} GC)`;S.busy=0;await claim(1)}
+  catch(e){gc+=total;hud();save();S.msg='❌ '+emsg(e)}finally{S.busy=0}await refresh()}
+ async function sell(){if(S.busy)return;const qr=+($('#bkq')||{}).value||0,q=gR(qr),u=Math.round(+($('#bku')||{}).value||0),P=S.st?S.st.price:BANK_CFG.start,lo=Math.ceil(P*(1-BANK_CFG.band)),hi=Math.floor(P*(1+BANK_CFG.band));
+  S.sellQ=String(q);S.sellU=u;if(!(qr>=BANK_CFG.minQty-1e-9))return note('ขายได้ตั้งแต่ 0.1 ทองขึ้นไป');if(Math.abs(qr*10-Math.round(qr*10))>1e-6)return note('จำนวนทองใส่ทศนิยมได้ 1 ตำแหน่ง');if(q>gR(gold))return note(`ทองไม่พอ! มี ${fmtG(gold)} ทอง`);
+  if(!(u>=lo&&u<=hi))return note(`ตั้งราคาได้ ${fmtC(lo)} – ${fmtC(hi)} GC ต่อทอง (± 15% จากราคากลาง)`);
+  S.busy=1;gold=gR(gold-q);hud();ui();try{await sync();const r=await api().list(q,u);S.msg=`🏷️ วางขายทอง ${fmtG(r.qty)} ทอง ราคา ${fmtC(r.total)} GC แล้ว — รอผู้ซื้อ (ดูได้ที่หน้า ซื้อทอง)`;S.sellQ='1'}
+  catch(e){gold=gR(gold+q);hud();save();S.msg='❌ '+emsg(e)}finally{S.busy=0}await refresh()}
+ async function cancel(id){if(S.busy)return;S.busy=1;try{const r=await api().cancel(id);S.msg=`🗑 ยกเลิกรายการแล้ว — ทอง ${fmtG(r.qty)} ทองคืนเข้ากระเป๋า`;S.busy=0;await claim(1)}catch(e){S.msg='❌ '+emsg(e)}finally{S.busy=0}await refresh()}
+ const note=m=>{S.msg=m;ui()};
+ /* ---------- หน้าต่าง ---------- */
+ function candles(){const st=S.st;if(!st)return[];const step=60000,end=mn(+new Date(st.cur[0])),start=end-(S.rng-1)*step,by=new Map(st.hist.map(h=>[mn(+new Date(h[0])),h]));
+  let prev=null;for(const h of st.hist){if(mn(+new Date(h[0]))<start)prev=+h[4]}if(prev==null)prev=st.hist.length?+st.hist[0][1]:+st.cur[1];
+  const out=[];for(let t=start;t<=end;t+=step){const h=t==end?st.cur:by.get(t);if(h){out.push([t,+h[1],+h[2],+h[3],+h[4],+h[5]||0]);prev=+h[4]}else out.push([t,prev,prev,prev,prev,0])}
+  const b=Math.max(1,Math.ceil(out.length/90)),agg=[];for(let i=out.length%b?-(b-out.length%b):0;i<out.length;i+=b){const s=out.slice(Math.max(0,i),i+b);if(!s.length)continue;agg.push([s[0][0],s[0][1],Math.max(...s.map(x=>x[2])),Math.min(...s.map(x=>x[3])),s[s.length-1][4],s.reduce((a,x)=>a+x[5],0)])}return agg}
+ function draw(){const cv=$('#bkc');if(!cv)return;const r=cv.getBoundingClientRect(),d=devicePixelRatio||1,W=Math.max(200,Math.round(r.width*d)),H=Math.max(120,Math.round(r.height*d));if(cv.width!=W||cv.height!=H){cv.width=W;cv.height=H}
+  const t=cv.getContext('2d'),C=candles();t.clearRect(0,0,W,H);t.fillStyle='#0b0f0d';t.fillRect(0,0,W,H);if(!C.length){t.fillStyle='#889';t.font=`${14*d}px sans-serif`;t.fillText('กำลังโหลดกราฟ...',12*d,24*d);return}
+  const fs=Math.max(10,11*d),padR=fs*5.2,padB=fs*1.7,vH=(H-padB)*.18,pH=H-padB-vH-fs*.6,hi=Math.max(...C.map(c=>c[2])),lo=Math.min(...C.map(c=>c[3])),span=Math.max(hi-lo,hi*.004),top=hi+span*.12,bot=lo-span*.12,Y=v=>fs*.4+(top-v)/(top-bot)*pH,cw=(W-padR)/C.length,vmax=Math.max(...C.map(c=>c[5]),.1);
+  t.font=`${fs}px sans-serif`;t.strokeStyle='#1f2a24';t.lineWidth=1;t.fillStyle='#8a9a90';t.textBaseline='middle';
+  for(let i=0;i<=4;i++){const v=bot+(top-bot)*i/4,y=Y(v);t.beginPath();t.moveTo(0,y);t.lineTo(W-padR,y);t.stroke();t.fillText(fmtC(v),W-padR+fs*.4,y)}
+  t.textBaseline='alphabetic';const nl=Math.min(5,C.length);for(let i=0;i<nl;i++){const k=Math.round(i*(C.length-1)/Math.max(1,nl-1)),x=(k+.5)*cw,dt=new Date(C[k][0]);t.fillText(String(dt.getHours()).padStart(2,'0')+':'+String(dt.getMinutes()).padStart(2,'0'),Math.min(W-padR-fs*2.6,Math.max(0,x-fs*1.3)),H-fs*.35)}
+  C.forEach((c,i)=>{const x=i*cw,up=c[4]>=c[1],col=up?'#3ddc84':'#ff5a5a',bw=Math.max(1,cw*.66);t.fillStyle=col;t.strokeStyle=col;
+   t.beginPath();t.moveTo(x+cw/2,Y(c[2]));t.lineTo(x+cw/2,Y(c[3]));t.stroke();const y0=Y(Math.max(c[1],c[4])),y1=Y(Math.min(c[1],c[4]));t.fillRect(x+(cw-bw)/2,y0,bw,Math.max(1,y1-y0));
+   if(c[5]>0){const vh=c[5]/vmax*vH;t.globalAlpha=.45;t.fillRect(x+(cw-bw)/2,H-padB-vh,bw,vh);t.globalAlpha=1}});
+  const P=S.st.price,y=Y(P);t.setLineDash([4*d,3*d]);t.strokeStyle='#ffd84a';t.beginPath();t.moveTo(0,y);t.lineTo(W-padR,y);t.stroke();t.setLineDash([]);t.fillStyle='#ffd84a';t.fillRect(W-padR,y-fs*.75,padR,fs*1.5);t.fillStyle='#111';t.textBaseline='middle';t.fillText(fmtC(P),W-padR+fs*.4,y);t.textBaseline='alphabetic'}
+ const chg=()=>{const st=S.st;if(!st)return null;const C=candles();if(!C.length)return null;const a=C[0][1],b=st.price;return{d:b-a,p:a?(b-a)/a*100:0}};
+ const tabB=(k,t)=>`<button class="bn" style="${S.tab==k?'border-color:#ffd84a;color:#ffd84a;background:#3a3214':''}" onclick="BANK.tab('${k}')">${t}</button>`;
+ function bookHTML(){const B=(S.st&&S.st.book)||[],N=6,pages=Math.max(1,Math.ceil(B.length/N));if(S.pg>=pages)S.pg=pages-1;const P=S.st?S.st.price:BANK_CFG.start,L=B.slice(S.pg*N,S.pg*N+N);
+  return `<div class="bkl">${L.length?L.map(o=>{const pc=(o[2]-P)/P*100;return `<div class="cd tr bkr"><span style="font-size:1.5em">🥇</span><div style="flex:1;line-height:1.3">ทอง <b style="color:#ffd84a">${fmtG(o[1])}</b> หน่วย <span class="bks">|</span> ราคา <b>${fmtC(o[3])}</b> GC <small style="opacity:.8">(${fmtC(o[2])}/ทอง <span style="color:${pc>0.05?'#ff8a8a':pc<-0.05?'#7dffa0':'#ccc'}">${pc>=0?'+':''}${pc.toFixed(1)}%</span>)</small><br><small>ผู้ขาย : <b>${esc(o[4])}</b>${o[5]?' <span style="color:#7dd3ff">(ของคุณ)</span>':''}</small></div>${o[5]?`<button class="bn" ${S.busy?'disabled':''} onclick="BANK.cancel(${o[0]})">🗑 ยกเลิก</button>`:`<button class="bn" ${S.busy||gc<o[3]?'style="opacity:.55"':''} ${S.busy?'disabled':''} onclick="BANK.buy(${o[0]})">ซื้อ</button>`}</div>`}).join(''):'<div class="cd" style="text-align:center;opacity:.8">ยังไม่มีผู้เล่นวางขายทอง</div>'}</div>${pages>1?`<div class="wt" style="margin:.4cqh 0 0;justify-content:center">${Array.from({length:pages},(_,i)=>`<button class="bn" style="${i==S.pg?'border-color:#ffd84a':''}" onclick="BANK.page(${i})">${i+1}</button>`).join('')}</div>`:''}`}
+ function sellHTML(){const P=S.st?S.st.price:BANK_CFG.start,lo=Math.ceil(P*(1-BANK_CFG.band)),hi=Math.floor(P*(1+BANK_CFG.band));let u=S.sellU==null?Math.round(P):S.sellU;u=Math.max(lo,Math.min(hi,u));S.sellU=u;const q=gR(+S.sellQ||0);
+  const mine=((S.st&&S.st.mine)||[]).slice(0,4),stT={open:'🟢 กำลังขาย',sold:'✅ ขายแล้ว',cancel:'🗑 ยกเลิก'};
+  return `<div class="cd" style="padding:.6cqh 1cqw">🥇 ทองของคุณ <b style="color:#ffd84a">${fmtG(gold)}</b> ทอง · 🪙 ${fmtC(gc)} GC</div>
+  <div class="af" style="grid-template-columns:auto 1fr;align-items:center"><b>จำนวนทอง</b><div class="bkin"><input id="bkq" type="number" min="0.1" step="0.1" max="${gR(gold)}" value="${esc(S.sellQ)}" inputmode="decimal" oninput="BANK.calc()"><button class="bn" onclick="BANK.q(0.1)">0.1</button><button class="bn" onclick="BANK.q(1)">1</button><button class="bn" onclick="BANK.q(-1)">ทั้งหมด</button></div>
+  <b>ราคา / ทอง</b><div class="bkin"><input id="bku" type="number" min="${lo}" max="${hi}" step="1" value="${u}" inputmode="numeric" oninput="BANK.calc(1)"><button class="bn" onclick="BANK.u(-.15)">−15%</button><button class="bn" onclick="BANK.u(0)">กลาง</button><button class="bn" onclick="BANK.u(.15)">+15%</button></div></div>
+  <input id="bkr" type="range" min="${lo}" max="${hi}" step="1" value="${u}" style="width:100%;margin:.6cqh 0 0" oninput="BANK.calc(2)">
+  <div class="cd" style="margin:.5cqh 0;padding:.5cqh 1cqw" id="bkt"></div>
+  <button class="bn" ${S.busy?'disabled':''} style="background:#3f5a2a;border-color:#7dffa0" onclick="BANK.sell()">🏷️ วางขาย</button> <small style="opacity:.8">ตั้งราคาได้ ${fmtC(lo)} – ${fmtC(hi)} GC (± 15%) · ซื้อทองของตัวเองไม่ได้</small>
+  ${mine.length?`<div style="margin-top:.6cqh"><b>รายการของฉัน</b>${mine.map(o=>`<div class="tr" style="font-size:.88em;gap:.6cqw;margin-top:.3cqh"><span style="flex:1">${stT[o[4]]||o[4]} · ${fmtG(o[1])} ทอง · ${fmtC(o[3])} GC${o[4]=='sold'&&o[5]?' → '+esc(o[5]):''}</span>${o[4]=='open'?`<button class="bn" style="margin:0;padding:.2cqh .6cqw" ${S.busy?'disabled':''} onclick="BANK.cancel(${o[0]})">ยกเลิก</button>`:''}</div>`).join('')}</div>`:''}`}
+ function statsHTML(){const s=S.stats;if(!s)return '<div class="cd">กำลังโหลดข้อมูลตลาด...</div>';const top=t=>t&&t[0]?`<b>${esc(t[0])}</b> (${t===s.gold_top?fmtG(t[1])+' ทอง':fmtC(t[1])+' GC'})`:'—';
+  const row=(k,v)=>`<div class="bkst"><span>${k}</span><b>${v}</b></div>`;
+  return `<div class="bkss">${row('🥇 ทองที่มีอยู่ในระบบปัจจุบัน',fmtG(s.gold_total)+' ทอง')+row('🔥 ทองที่ถูกใช้งานไปแล้ว',fmtG(s.gold_used)+' ทอง')+row('👑 ผู้เล่นที่ครอบครองทองมากที่สุด',top(s.gold_top))+row('🪙 Gold Coin ที่มีอยู่ในระบบปัจจุบัน',fmtC(s.gc_total)+' GC')+row('🔥 Gold Coin ที่ถูกใช้งานไปแล้ว',fmtC(s.gc_used)+' GC')+row('👑 ผู้เล่นที่ครอบครอง GC มากที่สุด',top(s.gc_top))}</div>
+  <div class="cd" style="margin-top:.6cqh;font-size:.85em;padding:.5cqh 1cqw">📈 ซื้อขายสำเร็จแล้ว ${fmtC(s.trades)} ครั้ง (${fmtG(s.traded)} ทอง) · 🏷️ วางขายอยู่ ${fmtC(s.open)} รายการ (${fmtG(s.open_q)} ทอง)${SB.on()?'':' · <span style="color:#ffd84a">โหมดออฟไลน์: ข้อมูลจำลองในเครื่อง</span>'}</div>
+  <div style="font-size:.78em;opacity:.75;margin-top:.4cqh">ทอง/GC ในระบบ = ที่ผู้เล่นทุกคนถือ + ที่พักอยู่ในตลาด · ที่ถูกใช้งาน = ใช้ซื้อของ/บริการในเกม (ไม่นับการซื้อขายระหว่างผู้เล่น)</div>`}
+ function ui(){if(!isOpen()&&$('#md').style.display=='flex')return;const st=S.st,P=st?st.price:null,ch=chg(),cs=st?st.cur:null,left=Math.max(0,60-Math.floor((Date.now()%60000)/1000));
+  openM('🏦 นายธนาคาร — ตลาดแลกเปลี่ยนเงิน-ทอง',`<div class="bk"><div class="bkg"><div class="bkh"><div><small>ราคาทองกลางปัจจุบัน</small><div class="bkp">1 ทอง = <b>${P?fmtC(P):'...'}</b> GC</div>${ch?`<small style="color:${ch.d>=0?'#3ddc84':'#ff5a5a'}">${ch.d>=0?'▲':'▼'} ${fmtC(Math.abs(ch.d))} (${ch.p>=0?'+':''}${ch.p.toFixed(2)}%) · ${S.rng>=1440?'24 ชม.':S.rng>=60?S.rng/60+' ชม.':S.rng+' นาที'}</small>`:''}</div><div style="text-align:right"><div class="wt" style="margin:0;justify-content:flex-end">${[[30,'30น.'],[180,'3ชม.'],[1440,'24ชม.']].map(([m,t])=>`<button class="bn" style="${S.rng==m?'border-color:#ffd84a;color:#ffd84a':''}" onclick="BANK.rng(${m})">${t}</button>`).join('')}</div><small id="bkcd" style="opacity:.75">อัปเดตใน ${left} วิ</small></div></div>
+  <canvas id="bkc"></canvas>${cs?`<div class="bko">นาทีนี้ · เปิด ${fmtC(cs[1])} · สูง ${fmtC(Math.max(cs[2],P))} · ต่ำ ${fmtC(Math.min(cs[3],P))} · ซื้อแล้ว ${fmtG(cs[5])} ทอง</div>`:''}</div>
+  <div class="bkm"><div class="wt" style="margin-bottom:.6cqh">${tabB('buy','🛒 ซื้อทอง')}${tabB('sell','🏷️ ขายทอง')}${tabB('stats','📊 ดูข้อมูลตลาด')}</div>${S.msg?`<div class="cd bkmsg">${S.msg}</div>`:''}<div class="bkb">${S.tab=='buy'?bookHTML():S.tab=='sell'?sellHTML():statsHTML()}</div></div></div>`);
+  $('#md .bx').classList.add('wide');fitM();if(S.tab=='sell')calc();fit();requestAnimationFrame(draw)}
+ const fit=()=>{const e=$('#mb .bkb');if(!e)return;e.style.zoom='';let z=1;for(let i=0;i<8;i++){const o=e.scrollHeight-e.clientHeight;if(o<=1)break;z=Math.max(.55,z*(e.clientHeight-2)/e.scrollHeight);e.style.zoom=z}};
+ function calc(w){const q=$('#bkq'),u=$('#bku'),r=$('#bkr'),t=$('#bkt');if(!q||!u||!t)return;if(w==2)u.value=r.value;if(w==1&&r)r.value=u.value;S.sellQ=q.value;S.sellU=Math.round(+u.value||0);
+  const P=S.st?S.st.price:BANK_CFG.start,qr=+q.value||0,qq=gR(qr),uu=Math.round(+u.value||0),pc=(uu-P)/P*100,ok=qr>=.1-1e-9&&Math.abs(qr*10-Math.round(qr*10))<1e-6&&qq<=gR(gold)&&Math.abs(pc)<=15.0001;
+  t.innerHTML=`ขาย <b style="color:#ffd84a">${fmtG(qq)}</b> ทอง × ${fmtC(uu)} GC = <b style="font-size:1.15em">${fmtC(Math.max(qq>0?1:0,Math.round(qq*uu)))} GC</b> <small style="color:${Math.abs(pc)>15.0001?'#ff8080':'#ccc'}">(${pc>=0?'+':''}${pc.toFixed(1)}% จากราคากลาง)</small>${ok?'':'<br><small style="color:#ff8080">'+(qr<.1-1e-9?'ขั้นต่ำ 0.1 ทอง':Math.abs(qr*10-Math.round(qr*10))>1e-6?'ทศนิยมได้ 1 ตำแหน่ง':qq>gR(gold)?'ทองไม่พอ':'ราคาเกิน ± 15%')+'</small>'}`}
+ function open(tab){if(newbLock&&newbLock())return newbBlock();S.tab=tab||S.tab||'buy';S.msg='';S.pg=0;S.sellU=null;ui();refresh();if(S.tab=='stats')loadStats();claim(1)}
+ /* ทุก 1 วิ: นับถอยหลัง / ทุกต้นนาที: โหลดกราฟใหม่ · ทุก 60 วิ: รับของค้าง + ส่งยอดใช้จ่าย */
+ const tick=()=>{if(isOpen()){const e=$('#bkcd'),left=60-Math.floor((Date.now()%60000)/1000);if(e)e.textContent='อัปเดตใน '+left+' วิ';if(Date.now()-S.stT>(left>=58?2000:61000)){S.stT=Date.now();refresh();if(S.tab=='stats')loadStats()}}
+  if(Date.now()-S.claimT>60000&&inGame()&&(!SB.on()||on())){S.claimT=Date.now();claim();flush()}};
+ addEventListener('resize',()=>{if(isOpen())draw()});
+ return{open,ui,buy,sell,cancel,calc,claim,spend,flush,refresh,tick,
+  tab:t=>{S.tab=t;S.msg='';S.pg=0;ui();if(t=='stats')loadStats()},page:i=>{S.pg=i;ui()},rng:m=>{S.rng=m;ui();refresh()},
+  q:v=>{const e=$('#bkq');if(!e)return;e.value=v<0?gR(gold):v;calc()},u:k=>{const P=S.st?S.st.price:BANK_CFG.start,e=$('#bku');if(!e)return;e.value=k<0?Math.ceil(P*(1+k)):k>0?Math.floor(P*(1+k)):Math.round(P);calc(1)},
+  onSold:m=>{if(m&&SB.uid&&m.to===SB.uid)setTimeout(()=>claim(),400)},
+  dump:()=>SB.on()?undefined:LM,restore:d=>{if(SB.on())return;LM=d&&typeof d=='object'&&Array.isArray(d.ord)?{...L0(),...d}:null},
+  /* โหมดทดสอบ (ออฟไลน์): ใส่ผู้ขายปลอม / ให้คนซื้อทองของเรา / เลื่อนเวลา 1 นาที */
+  dbgSeed(){if(SB.on())return toast('ใช้ได้เฉพาะโหมดออฟไลน์');const m=ltick(),P=m.price;['ทดสอบ_A','ทดสอบ_B','ทดสอบ_C'].forEach((n,i)=>{const q=[0.5,2,5][i],u=Math.round(P*[.9,1,1.12][i]);m.ord.push({id:m.nid++,sn:n,qty:q,unit:u,total:Math.round(q*u),st:'open'});m.lq+=q});save();refresh();toast('เพิ่มผู้ขายทดสอบ 3 รายการแล้ว')},
+  async dbgBuyMine(){if(SB.on())return toast('ใช้ได้เฉพาะโหมดออฟไลน์');const m=ltick(),o=m.ord.filter(x=>x.sn==pname&&x.st=='open').sort((a,b)=>a.unit-b.unit)[0];if(!o)return toast('ยังไม่มีทองที่คุณวางขาย');await LB.buy(o.id,'ผู้ซื้อทดสอบ');save();await claim();refresh()},
+  dbgMin(n=1){if(SB.on())return toast('ใช้ได้เฉพาะโหมดออฟไลน์');LMk().skew+=60000*n;ltick();save();refresh();toast(`เลื่อนเวลาตลาด +${n} นาที`)},
+  get S(){return S},get LM(){return LM}}})();
+function bankTalk(){BANK.open()}
+function bankerDraw(x,y,tm){ppl(c,x,y,{sk:1,hc:0,hs:0,hat:0,sh:6,pt:0},'d',0);const r=(col,a,b,w,h)=>{c.fillStyle=col;c.fillRect(x+a,y+b,w,h)};
+ r('#2a2f4a',-3,-9,6,1);r('#ffd84a',-1,-10,2,1);   // เนคไท / เข็มกลัด
+ r('rgba(0,0,0,.25)',-13,3,26,3);r('#5a3820',-12,-3,24,7);r('#8a5a32',-12,-4,24,2);r('#a8743e',-12,-4,24,1);   // โต๊ะธนาคาร
+ const f=(tm/300|0)%4==0;r(f?'#fff6c0':'#ffd84a',-9,-7,5,3);r('#caa24a',-9,-5,5,1);r('#ffd84a',-3,-7,5,3);r('#caa24a',-3,-5,5,1);r('#ffd84a',-6,-9,5,2);   // แท่งทอง
+ r('#e8e0c8',5,-7,6,4);r('#3a7a3a',6,-6,4,1)}   // ใบเสร็จ
 /* ไหวิญญาณ: หลอมรวม, อัญเชิญ, บันทึกไห, แปลงกายไห, กล่องสุ่มไห */
 const SO={so_d:'ดิน',so_w:'น้ำ',so_a:'ลม',so_f:'ไฟ'};let JS=null;
 /* ---------- หลอมรวมวิญญาณ ---------- */
@@ -1859,7 +2044,7 @@ const BANN=(()=>{const seen=new Set(),tm={},FRESH=3e4;
  const net=d=>{try{const G=typeof NET!='undefined'&&NET.S.st&&NET.S.G;if(G&&G.st=='joined')G.send('ba',d)}catch(e){}};
  function show(h){say2('Sys','',h);let e=$('#ann');if(!e){e=document.createElement('div');e.id='ann';e.className='a sh';$('#g').append(e)}e.innerHTML=h;e.style.display='block';clearTimeout(show.t);show.t=setTimeout(()=>e.style.display='none',6000)}
  function spawn(bi,gen,send){const k='s'+bi+':'+gen;if(seen.has(k)||!mons[bi])return;seen.add(k);show(`📢 ขาใหญ่ <b style="color:#ff8a8a">${bn(bi)}</b> ได้จุติแล้วที่ <b>${mn(bi)}</b>`);if(send)net({k:'s',b:bi,gen})}
- function kill(bi,gen,dt,who,send){const k='k'+bi+':'+gen;if(seen.has(k)||!mons[bi])return;seen.add(k);show(`📢 ขาใหญ่ <b style="color:#ff8a8a">${bn(bi)}</b> ได้ปราบแล้วโดย <b style="color:#8fe3ff">${esc(who)}</b>`);if(send)net({k:'k',b:bi,gen,dt,n:String(who).slice(0,12)});
+ function kill(bi,gen,dt,who,send){const k='k'+bi+':'+gen;if(seen.has(k)||!mons[bi])return;seen.add(k);show(`📢 ขาใหญ่ <b style="color:#ff8a8a">${bn(bi)}</b> ได้ถูกปราบแล้วโดย <b style="color:#8fe3ff">${esc(who)}</b>`);if(send)net({k:'k',b:bi,gen,dt,n:String(who).slice(0,12)});
   if(dt>0&&typeof gen=='number'){clearTimeout(tm[bi]);const w=dt+BOSSES.respawnMs-Date.now();if(w>0&&w<BOSSES.respawnMs+6e4)tm[bi]=setTimeout(()=>spawn(bi,gen+1),w)}}
  /* รับจากคนอื่น (ออนไลน์) */
  function on(m){if(!m||typeof m!='object')return;const b=m.b|0,gen=m.gen|0;if(!mons[b]||gen<0)return;if(m.k=='s')spawn(b,gen);else if(m.k=='k')kill(b,gen,+m.dt||0,String(m.n||'?').slice(0,12))}
@@ -1883,7 +2068,7 @@ function ans(v){closeM();CHR&&CHR(v)}
 /* ---------- HUD ---------- */
 function toast(t){const e=$('#tt');e.textContent=String(t).replace(/<[^>]*>/g,'');e.style.display='block';clearTimeout(toast.h);toast.h=setTimeout(()=>e.style.display='none',2200)}
 const inGame=()=>hasChar()&&(!SB.on()||(!!ACC.ready&&!!ACC.prof&&!ACC.kick));   // ล็อกอิน + สร้างตัวละครเสร็จแล้ว
-function hud(){try{applyCap()}catch(e){}{const ig=inGame();['#dbg','#mn','#hot'].forEach(s=>{const e=$(s);if(e)e.style.visibility=ig?'':'hidden'})}if(ARQ)arQuitCheck();try{BANN.tick()}catch(e){}bfsUI();$('#hbtn').style.opacity=houseOK()?1:.4;$('#gc').textContent=gc.toLocaleString();$('#gd').textContent=gold.toLocaleString();$('#ck').textContent=new Date().toLocaleDateString('th-TH',{weekday:'long'})+' '+new Date().toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'});
+function hud(){try{applyCap()}catch(e){}{const ig=inGame();['#dbg','#mn','#hot'].forEach(s=>{const e=$(s);if(e)e.style.visibility=ig?'':'hidden'})}if(ARQ)arQuitCheck();try{BANN.tick()}catch(e){}bfsUI();$('#hbtn').style.opacity=houseOK()?1:.4;$('#gc').textContent=gc.toLocaleString();gold=gR(gold);$('#gd').textContent=fmtG(gold);$('#ck').textContent=new Date().toLocaleDateString('th-TH',{weekday:'long'})+' '+new Date().toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'});
   hot.forEach((k,i)=>{if(k&&!ALL[k])hot[i]=null});const hh=hot.map((k,i)=>`<div class="hs" style="${HOTED?'border:1px dashed #ffd84a':''}" onclick="useSlot(${i})" oncontextmenu="hotPick(${i});return false" onpointerdown="hpd(${i})" onpointerup="hpu()" onpointerleave="hpu()"><i>${i+1}</i>${k?ALL[k][0]+`<b>${inv[k]}</b>`:''}</div>`).join('')+`<div class="hs" style="font-size:1.2em;${HOTED?'border-color:#ffd84a;background:#4a3d12':''}" title="แก้ไขคีย์ลัด" onclick="hotEd()">✎</div>`;if(hh!==hud.h){hud.h=hh;$('#hot').innerHTML=hh}
  const an=[1,2,3,4,5].find(n=>qs[n]==1);{const jq=jobQTxt(),mq=an?`📜 <b>${QS[an-1][0]}</b><br><small>${QS[an-1][1]}${qprog(an)?` (${qprog(an)})`:''}${qdone(an)?' ✅ กลับไปหาคุณทักษิณ':''}</small>`:'',qh=mq+(mq&&jq?'<div style="height:.5cqh"></div>':'')+jq;if($('#qp').innerHTML!==qh)$('#qp').innerHTML=qh}
  $('#pty').innerHTML='';party.forEach((g,i)=>{const d=document.createElement('div');d.className='ps';d.onclick=team;d.innerHTML=`<canvas width="32" height="32"></canvas><s><u style="width:${g.hp/g.mx*100}%"></u></s><s><u style="width:${Math.min(100,g.sp2/g.mxsp*100)}%;background:#3fa9ff"></u></s><s><u style="width:${g.lv>=lvMax()?100:Math.min(100,g.exp/(g.lv*20)*100)}%;background:#ffd84a"></u></s>`;$('#pty').append(d);const t=d.firstChild.getContext('2d');t.globalAlpha=g.hp>0?1:.35;dg(t,16,28,g,2,0)})}
@@ -1899,7 +2084,7 @@ function bfsUI(){const e=$('#bfs');if(!e)return;const h=shareOn()?`<span class="
 function bfTip(){if(!shareOn())return bfsUI();toast(`${ALL.mind[0]} ${ALL.mind[1]} — แชร์ EXP ให้ผีทั้งทีม เหลือเวลา ${shLeftS()} นาที`)}
 /* เมนูต่างๆ: กระเป๋า, สมุดผี, ทีม, ข้อมูลผี, ตัวละคร, ศาล, วิธีเล่น, ตำรา */
 function bag(sel,m){const sec=([t,ks])=>{const o=ks.filter(k=>inv[k]>0),n=Math.max(12,Math.ceil(o.length/12)*12);return `<h4 class="bh">${t}</h4><div class="ig">${o.map(k=>`<div class="sl${sel==k?' on':''}" onclick="bag('${k}')">${ALL[k][0]}<b>x${inv[k]}</b></div>`).join('')}${'<div class="sl"></div>'.repeat(n-o.length)}</div>`},ui=['heal','sp','forget','book_c','book_r','book_l','ch100'];
- openM('กระเป๋า 🎒',`<div class="cd">🪙 <b>${gc.toLocaleString()}</b> GC · 🥇 <b>${gold.toLocaleString()}</b> ทอง · 🗃️ ผีในโกดัง <b>${box.length}</b> ตัว</div>`+CAT.map(sec).join('')+`<div class="cd" style="margin-top:1cqh">${m?`<div style="color:#ffd84a">${m}</div>`:''}${sel&&inv[sel]>0?`<b>${ALL[sel][0]} ${ALL[sel][1]}</b> x${inv[sel]}<br><small>${ID[sel]||ID2[sel]}</small>${sel=='house'?`<br><button class="bn" onclick="closeM();useHouse()">🏠 ใช้ (สร้างบ้าน)</button>`:sel=='deed'?`<br><button class="bn" onclick="closeM();useDeed()">📃 ใช้ขยายบ้านพกพา</button>`:sel=='mind'?`<br>${shareOn()?'💞 กำลังออกฤทธิ์ เหลือ '+shLeft()+' นาที<br>':''}<button class="bn" onclick="closeM();useMind()">💞 ใช้ยาเชื่อมจิต</button>`:sel=='master'?'<br><small>ใช้ได้ตอนต่อสู้ ที่เมนู 🎒 ไอเทม</small>':CAT[1][1].includes(sel)?`<br><button class="bn" onclick="giveHold('${sel}')">🤝 ให้ผีถือ</button>`:ui.includes(sel)||sel=='orange'?`<br><button class="bn" onclick="itemTarget('${sel}')">ใช้ (เลือกผี)</button>`:(sel.startsWith('jk_')||sel=='jbox')?`<br><button class="bn" onclick="closeM();useItem('${sel}')">ใช้</button>`:''}`:'<small>แตะไอเทมเพื่อดูรายละเอียด</small>'}</div>`)}
+ openM('กระเป๋า 🎒',`<div class="cd">🪙 <b>${gc.toLocaleString()}</b> GC · 🥇 <b>${fmtG(gold)}</b> ทอง · 🗃️ ผีในโกดัง <b>${box.length}</b> ตัว</div>`+CAT.map(sec).join('')+`<div class="cd" style="margin-top:1cqh">${m?`<div style="color:#ffd84a">${m}</div>`:''}${sel&&inv[sel]>0?`<b>${ALL[sel][0]} ${ALL[sel][1]}</b> x${inv[sel]}<br><small>${ID[sel]||ID2[sel]}</small>${sel=='house'?`<br><button class="bn" onclick="closeM();useHouse()">🏠 ใช้ (สร้างบ้าน)</button>`:sel=='deed'?`<br><button class="bn" onclick="closeM();useDeed()">📃 ใช้ขยายบ้านพกพา</button>`:sel=='mind'?`<br>${shareOn()?'💞 กำลังออกฤทธิ์ เหลือ '+shLeft()+' นาที<br>':''}<button class="bn" onclick="closeM();useMind()">💞 ใช้ยาเชื่อมจิต</button>`:sel=='master'?'<br><small>ใช้ได้ตอนต่อสู้ ที่เมนู 🎒 ไอเทม</small>':CAT[1][1].includes(sel)?`<br><button class="bn" onclick="giveHold('${sel}')">🤝 ให้ผีถือ</button>`:ui.includes(sel)||sel=='orange'?`<br><button class="bn" onclick="itemTarget('${sel}')">ใช้ (เลือกผี)</button>`:(sel.startsWith('jk_')||sel=='jbox')?`<br><button class="bn" onclick="closeM();useItem('${sel}')">ใช้</button>`:''}`:'<small>แตะไอเทมเพื่อดูรายละเอียด</small>'}</div>`)}
 function dex(){openM('สมุดผี ('+Object.keys(dx).length+'/'+SP.length+')','<div class="gr"></div>');const gr=$('#mb .gr');
  SP.forEach((s,i)=>{const d=document.createElement('div'),k=document.createElement('canvas'),no=document.createElement('small');no.className='dno';no.textContent='No.'+String(i+1).padStart(2,'0');d.append(no);k.width=k.height=32;const t=k.getContext('2d');dg(t,16,30,{sp:s,shiny:0},2,0);
   if(!dx[i]){t.globalCompositeOperation='source-atop';t.fillStyle='#000';t.fillRect(0,0,32,32)}if(dx[i]&&s.t==2){const sp=document.createElement('span');sp.style.color='#c58cff';sp.textContent=s.n;d.append(k,sp)}else d.append(k,dx[i]?s.n:'???');gr.append(d)})}
@@ -1918,7 +2103,7 @@ function avp(){const t=$('#ap').getContext('2d');t.clearRect(0,0,90,30);[['d',15
 function avOk(f){if(!f&&SB.on()){av=AV;closeM();save();return}const n=$('#pn').value.trim();if(!n){$('#pn').style.borderColor='#f55';return}if(f&&SB.on())return accName(n);pname=n;av=AV;if(f)newChar();else{closeM();save()}}
 function rst(){openM('รีเซ็ตเกม','<p>เริ่มเกมใหม่ตั้งแต่ต้น? ตัวละคร ผี และไอเทมทั้งหมดจะถูกลบ</p><button class="bn" onclick="doRst()">ยืนยันรีเซ็ต</button>')}
 function doRst(){if(SB.on())return accReset();try{localStorage.removeItem('gho1')}catch(e){}try{window.name=''}catch(e){}location.reload()}
-function talk(n){if(HE.on||mode!='world'||$('#md').style.display=='flex')return;n=n||nearNpc();if(!n)return toast('ไม่มีใครให้คุยอยู่ใกล้ๆ');if(newbLock()&&!NEWB_OK.includes(n.t))return newbBlock();({pillar:pillarOpen,hghost:()=>hgInfo(n),hshrine:hwh,house:houseMenu,rhouse:()=>NET.houseMenu(n),quest:quest,shrine:pray,shop:undTalk,teacher:sensei,breeder:breeder,herb:herbTalk,ptable:ptableUI,stall:stallOpen,khun:khunTalk,chief:chiefTalk,portal:()=>n.go()}[n.t]||(()=>{}))()}
+function talk(n){if(HE.on||mode!='world'||$('#md').style.display=='flex')return;n=n||nearNpc();if(!n)return toast('ไม่มีใครให้คุยอยู่ใกล้ๆ');if(newbLock()&&!NEWB_OK.includes(n.t))return newbBlock();if(hLocked(n))return;({sbox:()=>sboxUI(),banker:bankTalk,pillar:pillarOpen,hghost:()=>hgInfo(n),hshrine:hwh,house:houseMenu,rhouse:()=>NET.houseMenu(n),quest:quest,shrine:pray,shop:undTalk,teacher:sensei,breeder:breeder,herb:herbTalk,ptable:ptableUI,stall:stallOpen,khun:khunTalk,chief:chiefTalk,portal:()=>n.go()}[n.t]||(()=>{}))()}
 function pray(m){openM('ศาลตายาย ⛩️',`<p>👵👴 "มาไหว้ตายายหน่อยลูก... จะให้ตายายช่วยอะไรดี"</p>${m?`<p style="color:#ffd84a">✨ ${m}</p>`:''}<button class="bn" onclick="heal0()">✨ ฟื้นฟูผี</button><button class="bn" onclick="wh()">📦 โกดังผี</button>`)}
 function heal0(){party.forEach(g=>{g.hp=g.mx;g.sp2=g.mxsp});hud();save();pray('HP และ SP ของผีในทีมทุกตัวฟื้นเต็มแล้ว')}
 function help(){openM('วิธีเล่น',`<div class="hk">${[['W A S D / ↑←↓→','เดิน · คลิก/แตะพื้นเพื่อเดินไปที่นั่น · มือถือมีแผ่น Pad'],['คลิก / แตะ','คุยกับ NPC / ศาลตายาย (คลิกหรือแตะที่ตัว NPC เมื่ออยู่ใกล้)'],['1 – 9','คีย์ลัดไอเทม: คลิกช่องว่างบนแถบเพื่อวางไอเทมใช้งาน (คลิกขวา/กดค้างเพื่อเปลี่ยน)'],['Enter','เปิดแชท / ส่งข้อความ']].map(k=>`<kbd>${k[0]}</kbd><span>${k[1]}</span>`).join('')}</div><div class="cd">⚔️ ออกทางหลังหมู่บ้านไป 🌲 ป่าแห่งการฝึกฝน แล้วเดินชนผีในพงหญ้าเพื่อต่อสู้ · ออกทางหน้าหมู่บ้านไป 🗺️ World Map · ผีป่าดรอป 💠เศษวิญญาณ นำไปใช้อัญเชิญวิญญาณที่ 🏺 ไหวิญญาณ (ไอคอนด้านล่าง) เพื่อเรียกผีใหม่ · ธาตุ ดิน&gt;น้ำ&gt;ไฟ&gt;ลม&gt;ดิน</div><div class="cd">⛩️ <b>ศาลตายาย</b> ฟื้น HP/SP ฟรี · 🕯️ <b>พ่อค้าใต้ดิน</b> สุ่มไอเทมมาขาย ${SHOPS.under.slots} ชิ้น ชิ้นละ ${SHOPS.under.price} ทอง เปลี่ยนชุดทุก 1 ชั่วโมง (เดินไปใกล้ๆ แล้วคลิกที่ตัวเขา)</div><div class="cd">เมนูมุมขวาล่าง: 📖 สมุดผี · 🎒 กระเป๋า · 🏺 ไหวิญญาณ · 🆘 กลับจุดเซฟฉุกเฉิน · ทีมผีกดที่รูปผีด้านขวาของจอ</div><button class="bn" onclick="closeM()">เริ่มผจญภัย!</button>`,0)}
@@ -1951,7 +2136,7 @@ function whm(){const s=WH.s;if(!s)return;if(s.k=='b'){if(party.length>=4)return 
 /* ---------- debug: เสกไอเทมทดสอบ ---------- */
 function dbgUI(m){if(!inGame())return;if(!dbgOK())return dbgLock(()=>dbgUI(m));if(mode!='world')return toast('เสกไอเทมได้ตอนอยู่ในแมพเท่านั้น');
  const ks=Object.keys(ALL).filter(k=>k!='house');
- openM('🛠️ เสกไอเทม (โหมดทดสอบ)',(m?`<p style="color:#ffd84a;margin:.2cqh 0">${m}</p>`:'')+`<div class="cd" style="padding:.5cqh .8cqw">🪙 GC <b>${gc.toLocaleString()}</b> · 🥇 ทอง <b>${gold.toLocaleString()}</b> <button class="bn" style="margin:0 0 0 .5cqw" onclick="dbgG('gc',1000)">+1,000 GC</button><button class="bn" style="margin:0 0 0 .3cqw" onclick="dbgG('gold',100)">+100 ทอง</button><button class="bn" style="margin:0 0 0 .3cqw" onclick="dbgTani()">👻 เสกผีตานี Lv.6</button><button class="bn" style="margin:0 0 0 .3cqw" onclick="dbgGhosts()">👻 เสกผีทุกชนิด</button><button class="bn" style="margin:0 0 0 .3cqw" onclick="dbgQ4()">👻 เสกผีเควสรีโนเวท</button><button class="bn" style="margin:0 0 0 .3cqw" onclick="dbgUPick()">🔧 เปลี่ยนสกิลประจำตัว</button><button class="bn" style="margin:0 0 0 .3cqw" onclick="dbgSPick()">📜 เปลี่ยนสกิล</button><button class="bn" style="margin:0 0 0 .3cqw" onclick="nmeStart()">🧭 เคลื่อนย้าย NPC</button></div>`+'<div class="gr3" style="grid-template-columns:repeat(4,1fr);gap:.5cqw">'+ks.map(k=>`<div class="cd" style="margin:0;padding:.4cqh .5cqw"><div style="display:flex;align-items:center;gap:.4cqw"><span style="font-size:1.4em">${ALL[k][0]}</span><div style="flex:1;line-height:1.15"><b style="font-size:.8em">${ALL[k][1]}</b><br><small>มี ×${inv[k]||0}</small></div></div><div style="display:flex;gap:.3cqw;margin-top:.3cqh">${[1,10,99].map(n=>`<button class="bn" style="flex:1;margin:0;padding:.3cqh .1cqw;font-size:.8em" onclick="dbgA('${k}',${n})">+${n}</button>`).join('')}</div></div>`).join('')+'</div>')}
+ openM('🛠️ เสกไอเทม (โหมดทดสอบ)',(m?`<p style="color:#ffd84a;margin:.2cqh 0">${m}</p>`:'')+`<div class="cd" style="padding:.5cqh .8cqw">🪙 GC <b>${gc.toLocaleString()}</b> · 🥇 ทอง <b>${fmtG(gold)}</b> <button class="bn" style="margin:0 0 0 .5cqw" onclick="dbgG('gc',1000)">+1,000 GC</button><button class="bn" style="margin:0 0 0 .3cqw" onclick="dbgG('gold',100)">+100 ทอง</button><button class="bn" style="margin:0 0 0 .3cqw" onclick="dbgTani()">👻 เสกผีตานี Lv.6</button><button class="bn" style="margin:0 0 0 .3cqw" onclick="dbgGhosts()">👻 เสกผีทุกชนิด</button><button class="bn" style="margin:0 0 0 .3cqw" onclick="dbgQ4()">👻 เสกผีเควสรีโนเวท</button><button class="bn" style="margin:0 0 0 .3cqw" onclick="dbgUPick()">🔧 เปลี่ยนสกิลประจำตัว</button><button class="bn" style="margin:0 0 0 .3cqw" onclick="dbgSPick()">📜 เปลี่ยนสกิล</button><button class="bn" style="margin:0 0 0 .3cqw" onclick="nmeStart()">🧭 เคลื่อนย้าย NPC</button>${SB.on()?'':`<button class="bn" style="margin:0 0 0 .3cqw" onclick="BANK.dbgSeed()">🏦 เพิ่มผู้ขายทองทดสอบ</button><button class="bn" style="margin:0 0 0 .3cqw" onclick="BANK.dbgBuyMine()">🏦 ให้คนซื้อทองของฉัน</button><button class="bn" style="margin:0 0 0 .3cqw" onclick="BANK.dbgMin(1)">🏦 เลื่อนเวลาตลาด +1 นาที</button>`}</div>`+'<div class="gr3" style="grid-template-columns:repeat(4,1fr);gap:.5cqw">'+ks.map(k=>`<div class="cd" style="margin:0;padding:.4cqh .5cqw"><div style="display:flex;align-items:center;gap:.4cqw"><span style="font-size:1.4em">${ALL[k][0]}</span><div style="flex:1;line-height:1.15"><b style="font-size:.8em">${ALL[k][1]}</b><br><small>มี ×${inv[k]||0}</small></div></div><div style="display:flex;gap:.3cqw;margin-top:.3cqh">${[1,10,99].map(n=>`<button class="bn" style="flex:1;margin:0;padding:.3cqh .1cqw;font-size:.8em" onclick="dbgA('${k}',${n})">+${n}</button>`).join('')}</div></div>`).join('')+'</div>')}
 function dbgA(k,n){inv[k]=(inv[k]||0)+n;hud();save();dbgUI(`เสก ${ALL[k][0]} ${ALL[k][1]} ×${n} แล้ว`)}
 function dbgG(w,n){if(w=='gc')gc+=n;else gold+=n;hud();save();dbgUI(w=='gc'?`เสก GC +${n.toLocaleString()} แล้ว`:`เสกทอง +${n} แล้ว`)}
 function dbgQ4(){QKI.forEach(n=>{const si=gi(n),g=mk(si,5,false,1);party.length<4?party.push(g):box.push(g);dx[si]=1});hud();save();dbgUI('เสกผีเควส 3 ชนิดแล้ว')}
@@ -1982,7 +2167,7 @@ function dbgSD(id){const e=$('#dbsd');if(e&&SKI[id])e.innerHTML=skd(SKI[id])}
 function dbgSSet(i,j,id){const g=party[i];if(!g)return;const s=id&&SKI[id];if(s&&(!okSk(g,s)||g.sk.some((x,k)=>x===s&&k!==j)))return;if(s){if(j<g.sk.length)g.sk[j]=s;else if(g.sk.length<4)g.sk.push(s)}else g.sk.splice(j,1);hud();save();dbgSSlot(i,s?`ใส่ ${s.n} แล้ว`:'ลบสกิลแล้ว')}
 /* ---------- เคลื่อนย้าย NPC (เฉพาะโหมดทดสอบ) — ตำแหน่งที่ย้ายถูกเก็บในเซฟ (NPCP) ---------- */
 let NPCP={};const NME={on:0,sel:null};
-const npcMovT=n=>!['hghost','house','rhouse','hshrine','pillar','ptable','stall'].includes(n.t),npcMovable=n=>!!n&&npcMovT(n)&&MAPID!=2;
+const npcMovT=n=>!['hghost','house','rhouse','hshrine','pillar','ptable','stall','sbox'].includes(n.t),npcMovable=n=>!!n&&npcMovT(n)&&MAPID!=2;
 function npcApply(){for(const id of Object.keys(MAPDEF).map(Number)){const L=npcOf(id),o=NPCP[id]||{};L.forEach((n,i)=>{if(!npcMovT(n))return;if(n.ox==null){n.ox=n.x;n.oy=n.y}const p=o[i];if(p){n.x=p[0];n.y=p[1]}else{n.x=n.ox;n.y=n.oy}})}}
 function nmeStart(){if(!dbgOK())return dbgLock(nmeStart);if(mode!='world')return toast('ใช้ได้ตอนอยู่ในแมพเท่านั้น');if(MAPID==2)return toast('ในบ้านใช้ "ปรับแต่งบ้าน" แทน');closeM();NME.on=1;NME.sel=null;TG=null;nmeUI()}
 function nmeUI(m){const e=$('#nme');if(!e)return;if(!NME.on){e.style.display='none';return}e.style.display='flex';
@@ -2091,16 +2276,17 @@ const NET=(()=>{
  const rkey=()=>MAPID==2?'gk:house:'+(HV?HV.uid:S.uid):'gk:m'+MAPID;
  /* ---------- ข้อมูลที่ประกาศให้คนอื่นเห็น (presence) ---------- */
  const lg=()=>{const L=lead()||party[0];return L&&L.sp?[L.sp.id,L.shiny?1:0]:null};
- const rMeta=()=>({n:pname,a:av,g:lg(),b:mode=='battle'?1:0,x:Math.round(P.x),y:Math.round(P.y),d:P.d,w:WSY.claim()});   // w = ผีป่า/บอสที่กำลังสู้อยู่ (คนอื่นจะชนตัวนั้นไม่ได้)
- const sigR=m=>JSON.stringify([m.n,m.a,m.g,m.b,m.w]);
+ const lgs=()=>[...party.filter(g=>g.hp>0),...party.filter(g=>g.hp<=0)].slice(0,4).map(g=>g&&g.sp?[g.sp.id,g.shiny?1:0,g.hp>0?0:1]:null).filter(Boolean);   // ผีทั้งทีม (เดินตามครบทุกตัว) [id, shiny, สลบ]
+ const rMeta=()=>({n:pname,a:av,g:lg(),gs:lgs(),b:mode=='battle'?1:0,x:Math.round(P.x),y:Math.round(P.y),d:P.d,w:WSY.claim()});   // w = ผีป่า/บอสที่กำลังสู้อยู่ (คนอื่นจะชนตัวนั้นไม่ได้)
+ const sigR=m=>JSON.stringify([m.n,m.a,m.g,m.gs,m.b,m.w]);
  const hMeta=()=>{if(!HOUSE)return null;let gs=[];try{gs=hgOf().slice(0,3).map(gSave)}catch(e){}const L=HE.on&&HE.pub?HE.pub:HC;   // กำลังปรับแต่งบ้าน → คนอื่นยังเห็นตำแหน่งเดิม จนกด เสร็จสิ้น
-  return{m:HOUSE.map,x:HOUSE.x,y:HOUSE.y,sz:HC.sz||0,sh:L.sh||null,pl:L.pl||null,pt:JOB=='herb'?(L.pt||PT_DEF):null,st:JOB=='merchant'?(L.st||ST_DEF):null,sl:JOB=='merchant'?stallSelling():[],gs}};
+  return{m:HOUSE.map,x:HOUSE.x,y:HOUSE.y,sz:HC.sz||0,sh:L.sh||null,pl:L.pl||null,pt:JOB=='herb'?(L.pt||PT_DEF):null,st:JOB=='merchant'?(L.st||ST_DEF):null,bx:L.bx||null,sl:JOB=='merchant'?stallSelling():[],gs}};
  const gMeta=()=>({n:pname,m:MAPID==2?(HV?HV.m:HOUSE?HOUSE.map:0):MAPID,h:hMeta(),pt:PTY.meta()});
  const nameOf=u=>(S.on[u]&&S.on[u].n)||(S.ppl[u]&&S.ppl[u].n)||'?';
  /* ---------- เริ่ม / หยุด ---------- */
  function start(){S.st=1;S.uid=SB.uid;S.ppl={};S.on={};S.houses={};bots.length=0;RT.setToken(SB.at||null);
   RT.onStatus=ok=>{sys(ok?'🟢 เชื่อมต่อออนไลน์แล้ว':'🔴 หลุดการเชื่อมต่อออนไลน์ — กำลังต่อใหม่...');tabCount()};
-  S.G=RT.channel('gk:global',{key:S.uid}).listen('c',onChat).listen('w',onWhisper).listen('pi',m=>PTY.onInvite(m)).listen('pa',m=>PTY.onAnswer(m)).listen('pj',m=>PTY.onJoin(m)).listen('ba',m=>BANN.on(m)).listen('sb',stallOnBuy).listen('sr',stallOnReply).onPresence(onGlobal);WSY.start();
+  S.G=RT.channel('gk:global',{key:S.uid}).listen('c',onChat).listen('w',onWhisper).listen('pi',m=>PTY.onInvite(m)).listen('pa',m=>PTY.onAnswer(m)).listen('pj',m=>PTY.onJoin(m)).listen('ba',m=>BANN.on(m)).listen('sb',stallOnBuy).listen('gs',m=>BANK.onSold(m)).listen('sr',stallOnReply).onPresence(onGlobal);WSY.start();
   const g=gMeta();S.sigG=JSON.stringify(g);S.G.track(g);RT.connect();room();tabCount()}
  function stop(){if(!S.st)return;S.st=0;try{PTY.reset(1)}catch(e){}RT.close();S.G=S.R=null;S.rk='';S.ppl={};S.on={};S.houses={};rhouses();tabCount()}
  function room(){const k=rkey();if(k==S.rk)return;if(S.R)S.R.leave();S.ppl={};S.pend={};S.rk=k;
@@ -2122,7 +2308,7 @@ const NET=(()=>{
   /* คนอื่น: เดินต่อจากความเร็วล่าสุด แล้วค่อยๆ ไหลเข้าหาตำแหน่งนั้น */
   for(const u in S.ppl){const r=S.ppl[u],age=Math.min(1.5,(now-r.t0)/1000),tx=r.bx+r.vx*age,ty=r.by+r.vy*age,ox=r.x,oy=r.y,k=Math.min(1,dt*10);
    r.x+=(tx-r.x)*k;r.y+=(ty-r.y)*k;r.mv=Math.hypot(r.x-ox,r.y-oy)>.04;
-   if(r.mv){r.st+=dt*60;r.tr.unshift({x:r.x,y:r.y});if(r.tr.length>40)r.tr.pop()}}
+   if(r.mv){r.st+=dt*60;trailPush(r.tr,r.x,r.y)}}
   /* อัปเดตข้อมูลประกาศ (สถานะต่อสู้ / ผีตัวนำ / บ้าน) — ตรวจทุก 1 วิ ส่งเฉพาะตอนเปลี่ยน */
   if(now-S.tSig>1000){S.tSig=now;const m=rMeta(),s=sigR(m);if(S.R&&s!=S.sigR){S.sigR=s;S.R.track(m)}
    const g=gMeta(),sg=JSON.stringify(g);if(S.G&&sg!=S.sigG){S.sigG=sg;S.G.track(g)}}
@@ -2132,7 +2318,8 @@ const NET=(()=>{
   for(const u in st){if(u==S.uid)continue;const m=st[u]||{};let r=S.ppl[u];
    if(!r){const x=+m.x||0,y=+m.y||0;r=S.ppl[u]={u,x,y,bx:x,by:y,vx:0,vy:0,t0:now,d:'d',st:0,tr:[],mv:false};fresh=1;if(S.pend[u]){onPos(S.pend[u]);delete S.pend[u]}}
    r.n=String(m.n||'?').slice(0,12);r.a=m.a&&typeof m.a=='object'?m.a:{sk:0,hc:1,hs:0,hat:0,sh:0,pt:5};r.b=!!m.b;if(!r.d||fresh)r.d=/^[udlr]$/.test(m.d)?m.d:'d';
-   r.w=Array.isArray(m.w)?m.w.slice(0,3):null;const si=Array.isArray(m.g)?gi(m.g[0]):null;r.g=Number.isInteger(si)&&SP[si]?{sp:SP[si],shiny:m.g[1]?1:0}:null}
+   r.w=Array.isArray(m.w)?m.w.slice(0,3):null;const si=Array.isArray(m.g)?gi(m.g[0]):null;r.g=Number.isInteger(si)&&SP[si]?{sp:SP[si],shiny:m.g[1]?1:0}:null;
+   r.gs=Array.isArray(m.gs)?m.gs.slice(0,4).map(x=>{const j=Array.isArray(x)?gi(x[0]):null;return Number.isInteger(j)&&SP[j]?{g:{sp:SP[j],shiny:x[1]?1:0},ko:!!x[2]}:null}).filter(Boolean):r.g?[{g:r.g,ko:false}]:[]}
   if(fresh)S.force=performance.now()+RI(80,500)}   // มีคนเข้ามาใหม่ → ส่งตำแหน่งตัวเองให้เขาเห็น
  function onPos(m){const u=m&&m.u;if(!u||u==S.uid)return;const r=S.ppl[u];if(!r){S.pend[u]=m;return}
   r.bx=+m.x||0;r.by=+m.y||0;r.vx=Math.max(-120,Math.min(120,+m.vx||0));r.vy=Math.max(-120,Math.min(120,+m.vy||0));r.t0=performance.now();
@@ -2145,11 +2332,11 @@ const NET=(()=>{
  /* ---------- เยี่ยมบ้านพกพาของคนอื่น ---------- */
  const cell=(p,n)=>Array.isArray(p)&&p.length==2&&p.every(Number.isInteger)&&p[0]>0&&p[1]>0&&p[0]<HSZ[n][0]-1&&p[1]<HSZ[n][1]-1?p:null;
  function applyHV(h){const sz=Math.max(0,Math.min(HSZ.length-1,h.sz|0));
-  HV={uid:h.uid,o:h.o,m:+h.m||0,x:+h.x,y:+h.y,k:JSON.stringify([h.sz,h.sh,h.pl,h.pt,h.st,h.gs]),hc:{sz,sh:cell(h.sh,sz),pl:cell(h.pl,sz),pt:cell(h.pt,sz),st:cell(h.st,sz),pg:[]},
+  HV={uid:h.uid,o:h.o,m:+h.m||0,x:+h.x,y:+h.y,k:JSON.stringify([h.sz,h.sh,h.pl,h.pt,h.st,h.bx,h.gs]),hc:{sz,sh:cell(h.sh,sz),pl:cell(h.pl,sz),pt:cell(h.pt,sz),st:cell(h.st,sz),bx:cell(h.bx,sz),pg:[]},
    gs:(Array.isArray(h.gs)?h.gs.slice(0,3):[]).map(o=>{try{return gLoadSave(JSON.parse(JSON.stringify(o)))}catch(e){return null}}).filter(Boolean)}}
  function visitCheck(){if(!HV)return;const h=S.houses[HV.uid];
   if(!h||h.m!=HV.m||h.x!=HV.x||h.y!=HV.y){if(MAPID==2){leaveHouse();toast('🏠 เจ้าของเก็บบ้านหรือออฟไลน์แล้ว')}else HV=null;return}
-  if(JSON.stringify([h.sz,h.sh,h.pl,h.pt,h.st,h.gs])!=HV.k){applyHV(h);if(MAPID==2){buildHouse();MW=HS()[0];MH=HS()[1];if(blk(P.x,P.y)){const f=freeNear(P.x,P.y,6);if(f){P.x=f[0];P.y=f[1]}}}}}
+  if(JSON.stringify([h.sz,h.sh,h.pl,h.pt,h.st,h.bx,h.gs])!=HV.k){applyHV(h);if(MAPID==2){buildHouse();MW=HS()[0];MH=HS()[1];if(blk(P.x,P.y)){const f=freeNear(P.x,P.y,6);if(f){P.x=f[0];P.y=f[1]}}}}}
  function houseMenu(n){PK=[];const h=S.houses[n.uid];if(!h)return toast('บ้านหลังนี้ไม่อยู่แล้ว');openM('บ้านพกพา 🏠',`<p>🏠 บ้านของ <b>${esc(h.o)}</b></p><button class="bn" onclick="${act(()=>visit(n.uid))}">🚪 เข้าเยี่ยมบ้าน</button>`)}
  function visit(u){const h=S.houses[u];closeM();if(!h)return toast('บ้านหลังนี้ไม่อยู่แล้ว');if(mode!='world'||MAPID==2)return;applyHV(h);buildHouse();setMap(2,(HS()[0]>>1)*16+8,(HS()[1]-2)*16+12);toast('🏠 เข้าเยี่ยมบ้านของ '+h.o)}
  /* ---------- แชท ---------- */
@@ -2182,8 +2369,7 @@ const NET=(()=>{
  /* ---------- วาดคนอื่น (เรียกจาก render/r25.js) ---------- */
  function draw(add,tm){if(!S.st)return;for(const u in S.ppl){const r=S.ppl[u];
   add(r.y,r.x,r.y,()=>{ppl(c,r.x,r.y,r.a,r.d,r.st);label((PTY.mate(r.u)?'🤝 ':'')+r.n,r.x,r.y-22,PTY.mate(r.u)?'#ffd84a':'#8fe3ff');if(r.b)label('⚔️ กำลังต่อสู้',r.x,r.y-32,'#ff9a9a');else if(r.bub&&tm<r.bub.until)label('💬 '+r.bub.txt,r.x,r.y-32,'#fff')});
-  if(r.g){const f=r.tr[12]||{x:r.x-10,y:r.y},ta=r.tr[11],tb=r.tr[13],dir=ta&&tb&&Math.abs(ta.x-tb.x)+Math.abs(ta.y-tb.y)>.01?(Math.abs(ta.x-tb.x)>Math.abs(ta.y-tb.y)?(ta.x<tb.x?'l':'r'):(ta.y<tb.y?'u':'d')):r.d;
-   add(f.y,f.x,f.y,()=>dg(c,f.x,f.y,r.g,1,tm,{pose:'walk',dir,mv:r.mv}))}}}
+  followers(add,tm,r.gs||[],r.tr,r,r.d,r.mv)}}
  return{act:i=>{const f=PK[i];if(f)f()},nameOf,esc,sys,tick,draw,click,chat:chatSend,visit,houseMenu,who,whisper,stop,get live(){return !!(S.st&&RT.live)},get S(){return S}}})();
 /* ออนไลน์: โลกที่ใช้ร่วมกัน — ผีป่าและบอสตัวเดียวกันทุกจอ (ผ่านห้องแมพของ js/online/net.js)
    ผีป่า: แต่ละแมพมี "ช่อง" ตามจำนวนใน SPAWNS · ชนิด/เลเวล/สเตตัส/ตำแหน่ง/ทางเดิน คำนวณจากตัวสุ่มแบบมี seed
@@ -2481,6 +2667,7 @@ setInterval(autoBattle,900);
 setInterval(houseUiTick,200);
 setInterval(autoHomeTick,700);
 setInterval(battleTimerTick,100);
+setInterval(BANK.tick,1000);   // Ver.0.1.3 ธนาคาร: อัปเดตกราฟทุกนาที + รับเงิน/ทองที่ค้าง (เพิ่มต่อท้าย ไม่กระทบลำดับเดิม)
 /* 3) เริ่มเกม */
 rc();boot();setTimeout(()=>{if(hasChar()){save();if(LSBAD)svWarn()}},1500);hud();requestAnimationFrame(loop);
 </script>
