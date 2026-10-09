@@ -141,7 +141,7 @@ kbd{background:#2b3a34;border:1px solid #6a7a70;border-bottom-width:3px;border-r
 <div id="rt" onclick="this.remove()">📱 หมุนเครื่องเป็นแนวนอน แล้วกดปุ่ม ⛶ มุมขวาบนเพื่อเล่นเต็มจอ (แตะเพื่อปิด)</div>
 <div id="g">
 <canvas id="cv" width="480" height="270"></canvas><canvas id="lb"></canvas>
-<div id="hud" class="a sh"><div style="font-size:.75em;opacity:.85">Ghost Keeper v0.1.1</div><div>🗺️ <span id="mapn">หมู่บ้านแห่งการเริ่มต้น</span></div><div>🌤️ <span id="ck"></span></div><div>📍 <span id="loc">ลานต้นไม้ศักดิ์สิทธิ์</span></div><div id="qp"></div><div class="cur"><div>🪙 <span id="gc">0</span> GC</div><div>🥇 <span id="gd">0</span> ทอง</div></div><div id="bfs"></div></div>
+<div id="hud" class="a sh"><div style="font-size:.75em;opacity:.85">Ghost Keeper v0.1.2</div><div>🗺️ <span id="mapn">หมู่บ้านแห่งการเริ่มต้น</span></div><div>🌤️ <span id="ck"></span></div><div>📍 <span id="loc">ลานต้นไม้ศักดิ์สิทธิ์</span></div><div id="qp"></div><div class="cur"><div>🪙 <span id="gc">0</span> GC</div><div>🥇 <span id="gd">0</span> ทอง</div></div><div id="bfs"></div></div>
 <div id="hot" class="a"></div>
 <div id="pty" class="a"></div>
 <div id="mn" class="a"><button title="สมุดผี" onclick="dex()">📖</button><button title="กระเป๋า" onclick="bag()">🎒</button><button title="ไหวิญญาณ" onclick="jarHub()">🏺</button><button title="อารีน่า" onclick="arenaUI()">🏆</button><button data-x="pty" title="ปาร์ตี้ (ออนไลน์)" onclick="PTY.ui()">🤝</button><button title="ตลาด" onclick="soon('ตลาดเทรดผีและไอเทม')">🛒</button><button title="ตำราวิชาโลก" onclick="book()">📜</button><button title="เซฟ / ย้ายข้อมูลเซฟ" onclick="saveUI()">💾</button><button id="hbtn" title="บ้านพกพา (กดวางบ้าน / กดอีกครั้งเพื่อเก็บบ้าน)" onclick="useHouse()">🏠</button><button title="Auto" onclick="autoUI()">🤖</button><button title="ฉุกเฉิน: กลับจุดเซฟ" onclick="sos()">🆘</button></div>
@@ -155,7 +155,7 @@ kbd{background:#2b3a34;border:1px solid #6a7a70;border-bottom-width:3px;border-r
  <div id="bl" class="bx a"></div>
  <div id="bc" class="a"></div>
 </div>
-<div id="vp"><div class="bx"><h3>Ghost Keeper Ver 0.1.1 ทำการทดสอบเกม</h3><p style="margin:.6cqh 0"><b>เป้าหมายของการทดสอบรอบนี้</b></p><div>1. ทำเควสที่มีในเกมให้หมด</div><div>2. ชนะอาจารย์ยอดและเข้าเมืองไปให้ได้</div><div>3. ล้มบอสตัวแรกของเกมให้ได้</div><div style="text-align:center;margin-top:1.2cqh"><button class="bn" onclick="$('#vp').style.display='none'">✖ ปิด</button></div></div></div>
+<div id="vp"><div class="bx"><h3>Ghost Keeper Ver 0.1.2 ทำการทดสอบเกม</h3><p style="margin:.6cqh 0"><b>เป้าหมายของการทดสอบรอบนี้</b></p><div>1. ทำเควสที่มีในเกมให้หมด</div><div>2. ชนะอาจารย์ยอดและเข้าเมืองไปให้ได้</div><div>3. ล้มบอสตัวแรกของเกมให้ได้</div><div style="text-align:center;margin-top:1.2cqh"><button class="bn" onclick="$('#vp').style.display='none'">✖ ปิด</button></div></div></div>
 <div id="ev"><div id="evt" class="sh"></div><canvas id="evc" width="48" height="48"></canvas></div>
 <button id="fs" class="a" title="เต็มจอ" onclick="toggleFS()">⛶</button><button id="hdec" class="a bn" onclick="hdecor()">🛠️ ปรับแต่งบ้าน</button><div id="hed" class="a"></div><div id="nme" class="a"></div><button id="dbg" class="a" title="เสกไอเทม (โหมดทดสอบ)" onclick="dbgUI()">🛠️</button>
 <div id="aub" onclick="autoStop()"></div><div id="md"><div class="bx"><div class="mh"><h3 id="mt"></h3><button class="bn" id="mx" onclick="closeM()">✖ ปิด</button></div><div id="mb"></div></div></div>
@@ -440,10 +440,12 @@ const LEGACY_SP=['wraith_blue','wraith_green','wraith_red','elder','tani','takhi
    เซฟอ้างสกิลด้วย id (เช่น fire_03, u_07) */
 const BASIC={id:'basic',n:'ตะปบ',a:100,e:0,p:35,c:0,r:0,fx:{}};
 const S=XL.skills.map(s=>({...s,pri:s.pri||(s.fx.protect?4:0)})),SKI={};S.forEach(s=>SKI[s.id]=s);
+/* สกิลพิเศษโหมดทดสอบ (ไม่อยู่ใน S → สุ่ม/เรียนในเกมไม่ได้ ใส่ได้จาก 🛠️ โหมดทดสอบ → เปลี่ยนสกิล เท่านั้น) */
+const SKX=[{id:'x_diamond',n:'นิ้วเพชร',e:0,p:999999,a:100,c:1,r:3,pri:0,fx:{},d:'สกิลโหมดทดสอบ — ไม่มีในเกมจริง'}];SKX.forEach(s=>SKI[s.id]=s);
 const U=XL.uniques,UI={};U.forEach(u=>UI[u.id]=u);
 const ST={};XL.status.forEach(s=>ST[s.n]=s);const FLD={};XL.fields.forEach(f=>FLD[f.n]=f);
 /* อัตราสุ่มเกรด ทั่วไป / หายาก / ตำนาน — ใช้ตอนเลเวลอัพเรียนสกิล, แปลงร่างสุ่มสกิลประจำตัว, ยันต์ 100 คาถา */
-const GRADE=[.70,.25,.05],GRADE_N=['ทั่วไป','หายาก','ตำนาน'],GRADE_C=['#e8e8e8','#6fb8ff','#ffb340'];
+const GRADE=[.70,.25,.05],GRADE_N=['ทั่วไป','หายาก','ตำนาน','เทพเจ้า'],GRADE_C=['#e8e8e8','#6fb8ff','#ffb340','#ff5af0'];   // เกรดที่ 4 (เทพเจ้า) ไม่มีในการสุ่ม — ใช้กับสกิลพิเศษเท่านั้น
 const rollGrade=()=>{let r=Math.random();for(let i=0;i<GRADE.length;i++){if(r<GRADE[i])return i;r-=GRADE[i]}return 0};
 const pickGrade=(pool,g)=>{if(!pool.length)return null;g=g??rollGrade();for(const k of[g,0,1,2]){const p=pool.filter(s=>s.r==k);if(p.length)return PK(p)}return PK(pool)};
 const rollU=()=>pickGrade(U).id;
@@ -451,7 +453,7 @@ const rollU=()=>pickGrade(U).id;
 const selfSk=s=>s!==BASIC&&!s.p&&!s.fx.inflict&&!s.fx.force&&!s.fx.random;
 /* ตารางไอเทม: IT, ALL (ชื่อ/ไอคอนทั้งหมด), ID (คำอธิบาย) */
 const IT={heal:['🧪','ยาฟื้น HP'],forget:['🧴','น้ำยาเลือกลืม'],book_c:['📖','สมุดระลึกชาติ (ทั่วไป)'],book_r:['📘','สมุดระลึกชาติ (หายาก)'],book_l:['📙','สมุดระลึกชาติ (ตำนาน)'],ch100:['🧾','ยันต์ 100 คาถา'],sp:['💧','ยาฟื้น SP'],orange:['💊','ม้าส้ม'],master:['🍲','หม้ออาจารย์คง'],mind:['💞','ยาเชื่อมจิต'],jk_cat:['🐱','ไหแมวขาว'],jk_pha:['👑','ไหฟาโรห์'],jk_hulk:['🧟','ไหยักษ์เขียว'],jk_yak:['👹','ไหยักษ์แดง'],jk_war:['⚔️','ไหเทพสงคราม'],jbox:['🎁','กล่องสุ่มไห']};
-const ALL={...IT,orange:['💊','ม้าส้ม'],house:['🏠','บ้านพกพา'],dust:['💠','เศษวิญญาณ'],so_d:['🟤','จิตวิญญาณธาตุดิน'],so_w:['🔵','จิตวิญญาณธาตุน้ำ'],so_a:['🟢','จิตวิญญาณธาตุลม'],so_f:['🔴','จิตวิญญาณธาตุไฟ'],ch_buf:['🔱','ยันต์หว่าง'],ch_life:['🧧','ยันต์กันตาย'],ch_hold:['⏳','ยันต์ยื้อ'],ch_crit:['🧿','ยันต์กันเม็ด'],deed:['📃','โฉนดบ้าน']},ID2={deed:'ใช้แล้วขยายพื้นที่บ้านพกพาให้ใหญ่ขึ้น (ไม่มีขาย ได้จากเควสเท่านั้น)',orange:'ใช้แล้วเลเวลผี +1 (สูงสุด Lv.20)',house:'ที่พักพกพา (ยังไม่เปิดใช้ในเวอร์ชันนี้)',dust:'ดรอปจากผี และได้จากการหลอมรวมวิญญาณ ใช้กับไหวิญญาณ (ต้องใช้ 10 ชิ้น)',so_d:'ใช้ตรงๆ ไม่ได้ ไว้ใส่ในไหวิญญาณเพื่อเลือกธาตุดิน',so_w:'ใช้ตรงๆ ไม่ได้ ไว้ใส่ในไหวิญญาณเพื่อเลือกธาตุน้ำ',so_a:'ใช้ตรงๆ ไม่ได้ ไว้ใส่ในไหวิญญาณเพื่อเลือกธาตุลม',so_f:'ใช้ตรงๆ ไม่ได้ ไว้ใส่ในไหวิญญาณเพื่อเลือกธาตุไฟ',ch_buf:'ผีที่ถือ: เมื่อได้รับสถานะดีบัพ ATK เพิ่ม 3 เทิร์น',ch_life:'ผีที่ถือ: ถ้าโดนดาเมจจนตาย จะเหลือ HP 1 แทน (1 ครั้ง/รอบ)',ch_hold:'ผีที่ถือ: เมื่อ HP ต่ำกว่า 50% ฟื้น HP 20% ทันที (1 ครั้ง/รอบ)',ch_crit:'ผีที่ถือ: เมื่อโดนคริติคอล DEF เพิ่ม 3 เทิร์น'},CAT=[['ไอเทมสำหรับใช้งาน',['heal','sp','forget','book_c','book_r','book_l','ch100','orange','mind','master','deed','jk_cat','jk_pha','jk_hulk','jk_yak','jk_war','jbox']],['ไอเทมสำหรับถือ',['ch_life','ch_hold','ch_crit','ch_buf']],['ไอเทมทรัพยากร',['dust','so_d','so_w','so_a','so_f']]];
+const ALL={...IT,orange:['💊','ม้าส้ม'],house:['🏠','บ้านพกพา'],dust:['💠','เศษวิญญาณ'],so_d:['🟤','จิตวิญญาณธาตุดิน'],so_w:['🔵','จิตวิญญาณธาตุน้ำ'],so_a:['🟢','จิตวิญญาณธาตุลม'],so_f:['🔴','จิตวิญญาณธาตุไฟ'],ch_buf:['🔱','ยันต์หว่าง'],ch_life:['🧧','ยันต์กันตาย'],ch_hold:['⏳','ยันต์ยื้อ'],ch_crit:['🧿','ยันต์กันเม็ด'],deed:['📃','โฉนดบ้าน'],bottle:['🫙','ขวดเปล่า']},ID2={bottle:'ใช้ผลิตยาที่ 🧪 โต๊ะปรุงยา (อาชีพหมอยา) · ซื้อได้ที่ร้านหมอยา',deed:'ใช้แล้วขยายพื้นที่บ้านพกพาให้ใหญ่ขึ้น (ไม่มีขาย ได้จากเควสเท่านั้น)',orange:'ใช้แล้วเลเวลผี +1 (สูงสุด Lv.20)',house:'ที่พักพกพา (ยังไม่เปิดใช้ในเวอร์ชันนี้)',dust:'ดรอปจากผี และได้จากการหลอมรวมวิญญาณ ใช้กับไหวิญญาณ (ต้องใช้ 10 ชิ้น)',so_d:'ใช้ตรงๆ ไม่ได้ ไว้ใส่ในไหวิญญาณเพื่อเลือกธาตุดิน',so_w:'ใช้ตรงๆ ไม่ได้ ไว้ใส่ในไหวิญญาณเพื่อเลือกธาตุน้ำ',so_a:'ใช้ตรงๆ ไม่ได้ ไว้ใส่ในไหวิญญาณเพื่อเลือกธาตุลม',so_f:'ใช้ตรงๆ ไม่ได้ ไว้ใส่ในไหวิญญาณเพื่อเลือกธาตุไฟ',ch_buf:'ผีที่ถือ: เมื่อได้รับสถานะดีบัพ ATK เพิ่ม 3 เทิร์น',ch_life:'ผีที่ถือ: ถ้าโดนดาเมจจนตาย จะเหลือ HP 1 แทน (1 ครั้ง/รอบ)',ch_hold:'ผีที่ถือ: เมื่อ HP ต่ำกว่า 50% ฟื้น HP 20% ทันที (1 ครั้ง/รอบ)',ch_crit:'ผีที่ถือ: เมื่อโดนคริติคอล DEF เพิ่ม 3 เทิร์น'},CAT=[['ไอเทมสำหรับใช้งาน',['heal','sp','forget','book_c','book_r','book_l','ch100','orange','mind','master','deed','jk_cat','jk_pha','jk_hulk','jk_yak','jk_war','jbox']],['ไอเทมสำหรับถือ',['ch_life','ch_hold','ch_crit','ch_buf']],['ไอเทมทรัพยากร',['dust','so_d','so_w','so_a','so_f','bottle']]];
 const ID={heal:'ฟื้น HP 40',forget:'เลือกให้ผีลืมสกิลได้ 1 สกิล',sp:'ฟื้น SP 15',orange:'เลเวลผี +1 (สูงสุด Lv.20)',jk_cat:'ใช้เพื่อปลดล็อคสกินไหแมวขาว (ใช้แล้วหมดไป)',jk_pha:'ใช้เพื่อปลดล็อคสกินไหฟาโรห์ (ใช้แล้วหมดไป)',jk_hulk:'ใช้เพื่อปลดล็อคสกินไหยักษ์เขียว (ใช้แล้วหมดไป)',jk_yak:'ใช้เพื่อปลดล็อคสกินไหยักษ์แดง (ใช้แล้วหมดไป)',jk_war:'ใช้เพื่อปลดล็อคสกินไหเทพสงคราม (ใช้แล้วหมดไป)',jbox:'สุ่มรับสกินไห 1 ใบ: ไหแมวขาว / ไหฟาโรห์ / ไหยักษ์แดง / ไหยักษ์เขียว (ใช้แล้วหมดไป)',master:'จับผีได้ 100% (ใช้ในการต่อสู้ จับได้เฉพาะผีที่เลเวลห่างจากผีหน้าทีมของเราไม่เกิน 5 · ไม่มีขาย)',mind:'แชร์ EXP ให้ผีทุกตัวในทีมเต็มจำนวน นาน 30 นาที (ใช้ซ้ำเพื่อต่อเวลา +30 นาที)'};
 /* ทับชื่อ/คำอธิบาย/ระดับด้วยข้อมูลจาก Excel (แท็บ Item) — ไอเทมที่ไม่มีใน Excel ใช้ค่าเดิมด้านบน */
 const ITR={},ITV={heal:40,sp:30};
@@ -495,9 +497,9 @@ const WARPS={                     // จุดเกิดเมื่อวา�
 const VHOUSES=[                   // บ้าน 3 หลังในหมู่บ้าน: ตำแหน่ง (ไทล์ จุดกลางหน้าบันได), แมพด้านใน, สีหลังคา
  {tx:9,ty:10,map:5,roof:'thatch',name:'บ้านหมอยา'},
  {tx:31,ty:10,map:6,roof:'tile',name:'บ้านขุนอาร์ต'},
- {tx:9,ty:22,map:7,roof:'tile',name:'บ้านผู้ใหญ่บ้าน'},
+ {tx:9,ty:22,map:7,roof:'tile',name:'บ้านผู้ใหญ่บ้าน',big:1},   // big = หลังใหญ่ (มีปีกบ้าน + ระเบียง)
 ];
-const HERB={price:20,items:['heal','sp'],qty:[1,5,10]};   // ร้านหมอยา: ยาฟื้นฟู HP/SP (เล็ก) ชิ้นละ 20 GC
+const HERB={items:{heal:50,sp:50,bottle:20},qty:[1,5,10]};   // ร้านหมอยา: ราคา (GC) ต่อชิ้น — ยาฟื้นฟู HP/SP (เล็ก) 50 · ขวดเปล่า 20
 /* ผีป่า — ใช้ใน world/entities.js (mkWild), world/loop.js (ขอบเขตเดิน), battle/battle.js (เกิดใหม่) และ online/world.js
    หมายเหตุ: ลำดับ map ใน SPAWN_ORDER และจำนวนตัวมีผลกับตัวสุ่มตอนเปิดเกม */
 const SPAWNS={
@@ -598,10 +600,11 @@ const CHAT_CFG={
 };
 /* ตัวแปรสถานะผู้เล่นทั้งหมด (ทีม, โกดัง, กระเป๋า, เงิน, เควส, Auto, สกินไห) */
 /* ---------- state ---------- */
-let pname='',av={sk:0,hc:1,hs:0,hat:0,sh:0,pt:5},party=[],box=[],dx={},gc=100,gold=5,stock=[],stockT=0,passed=false,qs={1:0,2:0,3:0,4:0,5:0},qc=0,qk=0,qb=0,qt=0,qf=0,qa=0,SHU=0,inv={heal:0,forget:0,book_c:0,book_r:0,book_l:0,ch100:0,sp:0,jk_cat:0,jk_pha:0,jk_hulk:0,jk_yak:0,jk_war:0,jbox:0,orange:0,house:0,master:0,mind:0,dust:0,so_d:0,so_w:0,so_a:0,so_f:0,ch_life:0,ch_hold:0,ch_crit:0,ch_buf:0,deed:0},mode='world',B=null,hot=Array(9).fill(null),HOTED=0,AUHOME=0,HOUSE=null,chatNext=0,AU={on:false,walk:false,skill:false,hp:false,hpn:50,sp:false,spn:50,run:false,runn:30,i:0,cx:0,cy:0,map:0};
+let pname='',av={sk:0,hc:1,hs:0,hat:0,sh:0,pt:5},party=[],box=[],dx={},gc=100,gold=5,stock=[],stockT=0,passed=false,qs={1:0,2:0,3:0,4:0,5:0},qc=0,qk=0,qb=0,qt=0,qf=0,qa=0,SHU=0,inv={heal:0,forget:0,book_c:0,book_r:0,book_l:0,ch100:0,sp:0,jk_cat:0,jk_pha:0,jk_hulk:0,jk_yak:0,jk_war:0,jbox:0,orange:0,house:0,master:0,mind:0,dust:0,so_d:0,so_w:0,so_a:0,so_f:0,ch_life:0,ch_hold:0,ch_crit:0,ch_buf:0,deed:0,bottle:0},mode='world',B=null,hot=Array(9).fill(null),HOTED=0,AUHOME=0,HOUSE=null,chatNext=0,AU={on:false,walk:false,skill:false,hp:false,hpn:50,sp:false,spn:50,run:false,runn:30,i:0,cx:0,cy:0,map:0};
 const lead=()=>party.find(g=>g.hp>0);
 /* NEWB = ตัวละครใหม่ที่ยังไม่ได้คุยกับผู้ใหญ่บ้าน (ยังไม่มีผี · NPC อื่นล็อคไว้) — ของเริ่มต้นได้จากผู้ใหญ่บ้าน (js/systems/npcs.js → CHIEF_GIFT) */
-let NEWB=0;const hasChar=()=>party.length>0||NEWB==1;
+let NEWB=0,JOB='',JQ='';   // JOB = สายอาชีพ ('herb' หมอยา / 'merchant' พ่อค้าเถื่อน) · JQ = เควสอาชีพที่รับไว้ (js/systems/jobs.js)
+const hasChar=()=>party.length>0||NEWB==1;
 let AUD={k:'',u:0};const auK=()=>new Date().toLocaleDateString('en-CA'),auCk=()=>{if(AUD.k!=auK())AUD={k:auK(),u:0}},auLeft=()=>{auCk();return Math.max(0,7200-AUD.u)},fmtT=t=>Math.floor(t/3600)+':'+String(Math.floor(t%3600/60)).padStart(2,'0')+':'+String(t%60).padStart(2,'0');
 let JKU=['normal'],JSK='normal';
 let USH={it:[],t:0,sold:[]},ARQ=false;   // USH = ของที่พ่อค้าใต้ดินสุ่มมาขาย · ARQ = เซฟล่าสุดออกเกมกลางประลองอารีน่า
@@ -659,10 +662,10 @@ function gLoadSave(g,lg){const id=g.gid||(lg?LEGACY_SP[g.si]:SP[g.si]&&SP[g.si].
  g.st=[];g.uq={};g.dfd=0;delete g.buf;delete g.slow;delete g.bnew;delete g.slowNew;fixSk(g);while(g.sk.length<Math.min(4,n0)&&learn(g)){}return g}
 /* ระหว่างประลองอารีน่า HP/SP ของทีมถูกเติมเต็มชั่วคราว → เซฟค่าก่อนเข้าอารีน่า (กันออกเกมกลางคันแล้วได้ HP เต็มฟรี) */
 function snap(){const T=typeof ARS!='undefined'&&ARS?ARS.map(([g,h,s])=>{const o=[g,g.hp,g.sp2];g.hp=h;g.sp2=s;return o}):null;try{return snap0()}finally{if(T)T.forEach(([g,h,s])=>{g.hp=h;g.sp2=s})}}
-function snap0(){return JSON.stringify({party:party.map(gSave),box:box.map(gSave),dxi:Object.keys(dx).filter(i=>dx[i]&&SP[i]).map(i=>SP[i].id),gc,inv,pname,av,gold,stock:stock.map(gSave),stockT,passed,mv:MAPV,qs,qc,qk,qb,qt,qf,qa,ush:USH,arIn:typeof ARS!='undefined'&&ARS?1:0,shu:SHU,hc:HC,qv:5,npcp:NPCP,ap:AP,ar:AR,jk:{u:JKU,s:JSK},hot,newb:NEWB,boss:mons.map(m=>({g:gSave(m.g),dead:m.dead,rt:m.rt})),wb:typeof WSY!='undefined'?WSY.dump():undefined,house:HOUSE,au:{...AU,on:false},aud:AUD})}
+function snap0(){return JSON.stringify({party:party.map(gSave),box:box.map(gSave),dxi:Object.keys(dx).filter(i=>dx[i]&&SP[i]).map(i=>SP[i].id),gc,inv,pname,av,gold,stock:stock.map(gSave),stockT,passed,mv:MAPV,qs,qc,qk,qb,qt,qf,qa,ush:USH,arIn:typeof ARS!='undefined'&&ARS?1:0,shu:SHU,hc:HC,qv:5,npcp:NPCP,ap:AP,ar:AR,jk:{u:JKU,s:JSK},hot,newb:NEWB,job:JOB,jq:JQ,stall:typeof STALL!='undefined'?STALL:undefined,boss:mons.map(m=>({g:gSave(m.g),dead:m.dead,rt:m.rt})),wb:typeof WSY!='undefined'?WSY.dump():undefined,house:HOUSE,au:{...AU,on:false},aud:AUD})}
 function save(){if(!hasChar())return;if(SB.on()){try{stSet(snap())}catch(e){}cloudSave();return}try{stSet(snap());SVERR=''}catch(e){SVERR=e.message}if(LSBAD||SVERR)svWarn()}
 let LOADERR='';
-function load(raw0){let raw=null;try{raw=raw0!=null?raw0:stGet();const d=JSON.parse(raw);if(d&&d.party&&(d.party.length||d.newb)){NEWB=d.party.length?0:d.newb?1:0;const lg=(d.qv||0)<5;({party,box,gc,inv}=d);dx={};if(Array.isArray(d.dxi))d.dxi.forEach(id=>{const i=gi(id);if(i!=null)dx[i]=1});else Object.keys(d.dx||{}).forEach(k=>{const i=gi(LEGACY_SP[k]);if(i!=null&&d.dx[k])dx[i]=1});if(inv.book){inv.book_c=(inv.book_c||0)+inv.book}delete inv.book;pname=d.pname||'ผู้เล่น';inv={sp:2,book_c:0,book_r:0,book_l:0,ch100:0,orange:0,house:0,master:1,mind:0,jk_cat:0,jk_pha:0,jk_hulk:0,jk_yak:0,jk_war:0,jbox:0,dust:0,so_d:0,so_w:0,so_a:0,so_f:0,ch_life:2,ch_hold:2,ch_crit:2,ch_buf:2,deed:0,...inv};inv.house=0;gold=d.gold??100;stock=(d.stock||[]).map(g=>g&&gLoadSave(g,lg));stockT=d.stockT||0;if(stock.some(g=>g&&g.lv!=6)||(d.stock||[]).some((g,i)=>g&&!stock[i])){stock=[];stockT=0}passed=!!d.passed;if(d.qv>=2){qs={1:0,2:0,3:0,4:0,5:0,...d.qs};qk=d.qk||0}else{const o=d.qs||{};qs={1:0,2:o[1]||0,3:o[2]||0,4:o[3]||0,5:0};qk=0}if((d.qv||0)<3){const a=qs[4];qs[4]=qs[5];qs[5]=a}qc=d.qc||0;qb=d.qb||0;qt=d.qt||0;qf=d.qf||0;qa=d.qa||0;USH=d.ush&&Array.isArray(d.ush.it)?d.ush:USH;ARQ=!!d.arIn;if((d.qv||0)<4&&qt)qt=7;SHU=d.shu||0;NPCP=d.mv==MAPV&&d.npcp&&typeof d.npcp=='object'?d.npcp:{};npcApply();AP=Math.max(0,+d.ap||0);AR={w:0,l:0,...(d.ar||{})};if(d.jk){JKU=[...new Set(['normal',...(Array.isArray(d.jk.u)?d.jk.u:[])])].filter(x=>JKL.some(j=>j[0]==x));JSK=JKU.includes(d.jk.s)?d.jk.s:'normal'}HC={sz:0,sh:null,pl:null,pg:[],...(d.hc||{})};hot=Array.from({length:9},(_,i)=>{const k=(d.hot||[])[i];return k&&ALL[k]?k:null});HOUSE=d.mv==MAPV?d.house||null:null;if(HOUSE&&!HOUSE.owner)HOUSE.owner=pname;if(d.au)AU={...AU,...d.au,on:false};AUD=d.aud||AUD;if(HOUSE)npcOf(HOUSE.map).push(hnode());av=d.av||av;if(d.wb&&typeof WSY!='undefined')WSY.restore(d.wb);if(Array.isArray(d.boss))d.boss.forEach((o,i)=>{const m=mons[i];if(!m||!o||!o.g)return;const g=gLoadSave(o.g,lg);if(!g||d.mv!=MAPV||(m.sp&&SP[g.si].id!=m.sp))return;g.boss=1;m.g=g;m.lv=g.lv;m.dead=o.dead||0;m.rt=o.rt||0});party=party.map(g=>gLoadSave(g,lg)).filter(Boolean);box=box.map(g=>gLoadSave(g,lg)).filter(Boolean);if(!party.length&&box.length)party.push(box.shift());return 1}}catch(e){LOADERR=e.message;try{if(raw)localStorage.setItem('gho1_bak',raw)}catch(_){}toast('⚠️ โหลดเซฟเดิมไม่สำเร็จ: '+e.message)}}
+function load(raw0){let raw=null;try{raw=raw0!=null?raw0:stGet();const d=JSON.parse(raw);if(d&&d.party&&(d.party.length||d.newb)){NEWB=d.party.length?0:d.newb?1:0;JOB=JOBS[d.job]?d.job:'';JQ=!JOB&&JOBS[d.jq]?d.jq:'';STALL=Array.from({length:STALL_N},(_,i)=>{const x=(d.stall||[])[i];return x&&ALL[x.k]&&x.n>0&&x.p>0?{k:x.k,n:x.n|0,p:x.p|0,on:x.on?1:0}:null});const lg=(d.qv||0)<5;({party,box,gc,inv}=d);dx={};if(Array.isArray(d.dxi))d.dxi.forEach(id=>{const i=gi(id);if(i!=null)dx[i]=1});else Object.keys(d.dx||{}).forEach(k=>{const i=gi(LEGACY_SP[k]);if(i!=null&&d.dx[k])dx[i]=1});if(inv.book){inv.book_c=(inv.book_c||0)+inv.book}delete inv.book;pname=d.pname||'ผู้เล่น';inv={sp:2,book_c:0,book_r:0,book_l:0,ch100:0,orange:0,house:0,master:1,mind:0,jk_cat:0,jk_pha:0,jk_hulk:0,jk_yak:0,jk_war:0,jbox:0,dust:0,so_d:0,so_w:0,so_a:0,so_f:0,ch_life:2,ch_hold:2,ch_crit:2,ch_buf:2,deed:0,bottle:0,...inv};inv.house=0;gold=d.gold??100;stock=(d.stock||[]).map(g=>g&&gLoadSave(g,lg));stockT=d.stockT||0;if(stock.some(g=>g&&g.lv!=6)||(d.stock||[]).some((g,i)=>g&&!stock[i])){stock=[];stockT=0}passed=!!d.passed;if(d.qv>=2){qs={1:0,2:0,3:0,4:0,5:0,...d.qs};qk=d.qk||0}else{const o=d.qs||{};qs={1:0,2:o[1]||0,3:o[2]||0,4:o[3]||0,5:0};qk=0}if((d.qv||0)<3){const a=qs[4];qs[4]=qs[5];qs[5]=a}qc=d.qc||0;qb=d.qb||0;qt=d.qt||0;qf=d.qf||0;qa=d.qa||0;USH=d.ush&&Array.isArray(d.ush.it)?d.ush:USH;ARQ=!!d.arIn;if((d.qv||0)<4&&qt)qt=7;SHU=d.shu||0;NPCP=d.mv==MAPV&&d.npcp&&typeof d.npcp=='object'?d.npcp:{};npcApply();AP=Math.max(0,+d.ap||0);AR={w:0,l:0,...(d.ar||{})};if(d.jk){JKU=[...new Set(['normal',...(Array.isArray(d.jk.u)?d.jk.u:[])])].filter(x=>JKL.some(j=>j[0]==x));JSK=JKU.includes(d.jk.s)?d.jk.s:'normal'}HC={sz:0,sh:null,pl:null,pg:[],...(d.hc||{})};hot=Array.from({length:9},(_,i)=>{const k=(d.hot||[])[i];return k&&ALL[k]?k:null});HOUSE=d.mv==MAPV?d.house||null:null;if(HOUSE&&!HOUSE.owner)HOUSE.owner=pname;if(d.au)AU={...AU,...d.au,on:false};AUD=d.aud||AUD;if(HOUSE)npcOf(HOUSE.map).push(hnode());av=d.av||av;if(d.wb&&typeof WSY!='undefined')WSY.restore(d.wb);if(Array.isArray(d.boss))d.boss.forEach((o,i)=>{const m=mons[i];if(!m||!o||!o.g)return;const g=gLoadSave(o.g,lg);if(!g||d.mv!=MAPV||(m.sp&&SP[g.si].id!=m.sp))return;g.boss=1;m.g=g;m.lv=g.lv;m.dead=o.dead||0;m.rt=o.rt||0});party=party.map(g=>gLoadSave(g,lg)).filter(Boolean);box=box.map(g=>gLoadSave(g,lg)).filter(Boolean);if(!party.length&&box.length)party.push(box.shift());return 1}}catch(e){LOADERR=e.message;try{if(raw)localStorage.setItem('gho1_bak',raw)}catch(_){}toast('⚠️ โหลดเซฟเดิมไม่สำเร็จ: '+e.message)}}
 addEventListener('pagehide',()=>{save();if(SB.on())cloudSave(1,1)});document.addEventListener('visibilitychange',()=>{if(document.hidden){save();if(SB.on())cloudSave(1,1)}});
 const b64e=t=>btoa(unescape(encodeURIComponent(t))),b64d=t=>decodeURIComponent(escape(atob(t.trim())));
 function saveUI(m){if(SB.on())return accUI(m);save();openM('💾 เซฟเกม',`<p>เกมเซฟอัตโนมัติทุก 15 วินาที ${LSBAD?'<b style="color:#ff6a6a">แต่เบราว์เซอร์นี้บล็อกการเซฟ</b> — ให้คัดลอกรหัสด้านล่างเก็บไว้ แล้ววางกลับมาเมื่อเปิดใหม่':'(ถ้าเปลี่ยนเครื่อง/เบราว์เซอร์ ให้ใช้รหัสเซฟด้านล่างย้ายข้อมูล)'}</p>${m?`<p style="color:#ffd84a">${m}</p>`:''}<div class="cd"><b>รหัสเซฟของคุณ</b><br><textarea id="svc" readonly style="width:100%;height:9cqh;background:#0b0f0d;color:#9fe;font-size:.8em" onclick="this.select()">${b64e(snap())}</textarea><button class="bn" onclick="svCopy()">📋 คัดลอก</button></div><div class="cd"><b>โหลดจากรหัสเซฟ</b><br><textarea id="svi" placeholder="วางรหัสเซฟที่นี่" style="width:100%;height:9cqh;background:#0b0f0d;color:#fff;font-size:.8em"></textarea><button class="bn" onclick="svImport()">📥 โหลดรหัสนี้ (เกมจะรีโหลด)</button></div>`)}
@@ -777,6 +780,21 @@ function thaiHouse(t,x,y,roof,s=1){t.save();t.translate(x,y);t.scale(s,s);
  for(let i=0;i<5;i++){VR(t,'#7a5030',-7,-17+i*4-0,14,2);VR(t,'#5a3820',-7,-15+i*4,14,1)}VR(t,'#5a3820',-8,-19,1,19);VR(t,'#5a3820',7,-19,1,19);   // บันไดหน้าบ้าน
  VBLOB(t,'#4a3a2a',24,-6,5);VBLOB(t,'#6a5a48',24,-8,4);VR(t,'#2a2014',21,-12,6,2);   // โอ่งข้างบ้าน
  t.restore()}
+/* ---------- บ้านผู้ใหญ่บ้าน: หลังใหญ่ (เรือนหลัก 1.3 เท่า + เรือนปีกซ้าย + ชานระเบียงไม้ + เสาธง) ---------- */
+function chiefHouse(t,x,y){t.save();t.translate(x,y);
+ VR(t,'rgba(0,0,0,.28)',-78,-3,128,7);
+ thaiHouse(t,-50,-2,'thatch',.78);                                                     // เรือนปีก (ครัว) หลังคาจาก
+ VR(t,'#6b4426',-62,-22,40,4);VR(t,'#8a5a32',-62,-22,40,1);for(const px of[-60,-46,-32])VR(t,'#4a2e1a',px,-18,3,18);   // ชานเชื่อมเรือน
+ for(let i=-60;i<-24;i+=5)VR(t,'#a87a4a',i,-30,2,8);VR(t,'#c89a62',-62,-31,40,2);       // ราวระเบียง
+ thaiHouse(t,0,0,'tile',1.3);                                                         // เรือนหลัก
+ VR(t,'#ffd84a',-2,-115,4,4);VR(t,'#ffd84a',-1,-119,2,4);                              // ช่อฟ้าทอง
+ VR(t,'#c89a62',-44,-28,10,2);VR(t,'#c89a62',34,-28,10,2);                             // ระเบียงข้างเรือนหลัก
+ VR(t,'#5a3820',40,-70,2,70);VTRI(t,'#d8322a',[42,-70,58,-64,42,-58]);VR(t,'#ffd84a',39,-73,4,3);   // เสาธง
+ VBLOB(t,'#2a6a2e',-30,-6,6);VBLOB(t,'#3a8a3a',-30,-9,4);VR(t,'#c22',-31,-12,2,2);     // กระถางไม้ดอก
+ t.restore()}
+/* ป้ายชื่อหน้าบ้าน (ไม้ 2 เสา) — ตัวหนังสือวาดคมชัดบนชั้นป้ายชื่อ */
+function hsign(t,x,y,w=58){const h=w/2;VR(t,'rgba(0,0,0,.25)',x-h+3,y-1,w-6,3);VR(t,'#4a2e1a',x-h+7,y-14,3,14);VR(t,'#4a2e1a',x+h-10,y-14,3,14);
+ VR(t,'#3a2414',x-h,y-27,w,15);VR(t,'#8a5a32',x-h+1,y-26,w-2,13);VR(t,'#a8743e',x-h+1,y-26,w-2,2);VR(t,'#6b4426',x-h+1,y-15,w-2,2);VR(t,'#ffd84a',x-h-1,y-28,3,3);VR(t,'#ffd84a',x+h-2,y-28,3,3)}
 /* ---------- ต้นไม้ศักดิ์สิทธิ์ผูกผ้าสามสี (= ศาลตายาย) ---------- */
 function sacredTree(t,x,y,tm){t.save();t.translate(x,y);
  VR(t,'rgba(0,0,0,.3)',-30,-3,60,7);
@@ -813,7 +831,7 @@ function wmVillage(t,x,y,tm){VR(t,'rgba(120,90,50,.45)',x-26,y-10,52,16);t.save(
 function wmJungle(t,x,y){const J=JTREE();[[-18,-2],[14,-4],[-4,-10],[2,4],[-12,6],[18,6]].forEach(([dx,dy])=>t.drawImage(J,Math.round(x+dx-16),Math.round(y+dy-48)))}
 /* ---------- วาดของประดับ (DECO) — เรียกจาก render/r25.js ---------- */
 function drawDeco(d,tm){const k=d.k;
- if(k=='thaihouse')thaiHouse(c,d.x,d.y,d.roof);else if(k=='sala')sala(c,d.x,d.y);else if(k=='cart')cart(c,d.x,d.y);else if(k=='oong')oong(c,d.x,d.y);
+ if(k=='thaihouse'){if(d.big)chiefHouse(c,d.x,d.y);else thaiHouse(c,d.x,d.y,d.roof)}else if(k=='hsign'){hsign(c,d.x,d.y,d.w);label(d.txt,d.x,d.y-17,'#fff2c0',1)}else if(k=='none'){}else if(k=='sala')sala(c,d.x,d.y);else if(k=='cart')cart(c,d.x,d.y);else if(k=='oong')oong(c,d.x,d.y);
  else if(k=='sign')sign(c,d.x,d.y,d.col);else if(k=='lotus')lotus(c,d.x,d.y);else if(k=='shelf')shelf(c,d.x,d.y);else if(k=='mat')mat(c,d.x,d.y);else if(k=='lamp')lamp(c,d.x,d.y,tm)}
 /* เรนเดอร์ 2.5D: กล้อง, พื้น, billboard, หมอก, แปลงจุดคลิก, ฉากหลังต่อสู้ */
 /* ---------- เรนเดอร์ 2.5D (กล้องเอียง): แผนที่โลก + พื้นหลังฉากต่อสู้ ---------- */
@@ -985,14 +1003,15 @@ function goW(k,msg){const w=WARPS[k];setMap(w[0],w[1],w[2]);P.safe=performance.n
  g[0][19]=g[0][20]=g[H-1][19]=g[H-1][20]=5;
  const [tx,ty]=[20*16,13*16+12];
  npc.push({t:'shrine',v:'tree',name:'ศาลตายาย (ต้นไม้ศักดิ์สิทธิ์)',act:'ฟื้นฟูผี / โกดังผี',x:tx,y:ty,hw:14,lh:104});
- npc.push({t:'shop',name:'พ่อค้าใต้ดิน',act:'ซื้อของ',x:25*16+8,y:18*16+12,hw:9,lh:24});
+ npc.push({t:'shop',name:'พ่อค้าใต้ดิน',act:'ซื้อของ / อาชีพ',x:25*16+8,y:18*16+12,hw:9,lh:24});
  npc.push({t:'quest',name:'คุณทักษิณ',act:'รับเควส',x:14*16+8,y:18*16+12,hw:9,lh:24});
  npc.push({t:'teacher',name:'อาจารย์ยอด',act:'ทดสอบสู้ 2v2',x:22*16+8,y:27*16+4,hw:9,lh:24});
- npc.push({t:'breeder',name:'คนเลี้ยงผี',act:'ซื้อผี',x:15*16+8,y:25*16+12,hw:9,lh:24});
- const warps=[wrect(19,0,2,1,()=>goW('forestIn','🌲 เข้าสู่ป่าแห่งการฝึกฝน — ผี Lv.'+wildLv(0)+' · ขาใหญ่ Lv.'+bossLv(0))),wrect(19,H-1,2,1,()=>goW('wmVillage','🗺️ ออกสู่ World Map'))];
- VHOUSES.forEach((h,i)=>{const [hx,hy]=TX(h.tx,h.ty);deco.push({k:'thaihouse',roof:h.roof,x:hx,y:hy,cw:30,c0:-26,c1:-5});
+ const warps=[{out:1,...wrect(19,0,2,1,()=>goW('forestIn','🌲 เข้าสู่ป่าแห่งการฝึกฝน — ผี Lv.'+wildLv(0)+' · ขาใหญ่ Lv.'+bossLv(0)))},{out:1,...wrect(19,H-1,2,1,()=>goW('wmVillage','🗺️ ออกสู่ World Map'))}];   // out = ทางออกนอกหมู่บ้าน (ผู้เล่นใหม่ต้องคุยกับผู้ใหญ่บ้านก่อน)
+ VHOUSES.forEach((h,i)=>{const [hx,hy]=TX(h.tx,h.ty),big=!!h.big;deco.push({k:'thaihouse',roof:h.roof,big,x:hx,y:hy,cw:big?40:30,c0:big?-34:-26,c1:-5});
+  if(big)deco.push({k:'none',x:hx-58,y:hy,cw:20,c0:-24,c1:-5});   // ปีกบ้าน (ชนได้)
+  deco.push({k:'hsign',txt:h.name,w:big?78:64,x:hx+(big?54:36),y:hy+14,cw:3,c0:-3,c1:1});   // ป้ายชื่อหน้าบ้าน
   warps.push({x:hx-8,y:hy-9,w:16,h:8,go:()=>{const[ix,iy]=TX(4.5,6);setMap(h.map,ix,iy);P.d='u';toast('🏠 '+h.name)}});
-  deco.push({k:'oong',x:hx-26,y:hy+4})});
+  if(!big)deco.push({k:'oong',x:hx-26,y:hy+4})});
  deco.push({k:'sala',x:24*16+8,y:24*16+10,cw:24,c0:-8,c1:2},{k:'cart',x:34*16,y:20*16+10,cw:16,c0:-12,c1:2},{k:'oong',x:26*16+4,y:26*16},{k:'oong',x:27*16+8,y:26*16+6},
   {k:'lotus',x:29*16,y:23*16+4},{k:'lotus',x:31*16,y:24*16+2},{k:'lotus',x:28*16,y:24*16+6},{k:'sign',x:22*16,y:2*16+12,col:'#7dffa0'},{k:'sign',x:22*16,y:27*16+12,col:'#7dd3ff'});
  MAPDEF[1]={M:g,w:W,h:H,npc,deco,warps,labels:[['🌲 ป่าแห่งการฝึกฝน',320,16,'#7dffa0'],['🗺️ World Map',320,(H-1)*16,'#7dd3ff']]}}
@@ -1024,7 +1043,7 @@ function goW(k,msg){const w=WARPS[k];setMap(w[0],w[1],w[2]);P.safe=performance.n
  npc[0].go=()=>goW('villageS','🏘️ หมู่บ้านแห่งการเริ่มต้น');npc[1].go=toJ;
  MAPDEF[4]={M:g,w:W,h:H,npc,deco:[],warps:[{x:14*16-6,y:20*16-6,w:28,h:20,go:npc[0].go},{x:32*16-8,y:10*16-6,w:32,h:20,go:toJ}],labels:[]}}
 /* ---------- 5–7) บ้านในหมู่บ้าน ---------- */
-[[5,{t:'herb',name:'หมอยา',act:'ซื้อยาฟื้นฟู'},[{k:'shelf',x:2*16+8,y:2*16+8},{k:'shelf',x:7*16+8,y:2*16+8},{k:'lamp',x:8*16+8,y:5*16+12},{k:'mat',x:5*16,y:4*16+12}]],
+[[5,{t:'herb',name:'หมอยา',act:'ซื้อของ / อาชีพ'},[{k:'shelf',x:2*16+8,y:2*16+8},{k:'shelf',x:7*16+8,y:2*16+8},{k:'lamp',x:8*16+8,y:5*16+12},{k:'mat',x:5*16,y:4*16+12}]],
  [6,{t:'khun',name:'ขุนอาร์ต',act:'คุย'},[{k:'mat',x:5*16,y:3*16+12},{k:'lamp',x:1*16+12,y:2*16+12},{k:'lamp',x:8*16+4,y:2*16+12}]],
  [7,{t:'chief',name:'ผู้ใหญ่บ้าน',act:'คุย'},[{k:'shelf',x:7*16+8,y:2*16+8},{k:'mat',x:3*16+8,y:4*16+12},{k:'lamp',x:1*16+12,y:5*16+12}]]].forEach(([id,n,deco])=>{
  const g=mkGrid(10,8,8);for(let y=0;y<8;y++)for(let x=0;x<10;x++)if(x==0||y==0||x==9||y==7)g[y][x]=7;g[7][5]=5;
@@ -1042,12 +1061,12 @@ function setMap(id,x,y){if(id!=2&&typeof HV!='undefined')HV=null;const D=MAPDEF[
  const mp=MAPS[id]||MAPS[1];$('#mapn').textContent=mp.name+(capOf(id)<99?' (จำกัดวิญญาณ Lv.'+capOf(id)+')':'');$('#loc').textContent=mp.loc;HE.on=0;HE.sel=null;try{heUI()}catch(e){}applyCap(true)}
 /* วาร์ปเมื่อเดินเข้าประตู/ทางออก (เรียกจาก world/loop.js ทุกเฟรม) */
 function warpTick(){if(MAPID==2){if(M[P.y>>4]&&M[P.y>>4][P.x>>4]==5)leaveHouse();return}if(performance.now()<WLOCK)return;const D=MAPDEF[MAPID];if(!D)return;
- for(const w of D.warps)if(P.x>=w.x&&P.x<w.x+w.w&&P.y>=w.y&&P.y<w.y+w.h){WLOCK=performance.now()+800;w.go();return}}
+ for(const w of D.warps)if(P.x>=w.x&&P.x<w.x+w.w&&P.y>=w.y&&P.y<w.y+w.h){WLOCK=performance.now()+800;if(w.out&&newbLock()){P.y+=w.y<D.h*8?22:-22;trail.length=0;TG=null;keys.w=keys.s=keys.arrowup=keys.arrowdown=0;return newbBlock()}w.go();return}}
 /* ชื่อเดิม (ใช้ในเทสต์/ปาร์ตี้): toField = เข้าป่าดงดิบ, fromField = ออกจากป่าดงดิบ, enterCity = เข้าหมู่บ้าน (ทางหน้าเมือง), leaveCity = ออกสู่ World Map */
 const toField=()=>goW('jungleIn','🌴 เข้าสู่ป่าดงดิบ'),fromField=()=>goW('wmJungle'),enterCity=()=>goW('villageS'),leaveCity=()=>goW('wmVillage');
 /* NPC ในบ้าน */
-function herbShop(m){openM('หมอยา 🌿',`<p>"ยาสมุนไพรสูตรโบราณ ฟื้นฟูผีของเจ้าได้ดีนัก ชิ้นละ <b>${HERB.price} GC</b>"</p><p>🪙 GC ของคุณ: <b>${gc.toLocaleString()}</b>${m?`<br><span style="color:#ffd84a">${m}</span>`:''}</p>`+HERB.items.map(k=>`<div class="cd tr"><span style="font-size:2em">${IT[k][0]}</span><div style="flex:1"><b>${IT[k][1]}</b> — ${HERB.price} GC<br><small>${ID[k]||''} · มีอยู่ ${inv[k]}</small></div>${HERB.qty.map(q=>`<button class="bn" onclick="herbBuy('${k}',${q})">×${q}</button>`).join('')}</div>`).join(''))}
-function herbBuy(k,n){if(!HERB.items.includes(k))return;const t=HERB.price*n;if(gc<t)return herbShop('GC ไม่พอ!');gc-=t;inv[k]=(inv[k]||0)+n;hud();save();herbShop(`ซื้อ ${IT[k][1]} ×${n} แล้ว (−${t} GC)`)}
+function herbShop(m){openM('หมอยา 🌿',`<p>"ยาสมุนไพรสูตรโบราณ ฟื้นฟูผีของเจ้าได้ดีนัก"</p><p>🪙 GC ของคุณ: <b>${gc.toLocaleString()}</b>${m?`<br><span style="color:#ffd84a">${m}</span>`:''}</p>`+Object.keys(HERB.items).map(k=>`<div class="cd tr"><span style="font-size:2em">${ALL[k][0]}</span><div style="flex:1"><b>${ALL[k][1]}</b> — ${HERB.items[k]} GC<br><small>${ID[k]||ID2[k]||''} · มีอยู่ ${inv[k]||0}</small></div>${HERB.qty.map(q=>`<button class="bn" onclick="herbBuy('${k}',${q})">×${q}</button>`).join('')}</div>`).join('')+'<button class="bn" onclick="herbTalk()">↩ กลับ</button>')}
+function herbBuy(k,n){if(!HERB.items[k])return;const t=HERB.items[k]*n;if(gc<t)return herbShop('GC ไม่พอ!');gc-=t;inv[k]=(inv[k]||0)+n;hud();save();herbShop(`ซื้อ ${ALL[k][1]} ×${n} แล้ว (−${t} GC)`)}
 function khunTalk(){openM('ขุนอาร์ต 😠','<p style="font-size:1.3em"><b>"ข้าไม่คุยกับพวกไก่อ่อน ไปให้พ้น!!"</b></p>',0);setTimeout(()=>{closeM();if(MAPID==6){const h=VHOUSES.find(v=>v.map==6),[hx,hy]=TX(h.tx,h.ty);setMap(1,hx,hy+20);P.d='d';P.safe=performance.now()+800;toast('💨 ถูกขุนอาร์ตไล่ออกมานอกบ้าน!')}},1800)}
 /* chiefTalk() ย้ายไปอยู่ที่ js/systems/npcs.js (คุยครั้งแรกให้ผีคู่หู) */
 const NPCAV={herb:{sk:1,hc:6,hs:1,hat:0,sh:3,pt:4},khun:{sk:2,hc:0,hs:0,hat:1,sh:1,pt:0},chief:{sk:1,hc:6,hs:2,hat:0,sh:0,pt:3},breeder:{sk:3,hc:2,hs:1,hat:2,sh:4,pt:2}};
@@ -1060,9 +1079,9 @@ function merch(x,y){ppl(c,x,y,{sk:2,hc:0,hs:0,hat:2,sh:5,pt:5},'d',0);c.fillStyl
 function mv(o,mx,my){if(!blk(o.x+mx,o.y))o.x+=mx;if(!blk(o.x,o.y+my))o.y+=my}
 function sos(){openM('🆘 กลับจุดเซฟ','<p>วาร์ปกลับจุดเซฟทันที (ไม่เสียของ/GC) ใช้เมื่อติดหรือเดินไม่ได้</p><button class="bn" onclick="goSave()">✅ กลับจุดเซฟ</button>')}
 function goSave(){closeM();setMap(...WARPS.save);toast('กลับจุดเซฟแล้ว')}
-function drawN(n,tm){if(n.t=='house'||n.t=='rhouse')houseDraw(n.x,n.y);else if(n.t=='shrine'&&n.v=='tree')sacredTree(c,n.x,n.y,tm);else if(n.t=='portal'){if(n.v=='village')wmVillage(c,n.x,n.y,tm);else wmJungle(c,n.x,n.y)}else if(n.t=='shrine'||n.t=='hshrine')shrine(n.x,n.y,tm);else if(n.t=='pillar')pillar(n.x,n.y,tm);else if(n.t=='hghost'){dg(c,n.x,n.y,n.g,1,tm,{pose:'walk',vx:n.vx,vy:n.vy,mem:n});label(n.g.sp.n,n.x,n.y-20,n.g.sp.t==2?'#c58cff':'#bfe8ff')}else if(n.t=='shop')merch(n.x,n.y);else npcp(n);
+function drawN(n,tm){if(n.t=='house'||n.t=='rhouse')houseDraw(n.x,n.y);else if(n.t=='shrine'&&n.v=='tree')sacredTree(c,n.x,n.y,tm);else if(n.t=='portal'){if(n.v=='village')wmVillage(c,n.x,n.y,tm);else wmJungle(c,n.x,n.y)}else if(n.t=='shrine'||n.t=='hshrine')shrine(n.x,n.y,tm);else if(n.t=='pillar')pillar(n.x,n.y,tm);else if(n.t=='hghost'){dg(c,n.x,n.y,n.g,1,tm,{pose:'walk',vx:n.vx,vy:n.vy,mem:n});label(n.g.sp.n,n.x,n.y-20,n.g.sp.t==2?'#c58cff':'#bfe8ff')}else if(n.t=='shop')merch(n.x,n.y);else if(n.t=='ptable')ptableDraw(n.x,n.y,tm);else if(n.t=='stall')stallDraw(n.x,n.y,HV?stallList(HV.uid).length>0:stallSelling().length>0);else npcp(n);
  if(typeof NME!='undefined'&&NME.on&&npcMovable(n)){const on=NME.sel===n;c.strokeStyle=on?'#ffd84a':'#7dd3ff';c.lineWidth=1;c.setLineDash(on?[]:[2,2]);c.strokeRect(n.x-13.5,n.y-n.lh+.5,27,n.lh+4);c.setLineDash([])}
- if(HE.on&&(n.t=='hshrine'||n.t=='pillar')){const on=(HE.sel=='sh'&&n.t=='hshrine')||(HE.sel=='pl'&&n.t=='pillar');c.strokeStyle=on?'#ffd84a':'#7dffa0';c.lineWidth=1;c.strokeRect(n.x-13.5,n.y-n.lh+.5,27,n.lh)}}
+ if(HE.on&&Object.values(HEK).some(v=>v[0]==n.t)){const on=!!HE.sel&&HEK[HE.sel][0]==n.t;c.strokeStyle=on?'#ffd84a':'#7dffa0';c.lineWidth=1;c.strokeRect(n.x-13.5,n.y-n.lh+.5,27,n.lh)}}
 /* ผู้เล่น, บอท, ผีป่า, บอส */
 /* ---------- entities ---------- */
 let TG=null,stk=0;const JOY={x:0,y:0};
@@ -1095,12 +1114,15 @@ function leaveHouse(){const H=HV||HOUSE;HV=null;if(!H){setMap(...WARPS.save);ret
 function pickHouse(){if(!HOUSE)return;if(!isOwner())return toast('เก็บบ้านได้เฉพาะเจ้าของบ้าน');if(MAPID==2)return toast('ออกจากบ้านก่อนจึงจะเก็บบ้านได้');const a=npcOf(HOUSE.map),i=a.findIndex(n=>n.t=='house');if(i>=0)a.splice(i,1);HOUSE=null;hud();save();closeM();toast('📦 เก็บบ้านพกพาแล้ว')}
 function houseDraw(x,y){const r=(col,a,b,w,h)=>{c.fillStyle=col;c.fillRect(x+a,y+b,w,h)};r('rgba(0,0,0,.25)',-8,-2,16,4);r('#e8d4a0',-6,-12,12,11);r('#b8332b',-8,-18,16,6);r('#8a1f1a',-6,-20,12,2);r('#6b3b2a',-2,-8,4,7);r('#ffd84a',1,-5,1,1);r('#7fc8ff',-5,-10,3,3);r('#7fc8ff',2,-10,3,3)}
 /* ---------- บ้านพกพา: เสาตกน้ำมัน / ผีเดินเล่น / ปรับแต่งบ้าน / โฉนดบ้าน ---------- */
-const HE={on:0,sel:null},hgOf=()=>(HC.pg||[]).map(u=>[...box,...party].find(g=>g.uid==u)).filter(Boolean);
+const HE={on:0,sel:null,pub:null},hgOf=()=>(HC.pg||[]).map(u=>[...box,...party].find(g=>g.uid==u)).filter(Boolean);
 function hSpot(){const[w,h]=HS();for(let k=0;k<40;k++){const x=RI(1,w-2),y=RI(2,h-2),px=x*16+8,py=y*16+12;if(!HNPC.some(n=>n.t!='hghost'&&Math.abs(px-n.x)<n.hw+8&&Math.abs(py-n.y)<10))return[px,py]}return[(w>>1)*16+8,(h-3)*16+12]}
 function buildHouse(){const[w,h]=HS();HM.length=0;for(let y=0;y<h;y++){HM[y]=[];for(let x=0;x<w;x++)HM[y][x]=(x==0||y==0||x==w-1||y==h-1)?7:8}HM[h-1][w>>1]=5;
  const hc=HCX(),sh=hc.sh||[7,3],pl=hc.pl||[2,3],old=HNPC.filter(n=>n.t=='hghost');HNPC.length=0;
  HNPC.push({t:'hshrine',name:'ศาล',act:'โกดังผี',x:sh[0]*16+8,y:sh[1]*16+14,hw:12,lh:32});
  HNPC.push({t:'pillar',name:'เสาตกน้ำมัน',act:'อัญเชิญผี',x:pl[0]*16+8,y:pl[1]*16+14,hw:8,lh:40});
+ const pt=HV?hc.pt:JOB=='herb'?(hc.pt||PT_DEF):null,st=HV?hc.st:JOB=='merchant'?(hc.st||ST_DEF):null;   // โต๊ะตามสายอาชีพของเจ้าของบ้าน
+ if(pt)HNPC.push({t:'ptable',name:'โต๊ะปรุงยา',act:'ผลิตยา',x:pt[0]*16+8,y:pt[1]*16+14,hw:12,lh:30});
+ if(st)HNPC.push({t:'stall',name:'โต๊ะขายของ',act:'ซื้อ / ขายของ',x:st[0]*16+8,y:st[1]*16+14,hw:12,lh:36});
  (HV?HV.gs:hgOf()).forEach(g=>{const o=old.find(n=>n.g===g);if(o)return HNPC.push(o);const p=hSpot();HNPC.push({t:'hghost',name:g.sp.n,act:'ดูข้อมูลผี',g,x:p[0],y:p[1],hw:6,lh:20,vx:0,vy:0,tm:0})})}
 function hgMove(n,dt){n.tm-=dt;if(n.tm<=0){n.tm=R(.8,2.4);const a=Math.random()<.4?[0,0]:PK([[1,0],[-1,0],[0,1],[0,-1]]);n.vx=a[0];n.vy=a[1]}
  const ok=(x,y)=>[[0,0],[-5,0],[5,0],[0,-4]].every(o=>{const r=M[(y+o[1])>>4];return r&&r[(x+o[0])>>4]==8})&&!HNPC.some(m=>m!==n&&m.t!='hghost'&&Math.abs(x-m.x)<m.hw+5&&Math.abs(y-m.y)<8)&&Math.hypot(x-P.x,y-P.y)>12,nx=n.x+n.vx*16*dt,ny=n.y+n.vy*16*dt;
@@ -1120,14 +1142,15 @@ function pillarUI(m,top){const cap=pcap(),N=Math.max(1,Math.ceil(box.length/PGN)
  document.querySelectorAll('#mb canvas[data-i]').forEach(q=>spr(q,box[+q.dataset.i],2));if($('#md .bx'))$('#md .bx').scrollTop=old}
 function pillarSel(i){if(!isOwner())return closeM();const g=box[i],j=PS.indexOf(g);if(!g)return;if(j>=0)PS.splice(j,1);else if(PS.length<pcap())PS.push(g);else return pillarUI('เลือกได้สูงสุด '+pcap()+' ตัว');pillarUI()}
 function pillarGo(){if(!isOwner())return closeM();PS=PS.slice(0,pcap());PS.forEach(g=>g.uid=g.uid||('g'+Date.now().toString(36)+Math.random().toString(36).slice(2,7)));HC.pg=PS.map(g=>g.uid);buildHouse();closeM();save();toast(PS.length?'✨ อัญเชิญผี '+PS.length+' ตัวแล้ว':'เก็บผีกลับเข้าโกดังแล้ว')}
+const HEK={sh:['hshrine','ศาล'],pl:['pillar','เสาตกน้ำมัน'],pt:['ptable','โต๊ะปรุงยา'],st:['stall','โต๊ะขายของ']};   // ของที่ย้ายได้ใน "ปรับแต่งบ้าน"
 function heUI(){const e=$('#hed'),b=$('#hdec');if(!e||!b)return;if(!HE.on){e.style.display='none';b.style.display=MAPID==2&&isOwner()?'block':'none';return}b.style.display='none';e.style.display='flex';
- e.innerHTML=`<span>${HE.sel?'เลือก <b>'+(HE.sel=='sh'?'ศาล':'เสาตกน้ำมัน')+'</b> แล้ว — แตะพื้นที่ที่ต้องการวาง':'แตะที่ <b>ศาล</b> หรือ <b>เสาตกน้ำมัน</b> เพื่อเลือกย้าย'}</span><button class="bn" style="margin:0" onclick="heDone()">✔ เสร็จสิ้น</button>`}
-function hdecor(){if(MAPID!=2||!isOwner()||mode!='world')return;closeM();HE.on=1;HE.sel=null;TG=null;heUI()}
-function heDone(){HE.on=0;HE.sel=null;heUI();save();toast('บันทึกการปรับแต่งบ้านแล้ว')}
-function heClick(e){const q=R25.pt(e);if(!q)return;const wx=q.x,wy=q.y,O={sh:HNPC.find(n=>n.t=='hshrine'),pl:HNPC.find(n=>n.t=='pillar')};
- const hit=['sh','pl'].find(k=>{const n=O[k];return n&&Math.abs(wx-n.x)<14&&wy>n.y-(n.lh-2)&&wy<n.y+6});if(hit){HE.sel=hit;return heUI()}
+ e.innerHTML=`<span>${HE.sel?'เลือก <b>'+HEK[HE.sel][1]+'</b> แล้ว — แตะพื้นที่ที่ต้องการวาง':'แตะที่ <b>ของในบ้าน</b> (ศาล / เสาตกน้ำมัน / โต๊ะ) เพื่อเลือกย้าย'}</span><button class="bn" style="margin:0" onclick="heDone()">✔ เสร็จสิ้น</button>`}
+function hdecor(){if(MAPID!=2||!isOwner()||mode!='world')return;closeM();HE.pub=JSON.parse(JSON.stringify({sh:HC.sh||null,pl:HC.pl||null,pt:HC.pt||null,st:HC.st||null}));HE.on=1;HE.sel=null;TG=null;heUI()}   // HE.pub = ตำแหน่งที่คนอื่นเห็นระหว่างกำลังย้าย (อัปเดตให้คนอื่นเห็นตอนกด เสร็จสิ้น)
+function heDone(){HE.on=0;HE.sel=null;HE.pub=null;heUI();save();toast('บันทึกการปรับแต่งบ้านแล้ว')}
+function heClick(e){const q=R25.pt(e);if(!q)return;const wx=q.x,wy=q.y,O={};for(const k in HEK)O[k]=HNPC.find(n=>n.t==HEK[k][0]);
+ const hit=Object.keys(HEK).find(k=>{const n=O[k];return n&&Math.abs(wx-n.x)<14&&wy>n.y-(n.lh-2)&&wy<n.y+6});if(hit){HE.sel=hit;return heUI()}
  if(!HE.sel)return;const tx=wx>>4,ty=wy>>4;if(!(M[ty]&&M[ty][tx]==8))return toast('วางตรงนี้ไม่ได้ — เลือกพื้นในบ้าน');
- const o=O[HE.sel],oth=O[HE.sel=='sh'?'pl':'sh'],x=tx*16+8,y=ty*16+14;if(oth&&Math.hypot(x-oth.x,y-oth.y)<20)return toast('ตำแหน่งนี้ชนกับของอีกชิ้น');
+ const o=O[HE.sel],x=tx*16+8,y=ty*16+14;if(Object.keys(O).some(k=>k!=HE.sel&&O[k]&&Math.hypot(x-O[k].x,y-O[k].y)<20))return toast('ตำแหน่งนี้ชนกับของอีกชิ้น');
  o.x=x;o.y=y;HC[HE.sel]=[tx,ty];if(blk(P.x,P.y)){const f=freeNear(P.x,P.y,6);if(f){P.x=f[0];P.y=f[1]}}HE.sel=null;heUI();save()}
 /* อัปเดตโลกทุกเฟรม + ลูปหลัก */
 /* ---------- world loop ---------- */
@@ -1534,7 +1557,7 @@ function undGen(){const pool=undPool(),it=[];while(it.length<Math.min(UND.slots,
 function shop(m){if(!USH.it.length||Date.now()-USH.t>=UND.refreshMs){undGen();save()}const left=Math.max(1,Math.ceil((UND.refreshMs-(Date.now()-USH.t))/6e4));
  openM('พ่อค้าใต้ดิน 🕯️',`<p style="margin:.2cqh 0 .6cqh">"ของหายากหลุดมาจากใต้ดิน... ชิ้นละ <b>${UND.price} ทอง</b> ไม่ซื้อเดี๋ยวก็หายนะ" <small>(ชุดใหม่ในอีก ${left} นาที)</small></p><p style="margin:0 0 .6cqh">🥇 ทองของคุณ: <b>${gold.toLocaleString()}</b>${m?` · <span style="color:#ffd84a">${m}</span>`:''}</p>`
  +USH.it.map((k,i)=>USH.sold.includes(i)?`<div class="cd tr"><span style="font-size:2em;opacity:.35">${ALL[k][0]}</span><div style="flex:1;opacity:.6"><b>${ALL[k][1]}</b><br><small>— ขายแล้ว —</small></div></div>`:`<div class="cd tr"><span style="font-size:2em">${ALL[k][0]}</span><div style="flex:1"><b>${ALL[k][1]}</b> — ${UND.price} ทอง<br><small>${ID[k]||''} · มีอยู่ ${inv[k]||0}</small></div><button class="bn" onclick="buyU(${i})">ซื้อ</button></div>`).join('')
- +`<button class="bn" onclick="undReroll()">🔄 สุ่มของใหม่ทันที (${UND.rerollGold} ทอง)</button>`)}
+ +`<button class="bn" onclick="undReroll()">🔄 สุ่มของใหม่ทันที (${UND.rerollGold} ทอง)</button><button class="bn" onclick="undTalk()">↩ กลับ</button>`)}
 function buyU(i){const k=USH.it[i];if(!k||USH.sold.includes(i))return;if(gold<UND.price)return shop('ทองไม่พอ!');gold-=UND.price;inv[k]=(inv[k]||0)+1;USH.sold.push(i);hud();save();shop(`ซื้อ ${ALL[k][1]} แล้ว (−${UND.price} ทอง)`)}
 function undReroll(){if(gold<UND.rerollGold)return shop('ทองไม่พอ!');gold-=UND.rerollGold;undGen();hud();save();shop('สุ่มของชุดใหม่แล้ว!')}
 function shopGC(m){openM('พ่อค้าใต้ดิน 🕯️',`<p>"ของดี ราคามิตรภาพ... ของทั่วไปชิ้นละ ${SHOPS.gc.price} GC ส่วนม้าส้ม ${pr('orange')} GC"</p><p>🪙 GC ของคุณ: <b>${gc.toLocaleString()}</b>${m?`<br><span style="color:#ffd84a">${m}</span>`:''}</p>`+SHOPS.gc.items.map(k=>`<div class="cd tr"><span style="font-size:2em">${IT[k][0]}</span><div style="flex:1"><b>${IT[k][1]}</b> — ${pr(k)} GC<br><small>${ID[k]} · มีอยู่ ${inv[k]}</small></div><button class="bn" onclick="buy('${k}',${SHOPS.gc.qty[0]})">ซื้อ ×${SHOPS.gc.qty[0]}</button><button class="bn" onclick="buy('${k}',${SHOPS.gc.qty[1]})">ซื้อ ×${SHOPS.gc.qty[1]}</button></div>`).join(''))}
@@ -1588,6 +1611,94 @@ function chief3(){if(!newbLock())return closeM();const L=CHIEF_SP.map(id=>gi(id)
 function pick(si){if(party.length||!CHIEF_SP.includes(SP[si]&&SP[si].id))return;const g=starterG(si);party=[g];dx[si]=1;NEWB=0;
  for(const k in CHIEF_GIFT)inv[k]=(inv[k]||0)+CHIEF_GIFT[k];hud();save();
  openM(CHIEF_T,`<div style="display:flex;gap:2cqw;align-items:center"><div style="text-align:center"><canvas id="cpk" width="48" height="48" style="width:12cqw;image-rendering:pixelated"></canvas><br><b>${nm(g)}</b> Lv.${g.lv}<br><span class="et" style="background:${EC[g.sp.e]}">ธาตุ${g.sp.e}</span></div><div style="flex:1"><p style="font-size:1.2em;margin:0 0 .8cqh">"เป็นตัวเลือกที่ดีนะ ข้าจะให้ของเล็กๆ น้อยๆ ติดตัวไว้"</p><div class="cd">🎁 ได้รับ<br>${Object.keys(CHIEF_GIFT).map(k=>`${ALL[k][0]} ${ALL[k][1]} ×${CHIEF_GIFT[k]}`).join('<br>')}</div></div></div><div style="text-align:right"><button class="bn" onclick="closeM();help()">🙏 ขอบคุณครับ</button></div>`,0);spr($('#cpk'),g,3)}
+/* สายอาชีพ (Ver.0.1.2): หมอยา / พ่อค้าเถื่อน — เลือกได้อาชีพเดียว เลือกแล้วเปลี่ยนไม่ได้
+   - คุย NPC (หมอยา / พ่อค้าใต้ดิน) → "สอบถามเรื่องอาชีพ" → สนใจ = รับเควส → นำเงินค่าครูมามอบ → ได้อาชีพ + โต๊ะในบ้านพกพา
+   - โต๊ะปรุงยา: ผลิตยา (ใช้ขวดเปล่า + เศษวิญญาณ) · โต๊ะขายของ: วางไอเทมขาย 5 ช่อง ผู้เล่นอื่นที่มาเยี่ยมบ้านกดซื้อได้ (ออนไลน์) */
+const JOBS={
+ herb:{n:'หมอยา',q:'อาชีพนักปรุงยา',npc:'หมอยา',ic:'🌿',fee:999,table:'🧪 โต๊ะปรุงยา',reward:{bottle:10},
+  lines:['ยาที่ดีจะไม่มีขายทั่วไป อยากได้ต้องทำเอง','หากสนใจจะสืบทอดอาชีพการทำยา','หากเจ้าสนใจข้าขอค่าครูเพียง 999 GC เท่านั้น','เจ้าจะได้โต๊ะยาพร้อมวิชาการทำยาสูตรของข้าโดยเฉพาะ','แต่หากเลือกสายอาชีพนี้แล้วเจ้าจะเลือกสายอาชีพอื่นไม่ได้','สนใจมั้ย?']},
+ merchant:{n:'พ่อค้าเถื่อน',q:'อาชีพพ่อค้าเถื่อน',npc:'พ่อค้าใต้ดิน',ic:'🕯️',fee:999,table:'🏪 โต๊ะขายของ',reward:{},
+  lines:['ปู่ของข้าโล้สำเภามาจากจีน มีเสื่อผืนกับหมอนใบ','แต่ไม่ต้องถามหานะ เพราะปู่ข้าถ่ายทอดวิชาค้าขายมาอย่างดี','หากเจ้าสนใจข้าขอค่าครูเพียง 999 GC เท่านั้น','เจ้าจะได้โต๊ะขายของพร้อมทักษะการขายของที่สืบทอดกันมา','แต่หากเลือกสายอาชีพนี้แล้วเจ้าจะเลือกสายอาชีพอื่นไม่ได้','สนใจมั้ย?']}};
+const BREW=[{k:'heal',need:{bottle:1,dust:5}},{k:'sp',need:{bottle:1,dust:5}}],BREW_MS=2000;   // สูตรโต๊ะปรุงยา · เวลาผลิต 2 วินาที
+const STALL_N=5,STALL_NO=['house'];   // โต๊ะขายของ: จำนวนช่อง · ไอเทมที่วางขายไม่ได้
+const PT_DEF=[2,6],ST_DEF=[7,6];      // ตำแหน่งเริ่มต้นของโต๊ะในบ้านพกพา (ไทล์)
+const jobT=j=>JOBS[j].npc+' '+JOBS[j].ic;
+/* ---------- NPC: เมนูแรก ---------- */
+function herbTalk(){openM(jobT('herb'),`<p style="font-size:1.15em">"มีอะไรให้ข้าช่วยรึ?"</p><button class="bn" onclick="herbShop()">🛒 ซื้อของ</button><button class="bn" onclick="jobAsk('herb')">📜 สอบถามเรื่องอาชีพ</button>`)}
+function undTalk(){openM(jobT('merchant'),`<p style="font-size:1.15em">"ว่าไง... มาหาของดีหรือมาหาวิชา?"</p><button class="bn" onclick="shop()">🛒 ซื้อของ</button><button class="bn" onclick="jobAsk('merchant')">📜 สอบถามเรื่องอาชีพ</button>`)}
+/* ---------- สอบถามเรื่องอาชีพ ---------- */
+const jsay=(j,t,btns,m)=>openM(jobT(j),`<p style="font-size:1.2em;margin:1cqh 0">"${t}"</p>${m?`<p style="color:#ffd84a">${m}</p>`:''}<div style="text-align:right">${btns}</div>`);
+const jbtn=(t,f,st)=>`<button class="bn" ${st?`style="${st}"`:''} onclick="${f}">${t}</button>`;
+function jobAsk(j,m){const J=JOBS[j],back=jbtn('↩ กลับ',j=='herb'?'herbTalk()':'undTalk()');
+ if(JOB==j)return jsay(j,`ตอนนี้เจ้าคือ${J.n}แล้ว ใช้ ${J.table} ในบ้านพกพาของเจ้าได้เลย`,back);
+ if(JOB)return jsay(j,`เจ้าเลือกสายอาชีพ${JOBS[JOB].n}ไปแล้ว เลือกสายอาชีพอื่นไม่ได้อีก`,back);
+ if(JQ==j)return jsay(j,`นำเงินค่าครู ${J.fee} GC มามอบให้ข้า แล้วข้าจะถ่ายทอดวิชาให้`,jbtn(`💰 มอบ ${J.fee} GC`,`jobPay('${j}')`,gc<J.fee?'opacity:.5':'')+jbtn('🗑 ยกเลิกเควส',`jobCancel('${j}')`)+back,m||`🪙 GC ของคุณ: ${gc.toLocaleString()}`);
+ if(JQ)return jsay(j,`เจ้ารับเควส “${JOBS[JQ].q}” ไว้อยู่ ไปทำให้เสร็จหรือยกเลิกก่อนสิ`,back);
+ jobLine(j,0)}
+function jobLine(j,i){const L=JOBS[j].lines;if(i<L.length-1)return jsay(j,L[i],jbtn('▶ ถัดไป',`jobLine('${j}',${i+1})`));
+ jsay(j,L[i],jbtn('✅ สนใจ',`jobAccept('${j}')`)+jbtn('❌ ไม่สนใจ','closeM()'))}
+function jobAccept(j){if(JOB||JQ)return jobAsk(j);JQ=j;hud();save();jsay(j,`ดีมาก! นำเงินค่าครู ${JOBS[j].fee} GC มามอบให้ข้า`,jbtn('ตกลง','closeM()'),`📜 รับเควส “${JOBS[j].q}” แล้ว`)}
+function jobCancel(j){if(JQ!=j)return;JQ='';hud();save();jsay(j,'ไม่เป็นไร เปลี่ยนใจเมื่อไหร่ก็มาหาข้าได้',jbtn('ตกลง','closeM()'),'🗑 ยกเลิกเควสแล้ว')}
+function jobPay(j){const J=JOBS[j];if(JQ!=j||JOB)return jobAsk(j);if(gc<J.fee)return jobAsk(j,`GC ไม่พอ! ต้องใช้ ${J.fee} GC (มี ${gc.toLocaleString()})`);
+ gc-=J.fee;JOB=j;JQ='';for(const k in J.reward)inv[k]=(inv[k]||0)+J.reward[k];if(MAPID==2&&isOwner())buildHouse();hud();save();
+ jsay(j,`ยินดีด้วย! ตั้งแต่วันนี้เจ้าคือ${J.n}แล้ว`,jbtn('🙏 ขอบคุณ','closeM()'),`🎁 ได้รับ ${J.table} (เพิ่มในบ้านพกพาแล้ว)${Object.keys(J.reward).map(k=>` · ${ALL[k][0]} ${ALL[k][1]} ×${J.reward[k]}`).join('')}`)}
+/* แถบเควสอาชีพ (ใต้เควสหลักบน HUD) */
+const jobQTxt=()=>JQ&&JOBS[JQ]?`📜 <b>${JOBS[JQ].q}</b><br><small>นำเงิน ${JOBS[JQ].fee} GC มามอบให้${JOBS[JQ].npc}${gc>=JOBS[JQ].fee?' ✅ GC พอแล้ว':''}</small>`:'';
+/* ---------- โต๊ะปรุงยา ---------- */
+let BRW=null;   // กำลังผลิต {k,end}
+function ptableUI(m){if(!isOwner())return toast('โต๊ะปรุงยาใช้ได้เฉพาะเจ้าของบ้านเท่านั้น');if(BRW)return brewWait();
+ openM('🧪 โต๊ะปรุงยา',`<p><small>ผลิตยาด้วยวิชาของหมอยา</small></p>${m?`<p style="color:#ffd84a">${m}</p>`:''}`+BREW.map((r,i)=>{const ok=Object.keys(r.need).every(k=>(inv[k]||0)>=r.need[k]);
+  return `<div class="cd tr"><span style="font-size:2em">${ALL[r.k][0]}</span><div style="flex:1"><b>ผลิต ${ALL[r.k][1]}</b> ×1<br><small>ใช้ ${Object.keys(r.need).map(k=>`${ALL[k][0]} ${ALL[k][1]} ×${r.need[k]} <span style="color:${(inv[k]||0)>=r.need[k]?'#7dffa0':'#ff8080'}">(มี ${inv[k]||0})</span>`).join(' + ')}</small></div><button class="bn" ${ok?'':'disabled'} onclick="brew(${i})">⚗️ ผลิต</button></div>`}).join(''))}
+function brew(i){const r=BREW[i];if(!r||BRW||!isOwner())return;if(!Object.keys(r.need).every(k=>(inv[k]||0)>=r.need[k]))return ptableUI('วัตถุดิบไม่พอ!');
+ for(const k in r.need)inv[k]-=r.need[k];BRW={k:r.k,end:Date.now()+BREW_MS};hud();save();brewWait();
+ const tk=()=>{if(!BRW)return;const left=BRW.end-Date.now();if(left>0){if($('#md').style.display=='flex'&&$('#mt').textContent.includes('โต๊ะปรุงยา'))brewWait();return setTimeout(tk,Math.min(250,left))}
+  const k=BRW.k;BRW=null;inv[k]=(inv[k]||0)+1;hud();save();if($('#md').style.display=='flex'&&$('#mt').textContent.includes('โต๊ะปรุงยา'))ptableUI(`✅ ผลิตสำเร็จ! ได้ ${ALL[k][0]} ${ALL[k][1]} ×1`);else toast(`✅ ผลิต ${ALL[k][1]} สำเร็จ!`)};setTimeout(tk,100)}
+function brewWait(){if(!BRW)return ptableUI();const s=Math.max(0,Math.ceil((BRW.end-Date.now())/1000)),p=Math.min(100,100-(BRW.end-Date.now())/BREW_MS*100);
+ openM('🧪 โต๊ะปรุงยา',`<div style="text-align:center;padding:1.5cqh 0"><div style="font-size:3em">⚗️</div><p style="font-size:1.2em">กำลังผลิต ${ALL[BRW.k][1]}...</p><div style="font-size:2.4em;font-weight:800;color:#ffd84a">${s}</div><div class="hb" style="margin:1cqh auto;width:60%"><u style="width:${p}%;background:#7dffa0"></u></div></div>`,0)}
+/* ---------- โต๊ะขายของ (เจ้าของ) ---------- */
+let STALL=Array(STALL_N).fill(null);   // ช่อง: {k, n จำนวน, p ราคา/ชิ้น (GC), on 1 = วางขายอยู่}
+const stallSelling=()=>STALL.map((s,i)=>s&&s.on&&s.n>0?{i,k:s.k,n:s.n,p:s.p}:null).filter(Boolean);
+function stallOpen(){if(isOwner())return stallUI();if(HV)return stallShop(HV.uid);toast('ไม่มีของวางขาย')}
+function stallUI(m){if(!isOwner())return;openM('🏪 โต๊ะขายของ',`<p style="margin:0 0 .5cqh"><small>ลงทะเบียนไอเทมแล้วกด <b>วางขาย</b> ผู้เล่นอื่นที่มาเยี่ยมบ้านจะเห็นและกดซื้อได้${SB.on()?'':' (ต้องเล่นออนไลน์)'} · 🪙 GC ของคุณ ${gc.toLocaleString()}</small></p>${m?`<p style="color:#ffd84a;margin:0 0 .5cqh">${m}</p>`:''}`+STALL.map((s,i)=>!s?`<div class="cd tr" style="padding:.5cqh 1cqw;margin-bottom:.5cqh"><span style="font-size:1.6em;opacity:.35">▫️</span><div style="flex:1;opacity:.7">ช่องที่ ${i+1} — ว่าง</div><button class="bn" style="margin:0" onclick="stallPick(${i})">➕ ลงทะเบียนไอเทม</button></div>`
+  :`<div class="cd tr" style="padding:.5cqh 1cqw;margin-bottom:.5cqh;${s.on?'border-color:#5cff7a':''}"><span style="font-size:1.6em">${ALL[s.k][0]}</span><div style="flex:1"><b>${ALL[s.k][1]}</b> ×${s.n} · ${s.p.toLocaleString()} GC/ชิ้น<br><small style="color:${s.on?'#7dffa0':'#ffd84a'}">${s.on?'🟢 กำลังวางขาย':'📝 ลงทะเบียนแล้ว (ยังไม่วางขาย ผู้เล่นอื่นยังมองไม่เห็น)'}</small></div>${s.on?'':`<button class="bn" style="margin:0" onclick="stallOn(${i})">🏷️ วางขาย</button>`}<button class="bn" style="margin:0" onclick="stallTake(${i})">📦 เก็บของ</button></div>`).join(''))}
+function stallPick(i){if(!isOwner()||STALL[i])return stallUI();const ks=Object.keys(ALL).filter(k=>inv[k]>0&&!STALL_NO.includes(k));
+ openM(`🏪 ช่องที่ ${i+1} — เลือกไอเทมจากกระเป๋า`,ks.length?`<div class="ig">${ks.map(k=>`<div class="sl" onclick="stallForm(${i},'${k}')" title="${ALL[k][1]}">${ALL[k][0]}<b>x${inv[k]}</b></div>`).join('')}</div>`:'<p>ไม่มีไอเทมในกระเป๋า</p>'+'',1);$('#mb').insertAdjacentHTML('beforeend','<button class="bn" onclick="stallUI()">↩ กลับ</button>')}
+function stallForm(i,k,m){if(!isOwner()||STALL[i]||!(inv[k]>0))return stallUI();
+ openM(`🏪 ช่องที่ ${i+1} — ${ALL[k][0]} ${ALL[k][1]}`,`${m?`<p style="color:#ff8080">${m}</p>`:''}<div class="af" style="display:grid;grid-template-columns:auto 1fr;gap:.6cqh 1cqw;align-items:center"><b>จำนวน</b><input id="stq" type="number" min="1" max="${inv[k]}" value="1" inputmode="numeric"><b>ราคา (GC/ชิ้น)</b><input id="stp" type="number" min="1" max="9999999" value="10" inputmode="numeric"></div><small>มีในกระเป๋า ${inv[k]} ชิ้น</small><div><button class="bn" onclick="stallReg(${i},'${k}')">📝 ลงทะเบียน</button><button class="bn" onclick="stallPick(${i})">↩ กลับ</button></div>`)}
+function stallReg(i,k){if(!isOwner()||STALL[i])return stallUI();const n=Math.floor(+$('#stq').value),p=Math.floor(+$('#stp').value);
+ if(!(n>=1&&n<=(inv[k]||0)))return stallForm(i,k,'จำนวนไม่ถูกต้อง (1–'+(inv[k]||0)+')');if(!(p>=1&&p<=9999999))return stallForm(i,k,'ราคาไม่ถูกต้อง');
+ inv[k]-=n;STALL[i]={k,n,p,on:0};hud();save();stallUI(`ลงทะเบียน ${ALL[k][1]} ×${n} แล้ว — กด 🏷️ วางขาย เพื่อเปิดขาย`)}
+function stallOn(i){const s=STALL[i];if(!isOwner()||!s)return;s.on=1;save();stallUI(`🟢 วางขาย ${ALL[s.k][1]} แล้ว`)}
+function stallTake(i){const s=STALL[i];if(!isOwner()||!s)return;inv[s.k]=(inv[s.k]||0)+s.n;STALL[i]=null;hud();save();stallUI(`📦 เก็บ ${ALL[s.k][1]} ×${s.n} เข้ากระเป๋าแล้ว`)}
+/* ---------- โต๊ะขายของ (ผู้เล่นอื่นมาซื้อ — ออนไลน์ ผ่านห้อง gk:global) ----------
+   ผู้ซื้อหัก GC ไว้ก่อน → ส่ง 'sb' ถึงเจ้าของ → เจ้าของตรวจของ/ราคา ตัดของ + รับเงิน → ตอบ 'sr' → ผู้ซื้อได้ของ (ไม่สำเร็จ/หมดเวลา = คืน GC) */
+const SBUY={pend:{},done:new Set()};
+const stallList=u=>{const h=typeof NET!='undefined'&&NET.S.houses[u];return h&&Array.isArray(h.sl)?h.sl.filter(x=>x&&ALL[x.k]&&x.n>0&&x.p>0):[]};
+function stallShop(u,m){const L=stallList(u),o=typeof NET!='undefined'?NET.nameOf(u):'';
+ openM('🏪 โต๊ะขายของของ '+NET.esc(o),`<p style="margin:0 0 .5cqh">🪙 GC ของคุณ: <b>${gc.toLocaleString()}</b>${m?` · <span style="color:#ffd84a">${m}</span>`:''}</p>`+(L.length?L.map(x=>`<div class="cd tr" style="padding:.5cqh 1cqw;margin-bottom:.5cqh"><span style="font-size:1.6em">${ALL[x.k][0]}</span><div style="flex:1"><b>${ALL[x.k][1]}</b> ×${x.n|0}<br><small>${(x.p|0).toLocaleString()} GC/ชิ้น</small></div><button class="bn" style="margin:0" onclick="stallBuy('${u}',${x.i|0},1)">ซื้อ 1 ชิ้น</button>${x.n>1?`<button class="bn" style="margin:0" onclick="stallBuy('${u}',${x.i|0},${x.n|0})">ซื้อทั้งหมด (${((x.p|0)*(x.n|0)).toLocaleString()})</button>`:''}</div>`).join(''):'<p>ยังไม่มีของวางขาย</p>'))}
+function stallBuy(u,i,q){const x=stallList(u).find(s=>s.i==i);if(!x)return stallShop(u,'ของชิ้นนี้ไม่อยู่แล้ว');q=Math.max(1,Math.min(x.n|0,q|0));const cost=(x.p|0)*q;
+ if(gc<cost)return stallShop(u,'GC ไม่พอ!');const G=NET.S.G;if(!NET.live||!G)return stallShop(u,'ยังไม่ได้เชื่อมต่อออนไลน์');
+ const id=Math.random().toString(36).slice(2)+Date.now().toString(36);gc-=cost;SBUY.pend[id]={u,i,k:x.k,q,p:x.p|0,cost};hud();
+ if(!G.send('sb',{u:SB.uid,to:u,id,i,k:x.k,q,p:x.p|0})){gc+=cost;delete SBUY.pend[id];hud();return stallShop(u,'ส่งคำสั่งซื้อไม่สำเร็จ')}
+ stallShop(u,'⏳ กำลังซื้อ...');setTimeout(()=>{const P_=SBUY.pend[id];if(!P_)return;delete SBUY.pend[id];gc+=P_.cost;hud();save();toast('การซื้อหมดเวลา คืน GC แล้ว')},12000)}
+/* เจ้าของโต๊ะ: มีคนกดซื้อ */
+function stallOnBuy(d){if(!d||d.to!==SB.uid||typeof d.id!='string'||SBUY.done.has(d.id))return;const G=NET.S.G,rep=(ok,why)=>G&&G.send('sr',{u:SB.uid,to:d.u,id:d.id,ok:ok?1:0,k:d.k,q:d.q|0,p:d.p|0,why:why||''});
+ const s=STALL[d.i|0],q=d.q|0;SBUY.done.add(d.id);
+ if(!HOUSE||!s||!s.on||s.k!==d.k||s.p!==(d.p|0)||!(q>=1&&q<=s.n))return rep(0,'ของหมดหรือราคาเปลี่ยนแล้ว');
+ s.n-=q;if(s.n<=0)STALL[d.i|0]=null;const g=s.p*q;gc+=g;hud();save();rep(1);
+ NET.sys(`💰 ${NET.esc(NET.nameOf(d.u))} ซื้อ ${ALL[s.k][0]} ${ALL[s.k][1]} ×${q} จากโต๊ะขายของ (+${g.toLocaleString()} GC)`);if($('#md').style.display=='flex'&&$('#mt').textContent.includes('โต๊ะขายของ')&&isOwner())stallUI()}
+/* ผู้ซื้อ: เจ้าของตอบกลับ */
+function stallOnReply(d){if(!d||d.to!==SB.uid||typeof d.id!='string')return;const P_=SBUY.pend[d.id];delete SBUY.pend[d.id];const k=ALL[d.k]?d.k:null,q=d.q|0;
+ if(d.ok&&k){if(!P_)gc=Math.max(0,gc-(d.p|0)*q);   // หมดเวลาไปแล้ว (คืนเงินไปแล้ว) แต่เจ้าของขายให้จริง → หักเงินตอนนี้
+ inv[k]=(inv[k]||0)+q;hud();save();const m=`✅ ซื้อ ${ALL[k][1]} ×${q} สำเร็จ!`;if(P_&&$('#md').style.display=='flex'&&$('#mt').textContent.includes('โต๊ะขายของ'))stallShop(P_.u,m);else toast(m);return}
+ if(P_){gc+=P_.cost;hud();save();const m='❌ ซื้อไม่สำเร็จ: '+String(d.why||'').slice(0,40)+' (คืน GC แล้ว)';if($('#md').style.display=='flex'&&$('#mt').textContent.includes('โต๊ะขายของ'))stallShop(P_.u,m);else toast(m)}}
+/* ---------- วาดโต๊ะในบ้าน ---------- */
+function ptableDraw(x,y,tm){const r=(col,a,b,w,h)=>{c.fillStyle=col;c.fillRect(x+a,y+b,w,h)};r('rgba(0,0,0,.25)',-13,-2,26,4);r('#5a3820',-12,-12,3,11);r('#5a3820',9,-12,3,11);r('#8a5a32',-13,-15,26,4);r('#a8743e',-13,-15,26,1);
+ r('#c8d8e0',-10,-21,4,6);r('#ff6a6a',-10,-19,4,4);r('#c8d8e0',-4,-22,4,7);r('#6ec8ff',-4,-19,4,4);r('#6b4a2e',4,-19,7,4);r('#8a6a4a',5,-20,5,1);
+ const f=(tm/400|0)%3;r('rgba(220,255,220,.55)',-3+f,-26-f,2,2);r('rgba(220,255,220,.4)',-9-f,-25-f,2,2)}
+function stallDraw(x,y,sell){const r=(col,a,b,w,h)=>{c.fillStyle=col;c.fillRect(x+a,y+b,w,h)};r('rgba(0,0,0,.25)',-14,-2,28,4);r('#5a3820',-13,-11,3,10);r('#5a3820',10,-11,3,10);r('#8a5a32',-14,-14,28,4);r('#b8332b',-14,-12,28,4);r('#ffd84a',-14,-12,28,1);
+ r('#5a3820',-13,-30,2,17);r('#5a3820',11,-30,2,17);r('#d8322a',-15,-32,30,4);r('#fff',-11,-32,4,4);r('#fff',-3,-32,4,4);r('#fff',5,-32,4,4);
+ if(sell){r('#ffd84a',-9,-18,4,4);r('#6ec8ff',-2,-19,4,5);r('#7dffa0',5,-18,4,4)}}
 /* ไหวิญญาณ: หลอมรวม, อัญเชิญ, บันทึกไห, แปลงกายไห, กล่องสุ่มไห */
 const SO={so_d:'ดิน',so_w:'น้ำ',so_a:'ลม',so_f:'ไฟ'};let JS=null;
 /* ---------- หลอมรวมวิญญาณ ---------- */
@@ -1774,7 +1885,7 @@ function toast(t){const e=$('#tt');e.textContent=String(t).replace(/<[^>]*>/g,''
 const inGame=()=>hasChar()&&(!SB.on()||(!!ACC.ready&&!!ACC.prof&&!ACC.kick));   // ล็อกอิน + สร้างตัวละครเสร็จแล้ว
 function hud(){try{applyCap()}catch(e){}{const ig=inGame();['#dbg','#mn','#hot'].forEach(s=>{const e=$(s);if(e)e.style.visibility=ig?'':'hidden'})}if(ARQ)arQuitCheck();try{BANN.tick()}catch(e){}bfsUI();$('#hbtn').style.opacity=houseOK()?1:.4;$('#gc').textContent=gc.toLocaleString();$('#gd').textContent=gold.toLocaleString();$('#ck').textContent=new Date().toLocaleDateString('th-TH',{weekday:'long'})+' '+new Date().toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'});
   hot.forEach((k,i)=>{if(k&&!ALL[k])hot[i]=null});const hh=hot.map((k,i)=>`<div class="hs" style="${HOTED?'border:1px dashed #ffd84a':''}" onclick="useSlot(${i})" oncontextmenu="hotPick(${i});return false" onpointerdown="hpd(${i})" onpointerup="hpu()" onpointerleave="hpu()"><i>${i+1}</i>${k?ALL[k][0]+`<b>${inv[k]}</b>`:''}</div>`).join('')+`<div class="hs" style="font-size:1.2em;${HOTED?'border-color:#ffd84a;background:#4a3d12':''}" title="แก้ไขคีย์ลัด" onclick="hotEd()">✎</div>`;if(hh!==hud.h){hud.h=hh;$('#hot').innerHTML=hh}
- const an=[1,2,3,4,5].find(n=>qs[n]==1);$('#qp').innerHTML=an?`📜 <b>${QS[an-1][0]}</b><br><small>${QS[an-1][1]}${qprog(an)?` (${qprog(an)})`:''}${qdone(an)?' ✅ กลับไปหาคุณทักษิณ':''}</small>`:'';
+ const an=[1,2,3,4,5].find(n=>qs[n]==1);{const jq=jobQTxt(),mq=an?`📜 <b>${QS[an-1][0]}</b><br><small>${QS[an-1][1]}${qprog(an)?` (${qprog(an)})`:''}${qdone(an)?' ✅ กลับไปหาคุณทักษิณ':''}</small>`:'',qh=mq+(mq&&jq?'<div style="height:.5cqh"></div>':'')+jq;if($('#qp').innerHTML!==qh)$('#qp').innerHTML=qh}
  $('#pty').innerHTML='';party.forEach((g,i)=>{const d=document.createElement('div');d.className='ps';d.onclick=team;d.innerHTML=`<canvas width="32" height="32"></canvas><s><u style="width:${g.hp/g.mx*100}%"></u></s><s><u style="width:${Math.min(100,g.sp2/g.mxsp*100)}%;background:#3fa9ff"></u></s><s><u style="width:${g.lv>=lvMax()?100:Math.min(100,g.exp/(g.lv*20)*100)}%;background:#ffd84a"></u></s>`;$('#pty').append(d);const t=d.firstChild.getContext('2d');t.globalAlpha=g.hp>0?1:.35;dg(t,16,28,g,2,0)})}
 let HP_T=0,HP_F=0;function hpd(i){HP_F=0;clearTimeout(HP_T);HP_T=setTimeout(()=>{HP_F=1;hotPick(i)},550)}function hpu(){clearTimeout(HP_T)}
 function hotEd(){HOTED=!HOTED;hud.h='';hud();toast(HOTED?'✎ โหมดแก้ไขคีย์ลัด: แตะช่องเพื่อเปลี่ยน/เอาออก':'ออกจากโหมดแก้ไขคีย์ลัดแล้ว')}
@@ -1807,7 +1918,7 @@ function avp(){const t=$('#ap').getContext('2d');t.clearRect(0,0,90,30);[['d',15
 function avOk(f){if(!f&&SB.on()){av=AV;closeM();save();return}const n=$('#pn').value.trim();if(!n){$('#pn').style.borderColor='#f55';return}if(f&&SB.on())return accName(n);pname=n;av=AV;if(f)newChar();else{closeM();save()}}
 function rst(){openM('รีเซ็ตเกม','<p>เริ่มเกมใหม่ตั้งแต่ต้น? ตัวละคร ผี และไอเทมทั้งหมดจะถูกลบ</p><button class="bn" onclick="doRst()">ยืนยันรีเซ็ต</button>')}
 function doRst(){if(SB.on())return accReset();try{localStorage.removeItem('gho1')}catch(e){}try{window.name=''}catch(e){}location.reload()}
-function talk(n){if(HE.on||mode!='world'||$('#md').style.display=='flex')return;n=n||nearNpc();if(!n)return toast('ไม่มีใครให้คุยอยู่ใกล้ๆ');if(newbLock()&&!NEWB_OK.includes(n.t))return newbBlock();({pillar:pillarOpen,hghost:()=>hgInfo(n),hshrine:hwh,house:houseMenu,rhouse:()=>NET.houseMenu(n),quest:quest,shrine:pray,shop:shop,teacher:sensei,breeder:breeder,herb:herbShop,khun:khunTalk,chief:chiefTalk,portal:()=>n.go()}[n.t]||(()=>{}))()}
+function talk(n){if(HE.on||mode!='world'||$('#md').style.display=='flex')return;n=n||nearNpc();if(!n)return toast('ไม่มีใครให้คุยอยู่ใกล้ๆ');if(newbLock()&&!NEWB_OK.includes(n.t))return newbBlock();({pillar:pillarOpen,hghost:()=>hgInfo(n),hshrine:hwh,house:houseMenu,rhouse:()=>NET.houseMenu(n),quest:quest,shrine:pray,shop:undTalk,teacher:sensei,breeder:breeder,herb:herbTalk,ptable:ptableUI,stall:stallOpen,khun:khunTalk,chief:chiefTalk,portal:()=>n.go()}[n.t]||(()=>{}))()}
 function pray(m){openM('ศาลตายาย ⛩️',`<p>👵👴 "มาไหว้ตายายหน่อยลูก... จะให้ตายายช่วยอะไรดี"</p>${m?`<p style="color:#ffd84a">✨ ${m}</p>`:''}<button class="bn" onclick="heal0()">✨ ฟื้นฟูผี</button><button class="bn" onclick="wh()">📦 โกดังผี</button>`)}
 function heal0(){party.forEach(g=>{g.hp=g.mx;g.sp2=g.mxsp});hud();save();pray('HP และ SP ของผีในทีมทุกตัวฟื้นเต็มแล้ว')}
 function help(){openM('วิธีเล่น',`<div class="hk">${[['W A S D / ↑←↓→','เดิน · คลิก/แตะพื้นเพื่อเดินไปที่นั่น · มือถือมีแผ่น Pad'],['คลิก / แตะ','คุยกับ NPC / ศาลตายาย (คลิกหรือแตะที่ตัว NPC เมื่ออยู่ใกล้)'],['1 – 9','คีย์ลัดไอเทม: คลิกช่องว่างบนแถบเพื่อวางไอเทมใช้งาน (คลิกขวา/กดค้างเพื่อเปลี่ยน)'],['Enter','เปิดแชท / ส่งข้อความ']].map(k=>`<kbd>${k[0]}</kbd><span>${k[1]}</span>`).join('')}</div><div class="cd">⚔️ ออกทางหลังหมู่บ้านไป 🌲 ป่าแห่งการฝึกฝน แล้วเดินชนผีในพงหญ้าเพื่อต่อสู้ · ออกทางหน้าหมู่บ้านไป 🗺️ World Map · ผีป่าดรอป 💠เศษวิญญาณ นำไปใช้อัญเชิญวิญญาณที่ 🏺 ไหวิญญาณ (ไอคอนด้านล่าง) เพื่อเรียกผีใหม่ · ธาตุ ดิน&gt;น้ำ&gt;ไฟ&gt;ลม&gt;ดิน</div><div class="cd">⛩️ <b>ศาลตายาย</b> ฟื้น HP/SP ฟรี · 🕯️ <b>พ่อค้าใต้ดิน</b> สุ่มไอเทมมาขาย ${SHOPS.under.slots} ชิ้น ชิ้นละ ${SHOPS.under.price} ทอง เปลี่ยนชุดทุก 1 ชั่วโมง (เดินไปใกล้ๆ แล้วคลิกที่ตัวเขา)</div><div class="cd">เมนูมุมขวาล่าง: 📖 สมุดผี · 🎒 กระเป๋า · 🏺 ไหวิญญาณ · 🆘 กลับจุดเซฟฉุกเฉิน · ทีมผีกดที่รูปผีด้านขวาของจอ</div><button class="bn" onclick="closeM()">เริ่มผจญภัย!</button>`,0)}
@@ -1866,12 +1977,12 @@ function dbgUSet(i,id){const g=party[i];if(!g)return;g.u=id;g.uq={};hud();save()
 function dbgSPick(m){if(!dbgOK())return dbgLock(()=>dbgSPick(m));openM('📜 เปลี่ยนสกิล — เลือกผี',(m?`<p style="color:#ffd84a">${m}</p>`:'')+party.map((g,i)=>`<div class="cd tr"><canvas data-i="${i}" width="32" height="32"></canvas><div style="flex:1"><b>${nm(g)}</b> ${LV(g)} · ธาตุ${g.sp.e}<br><small>${g.sk.map(s=>`<span style="color:${skc(s)}">● ${s.n}</span>`).join(' ')||'— ไม่มีสกิล —'}</small></div><button class="bn" onclick="dbgSSlot(${i})">เปลี่ยน</button></div>`).join('')+'<button class="bn" onclick="dbgUI()">↩ กลับโหมดทดสอบ</button>');document.querySelectorAll('#mb canvas[data-i]').forEach(q=>spr(q,party[+q.dataset.i],2))}
 function dbgSSlot(i,m){const g=party[i];if(!g)return dbgSPick();openM('📜 สกิลของ '+nm(g)+' — เลือกช่อง',(m?`<p style="color:#ffd84a">${m}</p>`:'')+`<div class="sk4" style="display:grid;grid-template-columns:1fr 1fr;gap:.5cqw">${[0,1,2,3].map(j=>{const s=g.sk[j];return `<div class="cd" style="margin:0;cursor:pointer" onclick="dbgSList(${i},${j})">${s?`<b style="color:${skc(s)}">● ${s.n}</b><br><small>${skd2(s)}</small>`:'<span style="color:#888">— ช่องว่าง (แตะเพื่อใส่สกิล) —</span>'}</div>`}).join('')}</div>`+`<button class="bn" onclick="dbgSPick()">↩ เลือกผีตัวอื่น</button>`)}
 function dbgSList(i,j){const g=party[i];if(!g)return dbgSPick();const cur=g.sk[j];j=cur?j:g.sk.length;const els=['ไฟ','น้ำ','ลม','ดิน',0];
- openM(`📜 ${nm(g)} ช่องที่ ${j+1} — เลือกสกิล`,`<div class="cd" id="dbsd" style="min-height:2.8em">${cur?'ตอนนี้: '+skd(cur):'ชี้หรือแตะสกิลเพื่อดูรายละเอียด แตะอีกครั้งเพื่อเลือก'}</div><div class="gr3" style="grid-template-columns:repeat(5,1fr);gap:.4cqw">${els.map(e=>S.filter(s=>s.e===e).map(s=>{const ok=okSk(g,s),has=g.sk.includes(s)&&s!==cur;return `<div class="bk" style="padding:.2cqh .4cqw;${sst(s)};${ok&&!has?'':'opacity:.35;pointer-events:none'}${s===cur?';outline:2px solid #ffd84a':''}" onmouseenter="dbgSD('${s.id}')" onclick="dbgSSet(${i},${j},'${s.id}')"><b style="color:${skc(s)}">● ${s.n}</b> <small style="color:${GRADE_C[s.r]}">${GRADE_N[s.r]}</small></div>`}).join('')).join('')}</div><small style="opacity:.75">สกิลจาง = มีอยู่แล้ว หรือผิดกฎธาตุ (ผีธาตุ${g.sp.e}ใช้สกิลธาตุ${OPP[g.sp.e]}ไม่ได้)</small><div>${cur?`<button class="bn" onclick="dbgSSet(${i},${j},null)">🗑 ลบสกิลช่องนี้</button>`:''}<button class="bn" onclick="dbgSSlot(${i})">↩ กลับ</button></div>`)}
+ openM(`📜 ${nm(g)} ช่องที่ ${j+1} — เลือกสกิล`,`<div class="cd" id="dbsd" style="min-height:2.8em">${cur?'ตอนนี้: '+skd(cur):'ชี้หรือแตะสกิลเพื่อดูรายละเอียด แตะอีกครั้งเพื่อเลือก'}</div><div class="gr3" style="grid-template-columns:repeat(5,1fr);gap:.4cqw">${els.map(e=>S.filter(s=>s.e===e).map(s=>{const ok=okSk(g,s),has=g.sk.includes(s)&&s!==cur;return `<div class="bk" style="padding:.2cqh .4cqw;${sst(s)};${ok&&!has?'':'opacity:.35;pointer-events:none'}${s===cur?';outline:2px solid #ffd84a':''}" onmouseenter="dbgSD('${s.id}')" onclick="dbgSSet(${i},${j},'${s.id}')"><b style="color:${skc(s)}">● ${s.n}</b> <small style="color:${GRADE_C[s.r]}">${GRADE_N[s.r]}</small></div>`}).join('')).join('')}</div><div style="margin:.4cqh 0"><small>สกิลพิเศษ (โหมดทดสอบเท่านั้น):</small> ${SKX.map(s=>{const has=g.sk.includes(s)&&s!==cur;return `<span class="bk" style="display:inline-block;padding:.2cqh .6cqw;${has?'opacity:.35;pointer-events:none':''}${s===cur?';outline:2px solid #ffd84a':''}" onmouseenter="dbgSD('${s.id}')" onclick="dbgSSet(${i},${j},'${s.id}')"><b style="color:#ddd">● ${s.n}</b> <small style="color:${GRADE_C[s.r]}">${GRADE_N[s.r]}</small></span>`}).join('')}</div><small style="opacity:.75">สกิลจาง = มีอยู่แล้ว หรือผิดกฎธาตุ (ผีธาตุ${g.sp.e}ใช้สกิลธาตุ${OPP[g.sp.e]}ไม่ได้)</small><div>${cur?`<button class="bn" onclick="dbgSSet(${i},${j},null)">🗑 ลบสกิลช่องนี้</button>`:''}<button class="bn" onclick="dbgSSlot(${i})">↩ กลับ</button></div>`)}
 function dbgSD(id){const e=$('#dbsd');if(e&&SKI[id])e.innerHTML=skd(SKI[id])}
 function dbgSSet(i,j,id){const g=party[i];if(!g)return;const s=id&&SKI[id];if(s&&(!okSk(g,s)||g.sk.some((x,k)=>x===s&&k!==j)))return;if(s){if(j<g.sk.length)g.sk[j]=s;else if(g.sk.length<4)g.sk.push(s)}else g.sk.splice(j,1);hud();save();dbgSSlot(i,s?`ใส่ ${s.n} แล้ว`:'ลบสกิลแล้ว')}
 /* ---------- เคลื่อนย้าย NPC (เฉพาะโหมดทดสอบ) — ตำแหน่งที่ย้ายถูกเก็บในเซฟ (NPCP) ---------- */
 let NPCP={};const NME={on:0,sel:null};
-const npcMovT=n=>!['hghost','house','rhouse','hshrine','pillar'].includes(n.t),npcMovable=n=>!!n&&npcMovT(n)&&MAPID!=2;
+const npcMovT=n=>!['hghost','house','rhouse','hshrine','pillar','ptable','stall'].includes(n.t),npcMovable=n=>!!n&&npcMovT(n)&&MAPID!=2;
 function npcApply(){for(const id of Object.keys(MAPDEF).map(Number)){const L=npcOf(id),o=NPCP[id]||{};L.forEach((n,i)=>{if(!npcMovT(n))return;if(n.ox==null){n.ox=n.x;n.oy=n.y}const p=o[i];if(p){n.x=p[0];n.y=p[1]}else{n.x=n.ox;n.y=n.oy}})}}
 function nmeStart(){if(!dbgOK())return dbgLock(nmeStart);if(mode!='world')return toast('ใช้ได้ตอนอยู่ในแมพเท่านั้น');if(MAPID==2)return toast('ในบ้านใช้ "ปรับแต่งบ้าน" แทน');closeM();NME.on=1;NME.sel=null;TG=null;nmeUI()}
 function nmeUI(m){const e=$('#nme');if(!e)return;if(!NME.on){e.style.display='none';return}e.style.display='flex';
@@ -1982,13 +2093,14 @@ const NET=(()=>{
  const lg=()=>{const L=lead()||party[0];return L&&L.sp?[L.sp.id,L.shiny?1:0]:null};
  const rMeta=()=>({n:pname,a:av,g:lg(),b:mode=='battle'?1:0,x:Math.round(P.x),y:Math.round(P.y),d:P.d,w:WSY.claim()});   // w = ผีป่า/บอสที่กำลังสู้อยู่ (คนอื่นจะชนตัวนั้นไม่ได้)
  const sigR=m=>JSON.stringify([m.n,m.a,m.g,m.b,m.w]);
- const hMeta=()=>{if(!HOUSE)return null;let gs=[];try{gs=hgOf().slice(0,3).map(gSave)}catch(e){}return{m:HOUSE.map,x:HOUSE.x,y:HOUSE.y,sz:HC.sz||0,sh:HC.sh||null,pl:HC.pl||null,gs}};
+ const hMeta=()=>{if(!HOUSE)return null;let gs=[];try{gs=hgOf().slice(0,3).map(gSave)}catch(e){}const L=HE.on&&HE.pub?HE.pub:HC;   // กำลังปรับแต่งบ้าน → คนอื่นยังเห็นตำแหน่งเดิม จนกด เสร็จสิ้น
+  return{m:HOUSE.map,x:HOUSE.x,y:HOUSE.y,sz:HC.sz||0,sh:L.sh||null,pl:L.pl||null,pt:JOB=='herb'?(L.pt||PT_DEF):null,st:JOB=='merchant'?(L.st||ST_DEF):null,sl:JOB=='merchant'?stallSelling():[],gs}};
  const gMeta=()=>({n:pname,m:MAPID==2?(HV?HV.m:HOUSE?HOUSE.map:0):MAPID,h:hMeta(),pt:PTY.meta()});
  const nameOf=u=>(S.on[u]&&S.on[u].n)||(S.ppl[u]&&S.ppl[u].n)||'?';
  /* ---------- เริ่ม / หยุด ---------- */
  function start(){S.st=1;S.uid=SB.uid;S.ppl={};S.on={};S.houses={};bots.length=0;RT.setToken(SB.at||null);
   RT.onStatus=ok=>{sys(ok?'🟢 เชื่อมต่อออนไลน์แล้ว':'🔴 หลุดการเชื่อมต่อออนไลน์ — กำลังต่อใหม่...');tabCount()};
-  S.G=RT.channel('gk:global',{key:S.uid}).listen('c',onChat).listen('w',onWhisper).listen('pi',m=>PTY.onInvite(m)).listen('pa',m=>PTY.onAnswer(m)).listen('pj',m=>PTY.onJoin(m)).listen('ba',m=>BANN.on(m)).onPresence(onGlobal);WSY.start();
+  S.G=RT.channel('gk:global',{key:S.uid}).listen('c',onChat).listen('w',onWhisper).listen('pi',m=>PTY.onInvite(m)).listen('pa',m=>PTY.onAnswer(m)).listen('pj',m=>PTY.onJoin(m)).listen('ba',m=>BANN.on(m)).listen('sb',stallOnBuy).listen('sr',stallOnReply).onPresence(onGlobal);WSY.start();
   const g=gMeta();S.sigG=JSON.stringify(g);S.G.track(g);RT.connect();room();tabCount()}
  function stop(){if(!S.st)return;S.st=0;try{PTY.reset(1)}catch(e){}RT.close();S.G=S.R=null;S.rk='';S.ppl={};S.on={};S.houses={};rhouses();tabCount()}
  function room(){const k=rkey();if(k==S.rk)return;if(S.R)S.R.leave();S.ppl={};S.pend={};S.rk=k;
@@ -2033,11 +2145,11 @@ const NET=(()=>{
  /* ---------- เยี่ยมบ้านพกพาของคนอื่น ---------- */
  const cell=(p,n)=>Array.isArray(p)&&p.length==2&&p.every(Number.isInteger)&&p[0]>0&&p[1]>0&&p[0]<HSZ[n][0]-1&&p[1]<HSZ[n][1]-1?p:null;
  function applyHV(h){const sz=Math.max(0,Math.min(HSZ.length-1,h.sz|0));
-  HV={uid:h.uid,o:h.o,m:+h.m||0,x:+h.x,y:+h.y,k:JSON.stringify([h.sz,h.sh,h.pl,h.gs]),hc:{sz,sh:cell(h.sh,sz),pl:cell(h.pl,sz),pg:[]},
+  HV={uid:h.uid,o:h.o,m:+h.m||0,x:+h.x,y:+h.y,k:JSON.stringify([h.sz,h.sh,h.pl,h.pt,h.st,h.gs]),hc:{sz,sh:cell(h.sh,sz),pl:cell(h.pl,sz),pt:cell(h.pt,sz),st:cell(h.st,sz),pg:[]},
    gs:(Array.isArray(h.gs)?h.gs.slice(0,3):[]).map(o=>{try{return gLoadSave(JSON.parse(JSON.stringify(o)))}catch(e){return null}}).filter(Boolean)}}
  function visitCheck(){if(!HV)return;const h=S.houses[HV.uid];
   if(!h||h.m!=HV.m||h.x!=HV.x||h.y!=HV.y){if(MAPID==2){leaveHouse();toast('🏠 เจ้าของเก็บบ้านหรือออฟไลน์แล้ว')}else HV=null;return}
-  if(JSON.stringify([h.sz,h.sh,h.pl,h.gs])!=HV.k){applyHV(h);if(MAPID==2){buildHouse();MW=HS()[0];MH=HS()[1];if(blk(P.x,P.y)){const f=freeNear(P.x,P.y,6);if(f){P.x=f[0];P.y=f[1]}}}}}
+  if(JSON.stringify([h.sz,h.sh,h.pl,h.pt,h.st,h.gs])!=HV.k){applyHV(h);if(MAPID==2){buildHouse();MW=HS()[0];MH=HS()[1];if(blk(P.x,P.y)){const f=freeNear(P.x,P.y,6);if(f){P.x=f[0];P.y=f[1]}}}}}
  function houseMenu(n){PK=[];const h=S.houses[n.uid];if(!h)return toast('บ้านหลังนี้ไม่อยู่แล้ว');openM('บ้านพกพา 🏠',`<p>🏠 บ้านของ <b>${esc(h.o)}</b></p><button class="bn" onclick="${act(()=>visit(n.uid))}">🚪 เข้าเยี่ยมบ้าน</button>`)}
  function visit(u){const h=S.houses[u];closeM();if(!h)return toast('บ้านหลังนี้ไม่อยู่แล้ว');if(mode!='world'||MAPID==2)return;applyHV(h);buildHouse();setMap(2,(HS()[0]>>1)*16+8,(HS()[1]-2)*16+12);toast('🏠 เข้าเยี่ยมบ้านของ '+h.o)}
  /* ---------- แชท ---------- */
@@ -2274,10 +2386,13 @@ const PTY=(()=>{
   for(const[g,k]of co.key){gs[k]=[g.hp,g.sp2,g.mx,g.mxsp,g.lv,g.exp,(g.st||[]).filter(x=>x.t>0).map(x=>[x.n,x.t]),g.dfd?1:0,g.rip?1:0,g.ent??null,g.float??null,g.hide??null,g.prot||0];const st=SLW.get(g);if(st&&st.rl!=null)rl[k]=Math.round(st.rl)}
   const tt=o=>o?{...o,t:Math.round(o.t)}:null;
   return{gs,rl,o:{A:party.map(K),G:co.gt.map(K),F:B.team.map(K)},foe:K(B.foe),sl:B.sl?{p:B.sl.p.map(K),f:B.sl.f.map(K)}:null,fx:tt(B.fx),pa:tt(B.pa),fpa:tt(B.fpa),fl:B.field?{...B.field,t0:Math.round(B.field.t0||0)}:null,turn:B.turn,gp:co.gwant&&!co.gcmd&&!B.busy?1:0,ginv:co.ginv}}
- function flush(force){if(!(coopOn()&&B.coop.role=='h'&&!B.coop.done))return;const co=B.coop,n=performance.now();let s;try{s=snapH()}catch(e){return}const j=JSON.stringify(s);
-  if(j===co.lastJ&&!(n-co.lastT>5000))return;if(!force&&n-co.lastT<100)return;co.lastJ=j;co.lastT=n;csend('bs',{...s,now:Math.round(n),q:++co.q})}
+ /* ส่งสถานะให้ลูกทีม — รวมข้อความ/ตัวเลข/ป้าย (ev) ไปในข้อความเดียวกัน และเว้นระยะอย่างน้อย 80 มิลลิวินาที (กันโดนจำกัดจำนวนข้อความของเซิร์ฟเวอร์จนอนิเมชั่นหาย) */
+ function flush(force){if(!(coopOn()&&B.coop.role=='h'&&!B.coop.done))return;const co=B.coop,n=performance.now();co.evq=co.evq||[];
+  if(n-co.lastT<(force?80:120)){if(force&&!co.ft)co.ft=setTimeout(()=>{co.ft=0;flush(true)},Math.max(10,80-(n-co.lastT)));return}
+  let s;try{s=snapH()}catch(e){return}const j=JSON.stringify(s);
+  if(j===co.lastJ&&!co.evq.length&&!(n-co.lastT>5000))return;co.lastJ=j;co.lastT=n;const ev=co.evq.splice(0);csend('bs',{...s,ev:ev.length?ev:undefined,now:Math.round(n),q:++co.q})}
  /* ข้อความ / ตัวเลขดาเมจ / ป้ายประกาศ (เรียกจาก blog, pop, ann) */
- function ev(e,d){if(!(coopOn()&&B.coop.role=='h'&&!B.coop.done))return;flush(true);if(e=='a'){d={...d,g:B.coop.key.get(d.g)||null}}csend('be',{e,...d,now:Math.round(performance.now())})}
+ function ev(e,d){if(!(coopOn()&&B.coop.role=='h'&&!B.coop.done))return;const co=B.coop;if(e=='a'){d={...d,g:co.key.get(d.g)||null}}(co.evq=co.evq||[]).push({e,...d});flush(true)}
  /* ---------- ลูกทีม: เข้า / แสดงผลการต่อสู้ ---------- */
  function onCb(d){if(!isF()||!d)return;if(mode=='battle'||!Array.isArray(d.A)||!Array.isArray(d.G)||!Array.isArray(d.F))return;
   const A=d.A.slice(0,4).map(gLoad),G=d.G.slice(0,4).map(gLoad),F=d.F.slice(0,2).map(gLoad);if([...A,...G,...F].some(g=>!g)||!F.length)return;
@@ -2293,13 +2408,15 @@ const PTY=(()=>{
   const ord=(arr,ks)=>{if(!Array.isArray(ks))return;const L=ks.map(K).filter(Boolean);if(L.length){arr.length=0;arr.push(...L)}};
   if(s.o){ord(co.A,s.o.A);ord(co.gt,s.o.G);ord(B.team,s.o.F)}B.foe=K(s.foe)||B.team[0];
   if(s.sl&&Array.isArray(s.sl.p)&&Array.isArray(s.sl.f))B.sl={p:s.sl.p.slice(0,2).map(K),f:s.sl.f.slice(0,2).map(K)};
-  for(const k in s.rl||{}){const g=M[k];if(!g)continue;let st=SLW.get(g);if(!st)SLW.set(g,st={});st.rl=T(s.rl[k])}
-  const fx=o=>o&&typeof o=='object'?{...o,t:T(o.t),S:pt(o.S),T:pt(o.T)}:null;B.fx=fx(s.fx);B.pa=fx(s.pa);B.fpa=fx(s.fpa);
+  /* อนิเมชั่น: เวลาเริ่มของหัวหน้า → เวลาเครื่องเรา · ถ้าข้อความมาช้า (เน็ต/เซิร์ฟเวอร์หน่วง) อนิเมชั่นใหม่จะเริ่มเล่นตั้งแต่ต้นแทนที่จะถูกข้ามไป */
+  const now=performance.now(),RP=co.rp=co.rp||{},TL=(id,h)=>{if(h==null)return h;const o=RP[id];if(o&&o.h===h)return o.l;let l=T(h);if(now-l>140)l=now-40;RP[id]={h,l};return l};
+  for(const k in s.rl||{}){const g=M[k];if(!g)continue;let st=SLW.get(g);if(!st)SLW.set(g,st={});st.rl=TL('rl'+k,num(s.rl[k]))}
+  const fx=(o,id)=>o&&typeof o=='object'?{...o,t:TL(id,num(o.t)),S:pt(o.S),T:pt(o.T)}:null;B.fx=fx(s.fx,'fx');B.pa=fx(s.pa,'pa');B.fpa=fx(s.fpa,'fpa');
   B.field=s.fl&&FLD[s.fl.n]?{...s.fl,t0:T(s.fl.t0)}:null;B.turn=s.turn|0||B.turn;if(s.ginv)co.ginv={heal:Math.max(0,s.ginv.heal|0),sp:Math.max(0,s.ginv.sp|0)};
   const mine=guestOf(co);for(const g of PA())if(co.gt.includes(g))co.seen.add(g);
   if(s.gp&&mine&&!co.sent){if(!co.picking){co.picking=1;B.si=PA().indexOf(mine);B.busy=false;B.t=20;bm2('main')}}
   else if(!s.gp&&(co.picking||co.sent)){co.picking=0;co.sent=0;B.busy=true;if($('#md').style.display=='flex'&&CHR){const r=CHR;CHR=null;closeM();try{r(-1)}catch(e){}}bm2('none')}
-  bi()}
+  bi();if(Array.isArray(s.ev))for(const e of s.ev.slice(0,40))onBe(e,1)}
  function onBe(e){if(!(coopOn()&&B.coop.role=='g')||B.coop.done||!e)return;B.coop.last=Date.now();
   if(e.e=='l')blog(safeH(e.t));
   else if(e.e=='p'){B.pp=e.pp&&typeof e.pp=='object'?{S:pt(e.pp.S),T:pt(e.pp.T)}:null;if(B.pp&&!B.pp.T)B.pp=null;pop(String(e.t).slice(0,30),col(e.col),e.w=='f'?'f':'p',num(e.dy))}
