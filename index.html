@@ -1253,8 +1253,10 @@ function drawB(tm){R25.bg(tm);if(!B)return;fieldFx(tm,0);if(B.two){drawB2(tm);fi
 const LC={'ดิน':'#e6b878','น้ำ':'#b8e6ff','ไฟ':'#ffd878','ลม':'#d8ffe4'};
 async function ann(g,kind,name,aP,ms=850){if(!B)return;PTY.ev('a',{g,k:kind,n:name,aP,ms});const d=document.createElement('div');d.className='an'+(aP?'':' fo');d.innerHTML='<canvas width="32" height="32"></canvas><div><small>'+nm(g)+' · '+kind+'</small><b>'+name+'</b></div>';$('#bt').append(d);try{spr(d.firstChild,g,2)}catch(e){}setTimeout(()=>d.remove(),ms+150);await sleep(ms)}
 async function healFx(g,n,w,T,kind){if(!B||!(n>0))return;if(B.two){if(!T){const s=SL(),i=s.p.indexOf(g),j=s.f.indexOf(g);T=i>=0?AP2[i]:j>=0?FP2[j]:null;w=j>=0?'f':'p'}if(!T)return}else if(g!=lead()&&g!=B.foe)return;
- B.pp=T?{T}:null;B.fx={w,t:performance.now(),heal:1,kind,T:T||undefined};pop('+'+n,kind=='sp'?'#6ec8ff':'#5cff7a',w);await sleep(750)}
-function fxDraw(tm){const f=B&&B.fx;if(!f)return;const a=tm-f.t;if(f.vx&&!f.miss&&SVFX.has(f.vx)){SVFX.draw(c,f.vx,a,f.S||(f.w=='f'?[130,158]:[350,96]),f.T||(f.w=='f'?[350,96]:[130,158]));return}if(a<0||a>820)return;if(f.heal){const T=f.T||(f.w=='f'?[350,96]:[130,158]),bl=f.kind=='sp';for(let i=0;i<16;i++){const k=(a/760+i/16)%1,x=T[0]+Math.sin(i*2.4+a/180)*(14+i%3*5),y=T[1]+30-k*64;c.globalAlpha=Math.max(0,1-a/820)*(1-k*.5);c.fillStyle=i%3==0?'#fff':bl?'#6ec8ff':'#5cff7a';if(i%4==0){c.fillRect(Math.round(x-4),Math.round(y+1),9,2);c.fillRect(Math.round(x),Math.round(y-3),2,9)}else c.fillRect(Math.round(x-1),Math.round(y),2,2)}c.globalAlpha=Math.max(0,.35*(1-a/820));c.fillStyle=bl?'#6ec8ff':'#5cff7a';c.fillRect(Math.round(T[0]-24),Math.round(T[1]+30),48,3);c.globalAlpha=1;return}
+ B.pp=T?{T}:null;if(!(B.fx&&B.fx.vx&&B.fx.heal&&performance.now()-B.fx.t<SVFX.dur(B.fx.vx)))B.fx={w,t:performance.now(),heal:1,kind,T:T||undefined};pop('+'+n,kind=='sp'?'#6ec8ff':'#5cff7a',w);await sleep(750)}
+/* อนิเมชั่นสถานะผิดปกติ (B.sfx) เล่นบนตัวผีที่ติดสถานะ */
+function stFxDraw(tm){const s=B&&B.sfx;if(s&&SVFX.has(s.id)&&s.T)SVFX.draw(c,s.id,tm-s.t,s.T,s.T)}
+function fxDraw(tm){stFxDraw(tm);const f=B&&B.fx;if(!f)return;const a=tm-f.t;if(f.vx&&!f.miss&&SVFX.has(f.vx)){const T0=f.T||(f.w=='f'?[350,96]:[130,158]);SVFX.draw(c,f.vx,a,SVFX.self(f.vx)?T0:(f.S||(f.w=='f'?[130,158]:[350,96])),T0,f);return}if(a<0||a>820)return;if(f.heal){const T=f.T||(f.w=='f'?[350,96]:[130,158]),bl=f.kind=='sp';for(let i=0;i<16;i++){const k=(a/760+i/16)%1,x=T[0]+Math.sin(i*2.4+a/180)*(14+i%3*5),y=T[1]+30-k*64;c.globalAlpha=Math.max(0,1-a/820)*(1-k*.5);c.fillStyle=i%3==0?'#fff':bl?'#6ec8ff':'#5cff7a';if(i%4==0){c.fillRect(Math.round(x-4),Math.round(y+1),9,2);c.fillRect(Math.round(x),Math.round(y-3),2,9)}else c.fillRect(Math.round(x-1),Math.round(y),2,2)}c.globalAlpha=Math.max(0,.35*(1-a/820));c.fillStyle=bl?'#6ec8ff':'#5cff7a';c.fillRect(Math.round(T[0]-24),Math.round(T[1]+30),48,3);c.globalAlpha=1;return}
  if(f.buff){const T=f.T||(f.w=='f'?[350,96]:[130,158]);for(let i=0;i<12;i++){const y=T[1]+34-((a/700+i/12)%1)*70;c.globalAlpha=Math.max(0,1-a/800);c.fillStyle=i%2?'#ffd84a':'#fff6b0';c.fillRect(Math.round(T[0]+(i*13%44)-22),Math.round(y),3,3)}c.globalAlpha=1;return}const col=f.el?EC[f.el]:'#ddd',lc=f.el?LC[f.el]:'#fff',T=f.T||(f.w=='f'?[350,96]:[130,158]),S=f.S||(f.w=='f'?[130,158]:[350,96]),px=(x,y,r,cc)=>{c.fillStyle=cc;c.fillRect(Math.round(x-r),Math.round(y-r),Math.round(r*2),Math.round(r*2))};
  if(a<370){const k=a/370;for(let i=9;i>=0;i--){const q=Math.max(0,k-i*.035),x=S[0]+(T[0]-S[0])*q+Math.sin(tm/40+i)*2,y=S[1]+(T[1]-S[1])*q-Math.sin(q*Math.PI)*22+Math.cos(tm/50+i)*2;c.globalAlpha=1-i/11;px(x,y,8-i*.6,col);if(i<4)px(x,y,4-i,lc)}c.globalAlpha=1}
  else if(!f.miss){const k=(a-370)/450;c.globalAlpha=Math.max(0,(1-k)*.5);px(T[0],T[1],28*(1-k),lc);c.globalAlpha=Math.max(0,1-k);for(let i=0;i<14;i++){const g=i/14*6.283,d=8+k*44+(i%2)*8;px(T[0]+Math.cos(g)*d,T[1]+Math.sin(g)*d,5*(1-k)+1,i%3?col:lc)}c.globalAlpha=1}}
@@ -1279,30 +1281,38 @@ function fieldFx(tm,front){const f=B&&fld();if(!f)return;const a=Math.min(1,(tm-
  else if(f.n=='แดนความเงียบ'){if(!front){c.globalAlpha=.92*a;c.fillStyle='#f4f2ee';c.fillRect(0,0,480,270);c.globalAlpha=.25*a;c.fillStyle='#c9c4bc';c.fillRect(0,HZ,480,1);for(let i=0;i<4;i++){c.beginPath();c.ellipse(i%2?350:130,i%2?130:206,90-i*10,16,0,0,7);c.strokeStyle='#d8d4cc';c.stroke()}}
   else{for(let i=0;i<8;i++){const k=((tm/3000+i/8)%1);c.globalAlpha=Math.sin(k*Math.PI)*.4*a;R_(pr(i+5,480),40+pr(i+8,200)-k*20,2,2,'#bbb')}}}
  c.restore()}
-/* เอฟเฟกต์สกิลธาตุเริ่มต้น: ไฟลอย · พ่นน้ำ · วายุพัด · เขวี้ยงดิน
-   พิกเซล 8-bit ท่าละ 12 เฟรม วาดจากตัวผู้ร่าย (S) ไปหาเป้า (T) — ออกแบบบนฉาก 160×90 (ผู้ร่าย x32 · เป้า x128 · y58)
-   แล้วแปลงพิกัดลงจอต่อสู้: แกนนอนวิ่งตามเส้น S→T, แกนตั้ง 1 จุด = 3px (ขึ้นด้านบนจอเสมอ จึงกลับด้านเองเมื่อศัตรูเป็นฝ่ายใช้)
-   SVFX.has(id) · SVFX.hit(id)=ms ถึงจังหวะดาเมจ · SVFX.dur(id) · SVFX.draw(ctx,id,ms,S,T) */
+/* เอฟเฟกต์สกิล (VFX) ทุกสกิลในเกม — พิกเซล 8-bit ท่าละ 12 เฟรม
+   ออกแบบบนฉาก 160×90: ผู้ร่ายอยู่ (32,58) · เป้าอยู่ (128,58) · พื้น y≈67
+   แปลงพิกัดลงจอต่อสู้: แกนนอนวิ่งตามเส้น S→T, แกนตั้ง 1 จุด = 3px (ขึ้นด้านบนจอเสมอ จึงกลับด้านเองเมื่อศัตรูเป็นฝ่ายใช้)
+   สกิลใส่ตัวเอง (บัฟ/ฮีล/ป้องกัน) วาดรอบตัวผู้ร่าย (S=T)
+   SVFX.has(id) · SVFX.hit(id)=ms ถึงจังหวะโดน/ติดผล · SVFX.dur(id) · SVFX.self(id) · SVFX.draw(ctx,id,ms,S,T,{el}) */
 const SVFX=(()=>{
-const PX=3,W=160,H=90;
+const PX=3;
 function rng(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
 const FIRE=['#5b1f8a','#c4182c','#ff6a1a','#ffc93c','#fff7d1'];
+const VF=['#2a0d3d','#5b1f8a','#a23ad6','#ff6a1a','#ffd0a0'];          // ไฟแค้น (ม่วงปนส้ม)
 const WATER=['#0b2a6b','#1d5fd1','#3fa3ff','#9fe0ff','#ffffff'];
 const WIND=['#1d4a3a','#2f8f5b','#6fdc8c','#c8ffd8','#ffffff'];
 const EARTH=['#24160c','#5c3a1e','#8a5a2b','#b9824a','#e2b47a'];
-const lerp=(a,b,t)=>a+(b-a)*t, cl=x=>Math.max(0,Math.min(1,x));
+const MUD=['#1f140b','#4a3220','#6b4a2a','#8a6a42','#b8946a'];
+const GOLD=['#4a3000','#8a5a00','#d89a1a','#ffd84a','#fff6b0'];
+const NEU=['#2a2a3a','#6b6b8a','#b8b8d8','#e8e8ff','#ffffff'];
+const ELP={'ไฟ':FIRE,'น้ำ':WATER,'ลม':WIND,'ดิน':EARTH};
+const lerp=(a,b,t)=>a+(b-a)*t, cl=x=>Math.max(0,Math.min(1,x)), pg=(f,a,b)=>cl((f-a)/(b-a));
+const arcP=(p,x0,y0,x1,y1,h)=>[lerp(x0,x1,p),lerp(y0,y1,p)-Math.sin(p*Math.PI)*h];
 function G(ctx,S,T,R){
-  const g={R},dx=T[0]-S[0],dy=T[1]-S[1];
-  g.p=(x,y,c)=>{const u=(x-32)/96,X=S[0]+dx*u,Y=S[1]+dy*u+(y-58)*PX;ctx.fillStyle=c;ctx.fillRect(Math.round(X/PX)*PX-1,Math.round(Y/PX)*PX-1,PX,PX)};
+  const g={R};let dx=T[0]-S[0],dy=T[1]-S[1];const L=Math.hypot(dx,dy);
+  let ux,uy,k;if(L<1){ux=S[0]<240?1:-1;uy=0;k=PX}else{ux=dx/L;uy=dy/L;k=L/96}
+  g.p=(x,y,c)=>{const q=(x-32)*k,X=S[0]+ux*q,Y=S[1]+uy*q+(y-58)*PX;ctx.fillStyle=c;ctx.fillRect(Math.round(X/PX)*PX-1,Math.round(Y/PX)*PX-1,PX,PX)};
   g.r=(x,y,w,h,c)=>{x=Math.round(x);y=Math.round(y);w=Math.max(1,Math.round(w));h=Math.max(1,Math.round(h));for(let j=0;j<h;j++)for(let i=0;i<w;i++)g.p(x+i,y+j,c)};
   g.ell=(cx,cy,rx,ry,c)=>{
-    if(rx<0.8&&ry<0.8){g.p(cx,cy,c);return}
+    if(rx<0.8&&ry<0.8){g.p(Math.round(cx),Math.round(cy),c);return}
     const X=Math.ceil(rx),Y=Math.ceil(ry);
     for(let yy=-Y;yy<=Y;yy++)for(let xx=-X;xx<=X;xx++)if((xx*xx)/(rx*rx)+(yy*yy)/(ry*ry)<=1.08)g.p(Math.round(cx+xx),Math.round(cy+yy),c);
   };
   g.disc=(cx,cy,r,c)=>g.ell(cx,cy,r,r,c);
   g.arc=(cx,cy,rx,ry,a0,a1,c,dash=0)=>{
-    const n=Math.max(8,Math.ceil((a1-a0)*Math.max(rx,ry)*1.6));
+    const n=Math.max(8,Math.ceil(Math.abs(a1-a0)*Math.max(rx,ry)*1.6));
     for(let i=0;i<=n;i++){if(dash&&(i%dash)>=dash/2)continue;const a=a0+(a1-a0)*i/n;g.p(Math.round(cx+Math.cos(a)*rx),Math.round(cy+Math.sin(a)*ry),c)}
   };
   g.ring=(cx,cy,rx,ry,c,dash=0)=>g.arc(cx,cy,rx,ry,0,Math.PI*2,c,dash);
@@ -1313,7 +1323,7 @@ function G(ctx,S,T,R){
   g.flame=(cx,cy,r,pal=FIRE)=>{
     const L=[1,.7,.45,.22];
     for(let l=0;l<4;l++){const rr=r*L[l],c=pal[l+1];
-      if(rr<.7){g.p(cx,cy,c);continue}
+      if(rr<.7){g.p(Math.round(cx),Math.round(cy),c);continue}
       g.disc(cx,cy+rr*.15,rr,c);
       const n=Math.max(1,Math.round(rr*1.3));
       for(let i=0;i<n;i++){const x=cx+(R()*2-1)*rr*.7,h=rr*(.5+R()*1.1),sw=(R()-.5)*2;
@@ -1327,22 +1337,41 @@ function G(ctx,S,T,R){
       if(d>rr)continue;let c;
       if(d>rr-1.1)c='#140a04';else{const l=(-xx-yy)/(r*1.4);c=l>.35?pal[4]:l>0?pal[3]:l>-.4?pal[2]:pal[1]}
       g.p(Math.round(cx)+xx,Math.round(cy)+yy,c)}
-    const s=rng(Math.floor(ph*100)+3);for(let i=0;i<3;i++){let x=cx+(s()-.5)*r,y=cy+(s()-.5)*r;for(let j=0;j<3;j++){g.p(Math.round(x),Math.round(y),pal[0]);x+=s()>.5?1:0;y+=1}}
+    if(r>3){const s=rng(Math.floor(ph*100)+3);for(let i=0;i<3;i++){let x=cx+(s()-.5)*r,y=cy+(s()-.5)*r;for(let j=0;j<3;j++){g.p(Math.round(x),Math.round(y),pal[0]);x+=s()>.5?1:0;y+=1}}}
   };
   g.stream=(x0,y0,x1,w,ph,pal)=>{
-    for(let x=x0;x<=x1;x++){const y=y0+Math.sin(x*.3+ph)*1.2,top=Math.round(y-w/2);
+    for(let x=Math.round(x0);x<=x1;x++){const y=y0+Math.sin(x*.3+ph)*1.2,top=Math.round(y-w/2);
       g.r(x,top,1,w,pal[2]);g.p(x,top,pal[1]);g.p(x,top+w-1,pal[1]);if(w>2)g.p(x,top+1,pal[3]);if(w>4&&x%3)g.p(x,top+2,'#fff')}
   };
   g.leaf=(x,y,v)=>{x=Math.round(x);y=Math.round(y);g.p(x,y,'#9bd34a');if(v%2)g.p(x+1,y,'#4f8f2a');else g.p(x,y+1,'#4f8f2a')};
   g.puff=(cx,cy,r,c1,c2)=>{g.disc(cx,cy,r,c1);g.disc(cx-r*.3,cy-r*.3,r*.6,c2)};
-  g.blade=(x,y,s)=>{const rx=6*s,ry=9*s;
-    g.arc(x-rx-2,y,rx,ry,-.85,.85,'#2f8f5b');g.arc(x-rx-1,y,rx,ry,-1,1,'#6fdc8c');g.arc(x-rx,y,rx,ry,-1.1,1.1,'#fff')};
-  g.burst=(x,y,s,R)=>{
-    g.disc(x,y,5*s,'#c4182c');g.disc(x,y,3.8*s,'#ff6a1a');g.disc(x,y,2.5*s,'#ffc93c');g.disc(x,y,1.2*s,'#fff7d1');
-    for(let i=0;i<8;i++){const a=i*Math.PI/4+R()*.3,r1=5*s,r2=(8+R()*3)*s;g.line(x+Math.cos(a)*r1,y+Math.sin(a)*r1,x+Math.cos(a)*r2,y+Math.sin(a)*r2,i%2?'#ffc93c':'#ff6a1a')}
-    g.ring(x,y,7*s,7*s,'#ffc93c',4);
+  g.blade=(x,y,s,pal=WIND)=>{const rx=6*s,ry=9*s;
+    g.arc(x-rx-2,y,rx,ry,-.85,.85,pal[1]);g.arc(x-rx-1,y,rx,ry,-1,1,pal[2]);g.arc(x-rx,y,rx,ry,-1.1,1.1,'#fff')};
+  g.burst=(x,y,s,R2,pal=FIRE)=>{
+    g.disc(x,y,5*s,pal[1]);g.disc(x,y,3.8*s,pal[2]);g.disc(x,y,2.5*s,pal[3]);g.disc(x,y,1.2*s,pal[4]);
+    for(let i=0;i<8;i++){const a=i*Math.PI/4+R()*.3,r1=5*s,r2=(8+R()*3)*s;g.line(x+Math.cos(a)*r1,y+Math.sin(a)*r1,x+Math.cos(a)*r2,y+Math.sin(a)*r2,i%2?pal[3]:pal[2])}
+    g.ring(x,y,7*s,7*s,pal[3],4);
   };
-  g.bg=()=>{};g.actors=()=>{};   // ในเกมใช้ฉากและตัวผีจริง
+  g.splash=(x,y,s,pal,n=14,fall=0)=>{for(let i=0;i<n;i++){const a=-Math.PI*(.05+R()*.9),d=(5+R()*8)*s,px=x+Math.cos(a)*d,py=y+Math.sin(a)*d*.9+fall*d*.3;
+    g.line(px,py,px-Math.cos(a)*2,py-Math.sin(a)*2,pal[2]);g.p(Math.round(px),Math.round(py),R()>.5?pal[4]:pal[3])}};
+  g.spark=(x,y,c,cc='#fff')=>{x=Math.round(x);y=Math.round(y);g.p(x,y,cc);g.p(x-1,y,c);g.p(x+1,y,c);g.p(x,y-1,c);g.p(x,y+1,c)};
+  g.arrow=(x,y,c)=>{x=Math.round(x);y=Math.round(y);g.p(x,y-3,c);g.r(x-1,y-2,3,1,c);g.p(x-2,y-1,c);g.p(x+2,y-1,c);g.r(x,y-1,1,4,c)};
+  g.note=(x,y,c)=>{x=Math.round(x);y=Math.round(y);g.disc(x,y,1.1,c);g.r(x+1,y-5,1,5,c);g.p(x+2,y-5,c);g.p(x+3,y-4,c)};
+  g.zz=(x,y,s,c)=>{x=Math.round(x);y=Math.round(y);g.r(x,y,s,1,c);for(let i=1;i<s-1;i++)g.p(x+s-1-i,y+i,c);g.r(x,y+s-1,s,1,c)};
+  g.star=(x,y,c)=>{x=Math.round(x);y=Math.round(y);g.p(x,y,'#fff');[[0,-2],[0,2],[-2,0],[2,0],[-1,-1],[1,1],[-1,1],[1,-1]].forEach(([a,b])=>g.p(x+a,y+b,c))};
+  g.bang=(x,y,c)=>{x=Math.round(x);y=Math.round(y);g.r(x,y,1,3,c);g.p(x,y+4,c)};
+  g.qmark=(x,y,c)=>{x=Math.round(x);y=Math.round(y);g.r(x,y,3,1,c);g.p(x-1,y+1,c);g.p(x+3,y+1,c);g.p(x+2,y+2,c);g.p(x+1,y+3,c);g.p(x+1,y+5,c)};
+  g.fist=(x,y,pal)=>{x=Math.round(x);y=Math.round(y);g.r(x-3,y-2,5,4,pal[2]);g.r(x-3,y-2,5,1,pal[3]);g.r(x+2,y-2,1,4,pal[3]);g.p(x+2,y-1,pal[4]);g.p(x-1,y+2,pal[2]);g.r(x-3,y+1,4,1,pal[1]);g.r(x-5,y-1,2,2,pal[1])};
+  g.spike=(x,y,h,a,c,c2)=>{for(let i=0;i<h;i++){const w=Math.max(1,Math.round((1-i/h)*2.6));g.r(x+Math.cos(a)*i-w/2,y+Math.sin(a)*i-w/2,w,w,i>h*.6?c2:c)}};
+  g.whirl=(cx,by,h,r0,r1,ph,pal)=>{
+    const n=Math.max(3,Math.round(h/3));
+    for(let q=0;q<=n;q++){const f=q/n,y=by-f*h,r=r0+(r1-r0)*(f*.4+f*f*.6),ox=Math.sin(f*5+ph)*2;
+      g.arc(cx+ox,y,r,Math.max(1,r*.3),Math.PI,Math.PI*2,pal[1],q%2?0:4);
+      g.arc(cx+ox,y,r,Math.max(1,r*.3),0,Math.PI,q%2?pal[2]:pal[3],q%3===0?0:5);
+      g.p(Math.round(cx+ox+Math.cos(ph+q)*r),Math.round(y+Math.sin(ph+q)*r*.3),'#fff')}
+  };
+  g.trail=(pos,p,n,step,cols,r0)=>{for(let j=1;j<=n;j++){const pj=p-j*step;if(pj<=0)break;const[x,y]=pos(pj);g.disc(x,y,Math.max(.6,r0-j*.5),cols[Math.min(j-1,cols.length-1)])}};
+  g.bg=()=>{};g.actors=()=>{};g.edge=()=>{};   // ในเกมใช้ฉากและตัวผีจริง
   return g;
 }
 /* ---- ไฟลอย ---- */
@@ -1428,20 +1457,412 @@ function earthDraw(g,R,f){
 }
 
 
-/* id สกิล → ท่า · ms ต่อเฟรม · เฟรมจังหวะดาเมจ */
+
+/* ================= ไฟ ================= */
+/* ไฟพุ่ง: ลูกไฟรวมที่ปาก แล้วพุ่งเป็นลำตรงเร็ว ๆ */
+function fire02(g,R,f){
+  if(f<=2){const r=1.4+f*1.1;g.flame(43,57,r);for(let i=0;i<3+f;i++){const a=R()*6.28,d=6+R()*4;g.p(Math.round(43+Math.cos(a)*d),Math.round(57+Math.sin(a)*d),'#ffc93c')}}
+  if(f>=3&&f<=7){const x=[56,74,92,110,122][f-3];
+    for(let i=0;i<20;i++){const xx=x-i,c=i<4?'#ffc93c':i<9?'#ff6a1a':i<15?'#c4182c':'#5b1f8a',w=i<6?3:i<12?2:1;g.r(xx,57-Math.floor(w/2),1,w,c)}
+    g.flame(x,57,3.2);for(let i=0;i<4;i++)g.p(Math.round(x-6-R()*14),Math.round(54+R()*6),'#ffc93c')}
+  if(f===8)g.burst(126,57,1.1,R);
+  if(f===9){g.burst(127,57,.7,R);for(let i=0;i<6;i++)g.p(Math.round(116+R()*24),Math.round(46+R()*20),'#ffc93c')}
+  if(f===10){for(let i=0;i<3;i++)g.flame(122+i*6,60-(i%2)*4,1.2);for(let i=0;i<5;i++)g.p(Math.round(116+R()*24),Math.round(42+R()*18),'#ff6a1a')}
+  if(f===11)for(let i=0;i<5;i++)g.p(Math.round(118+R()*20),Math.round(38+R()*16),R()>.5?'#ffc93c':'#7a5a8a');
+}
+/* ไฟแค้น: ดวงไฟหน้าโกรธสีม่วง ลอยส่ายเข้าไปงับเป้า แล้วเกาะเผาต่อ */
+function face(g,x,y,r){x=Math.round(x);y=Math.round(y);g.flame(x,y,r,VF);g.p(x-1,y,'#1a0010');g.p(x+1,y,'#1a0010');g.p(x-2,y-1,'#fff0ff');g.p(x+2,y-1,'#fff0ff');g.r(x-1,y+2,3,1,'#1a0010')}
+function fire03(g,R,f){
+  if(f<=2){const r=1.5+f*1.2;g.ring(32,42,r+3,r+3,'#5b1f8a',4);face(g,32,42,r)}
+  if(f>=3&&f<=7){const p=pg(f,2,8),pos=q=>[lerp(32,124,q),lerp(42,56,q)+Math.sin(q*Math.PI*3)*6],[x,y]=pos(p);
+    g.trail(pos,p,4,.06,['#a23ad6','#5b1f8a','#5b1f8a','#2a0d3d'],2.4);face(g,x,y,4.2)}
+  if(f===8){g.burst(127,56,1,R,VF);face(g,127,52,5)}
+  if(f===9||f===10){const s=f===9?1.6:1.1;[[122,54],[132,58],[127,63]].forEach(([x,y])=>g.flame(x,y,s,VF));for(let i=0;i<5;i++)g.p(Math.round(114+R()*28),Math.round(40+R()*18),'#a23ad6')}
+  if(f===11)for(let i=0;i<4;i++){g.puff(120+i*5,44-i*3,1.6,'#3b2d55','#5a4a7a')}
+}
+/* ไฟเผาผลาญ: เปลวไฟลามไปตามพื้นจนถึงเป้า แล้วลุกท่วมรอบตัว */
+function fire04(g,R,f){
+  const front=f<2?36+f*4:f<=7?[44,60,76,92,108,120][f-2]:128;
+  if(f<=8)for(let x=36;x<=front;x+=4){const age=(front-x)/40,r=Math.max(.9,2.6-age*1.6);g.flame(x,65,r)}
+  if(f>=8&&f<=10){const s=f===8?3.2:f===9?3.6:2.2;for(let i=0;i<6;i++){const a=i/6*6.28,x=128+Math.cos(a)*9,y=62+Math.sin(a)*4;g.flame(x,y,s*.8)}g.flame(128,58,s);
+    if(f===8)g.burst(128,58,.7,R)}
+  if(f>=9)for(let i=0;i<6;i++)g.p(Math.round(114+R()*28),Math.round(36+R()*24),R()>.5?'#ffc93c':'#ff6a1a');
+  if(f===11){g.ell(128,67,14,2,'#2a0a12');for(let i=0;i<6;i++)g.p(Math.round(116+R()*24),Math.round(66+R()*2),'#ff6a1a')}
+}
+/* สุมไฟ / สุมไฟแค้น: ไฟก่อที่เท้า ลอยวนขึ้นรอบตัว แล้วลุกเป็นออร่าเพิ่มพลังโจมตี */
+function stoke(g,R,f,pal,n,arrows,c1){
+  if(f<=2)for(let i=0;i<n;i++){const a=i/n*6.28,x=32+Math.cos(a)*12,y=67+Math.sin(a)*3;g.flame(x,y,.8+f*.4,pal)}
+  if(f>=3&&f<=6){const p=pg(f,3,7);for(let i=0;i<n;i++){const a=i/n*6.28+p*5,rad=12-p*4,x=32+Math.cos(a)*rad,y=66-p*24+Math.sin(a)*3;g.flame(x,y,1.8,pal)}}
+  if(f===7){g.flame(32,40,4.5,pal);g.ring(32,40,7,7,c1,3)}
+  if(f>=8){const k=f-8;g.ring(32,57,13+k,15+k,c1,k>2?6:3);if(k<2)g.ring(32,57,10,12,pal[2],4);
+    for(let i=0;i<arrows;i++){const x=24+i*(16/(arrows-1||1)),y=54-k*4-(i%2)*3;g.arrow(x,y,'#ff5050')}
+    for(let i=0;i<4;i++)g.p(Math.round(20+R()*24),Math.round(40+R()*24),pal[3])}
+}
+function fire05(g,R,f){stoke(g,R,f,FIRE,4,2,'#ff6a1a')}
+function fire06(g,R,f){stoke(g,R,f,VF,6,3,'#a23ad6');if(f>=8&&f<=9)g.ring(32,57,17,19,'#ff6a1a',4)}
+/* เผาวอดวาย: ชูลูกไฟยักษ์ขึ้นฟ้า ตกลงเป็นอุกกาบาตใส่เป้า เหลือเถ้า */
+function fire07(g,R,f){
+  if(f<=2){const y=50-f*12;g.flame(32,y,2+f*1.3);g.line(32,y+4,32,56,'#ff6a1a')}
+  if(f>=3&&f<=7){const p=pg(f,2,8),pos=q=>arcP(q,32,22,126,52,28),[x,y]=pos(p),r=4+p*3.5;
+    g.trail(pos,p,5,.05,['#ff6a1a','#c4182c','#c4182c','#5b1f8a','#5b1f8a'],r-1);g.ring(x,y,r+3,r+3,'#ffc93c',4);g.flame(x,y,r)}
+  if(f===8){g.burst(127,56,1.7,R);g.ring(127,60,22,8,'#ffc93c',4)}
+  if(f===9){g.burst(127,57,1.1,R);for(let i=0;i<6;i++){const a=i/6*6.28;g.flame(127+Math.cos(a)*12,62+Math.sin(a)*4,1.8)}}
+  if(f>=10){g.ell(127,67,16,2.5,'#2a0a12');for(let i=0;i<10;i++){const x=110+R()*34,y=30+R()*36;g.p(Math.round(x),Math.round(y),f===10&&i<3?'#ff6a1a':'#8a8496')}}
+}
+/* เสาหลักไฟ: ไฟมุดลงดิน วิ่งเป็นรอยร้าวลาวาไปใต้เป้า แล้วเสาไฟพุ่งขึ้น */
+function fire08(g,R,f){
+  if(f<=2){g.ell(32,67,4+f*3,1+f*.6,'#ff6a1a');g.ell(32,67,2+f*2,1,'#ffc93c');g.flame(32,64-f,1.5)}
+  if(f>=3&&f<=7){const x=[52,72,92,110,122][f-3];for(let xx=36;xx<=x;xx++){const y=67+Math.round(Math.sin(xx*.7));g.p(xx,y,'#ff6a1a');if(xx%3===0)g.p(xx,y-1,'#ffc93c')}g.flame(x,65,1.6)}
+  if(f===7){g.ring(128,67,12,3,'#ff6a1a');g.ring(128,67,8,2,'#ffc93c',3)}
+  if(f>=8&&f<=10){const top=[34,24,30][f-8],w=f===10?5:7;g.ell(128,67,14,3,'#ff6a1a');
+    for(let y=top;y<=67;y++){const ww=w+Math.sin(y*.6)*1,L=[[1,'#c4182c'],[.72,'#ff6a1a'],[.46,'#ffc93c'],[.2,'#fff7d1']];L.forEach(([q,c])=>{const z=ww*q+(R()-.5);g.r(128-z,y,z*2,1,c)})}
+    g.flame(128,top,w*.7);for(let i=0;i<8;i++){const s=R()>.5?1:-1;g.line(128+s*(8+R()*6),top+R()*30,128+s*(9+R()*6),top+R()*30-3,'#ffc93c')}}
+  if(f===11){g.ell(128,67,12,2,'#2a0a12');for(let i=0;i<8;i++)g.p(Math.round(116+R()*24),Math.round(20+R()*44),R()>.5?'#ffc93c':'#ff6a1a')}
+}
+
+/* ================= น้ำ ================= */
+/* ฉีดน้ำ: ลำน้ำเส้นเล็กแรงดันสูง พุ่งตรงเร็ว ฉีดใส่ต่อเนื่อง */
+function water02(g,R,f){
+  if(f<=1){g.disc(43,57,1.5+f,'#3fa3ff');g.p(42,56,'#fff');for(let i=0;i<4;i++){const a=R()*6.28;g.p(Math.round(43+Math.cos(a)*6),Math.round(57+Math.sin(a)*5),'#9fe0ff')}}
+  const head={2:62,3:90,4:121,5:121,6:121,7:121,8:121},tail={7:70,8:104};
+  if(head[f]){const x0=tail[f]||42,x1=head[f];for(let x=x0;x<=x1;x++){g.p(x,57,'#3fa3ff');g.p(x,56,'#9fe0ff');if(x%4===0)g.p(x,58,'#1d5fd1')}
+    if(f<=3){g.disc(x1,57,1.6,'#fff')}else{g.splash(123,57,f===4?.8:1.1,WATER,10)}}
+  if(f>=9){for(let i=0;i<6;i++){const x=116+R()*24,y=46+R()*14+(f-9)*5;g.r(x,y,1,2,'#3fa3ff')}if(f===11)g.ell(129,67,10,1.5,'#1d5fd1')}
+}
+/* สาดน้ำใส่: ก้อนน้ำโตเหนือหัว ปาโค้งไปสาดเต็มตัวเป้า น้ำไหลเยิ้ม */
+function water03(g,R,f){
+  const blob=(x,y,r,ph)=>{g.ell(x,y,r*1.15+Math.sin(ph)*.4,r*.9-Math.sin(ph)*.4,'#1d5fd1');g.ell(x,y,r*.85,r*.65,'#3fa3ff');g.p(Math.round(x-r*.4),Math.round(y-r*.4),'#fff');g.p(Math.round(x-r*.2),Math.round(y-r*.5),'#9fe0ff')};
+  if(f<=2){blob(32,42,2+f*1.6,f);for(let i=0;i<4;i++){const x=24+R()*16,y=46+R()*12;g.line(x,y,x+(32-x)*.3,y-3,'#3fa3ff')}}
+  if(f>=3&&f<=7){const p=pg(f,2,8),pos=q=>arcP(q,32,42,126,50,22),[x,y]=pos(p);for(let j=1;j<=3;j++){const[a,b]=pos(Math.max(0,p-j*.06));g.p(Math.round(a),Math.round(b+2),'#3fa3ff')}blob(x,y,5,f)}
+  if(f===8){g.ell(127,54,10,8,'#3fa3ff');g.ell(127,54,7,5,'#9fe0ff');g.disc(127,52,3,'#fff');g.splash(127,54,1.5,WATER,18)}
+  if(f===9){for(let i=0;i<9;i++){const x=118+i*2,len=4+R()*8;g.line(x,48+R()*4,x,48+len,'#3fa3ff');g.p(x,48+len+1,'#9fe0ff')}g.splash(127,56,1.6,WATER,8,1)}
+  if(f>=10){g.ell(128,67,9+(f-10)*5,1.6,'#1d5fd1');g.ell(127,66,5+(f-10)*3,1,'#3fa3ff');for(let i=0;i<5;i++){const x=120+R()*16,y=52+R()*12;g.r(x,y,1,2,'#3fa3ff')}}
+}
+/* น้ำพุทะลุ: กดพลังน้ำลงพื้น ระลอกวิ่งใต้ดินไปถึงเป้า แล้วน้ำพุพุ่งทะลุขึ้นมา */
+function water04(g,R,f){
+  if(f<=1){g.ring(32,67,6+f*4,1.5+f,'#3fa3ff');g.ring(32,67,3+f*2,1,'#9fe0ff')}
+  if(f>=2&&f<=6){const x=[48,66,84,102,118][f-2];g.ring(x,67,5,1.4,'#3fa3ff');g.ring(x-10,67,3,1,'#1d5fd1',3);g.p(x,66,'#9fe0ff')}
+  if(f===7){g.ell(128,67,8,2,'#1d5fd1');for(let i=0;i<6;i++)g.p(Math.round(122+R()*12),Math.round(61+R()*5),'#9fe0ff')}
+  if(f>=8&&f<=9){const top=f===8?32:20;g.ell(128,67,12,2.5,'#1d5fd1');
+    for(let y=top;y<=67;y++){const w=4+Math.sin(y*.5+f)*1;g.r(128-w,y,w*2,1,'#3fa3ff');g.r(128-w,y,1,1,'#1d5fd1');g.r(128+w-1,y,1,1,'#1d5fd1');if(y%3)g.p(127+((y>>1)%2),y,'#fff')}
+    g.ell(128,top,7,3,'#9fe0ff');g.ell(128,top-1,4,2,'#fff');g.splash(128,top,1.2,WATER,12)}
+  if(f===10){for(let i=0;i<14;i++){const x=116+R()*24,y=24+R()*40;g.r(x,y,1,2,'#3fa3ff');g.p(Math.round(x),Math.round(y+2),'#9fe0ff')}g.ell(128,67,12,2,'#1d5fd1')}
+  if(f===11){g.ell(129,67,15,2.2,'#1d5fd1');g.ell(127,66,8,1,'#3fa3ff');for(let i=0;i<4;i++)g.r(120+R()*16,58+R()*6,1,2,'#3fa3ff')}
+}
+/* น้ำชโลมจิตใจ: เมฆฝนก้อนเล็กเหนือหัว ฝนเย็นโปรยลงมา ฟื้นพลัง */
+function water05(g,R,f){
+  const cloud=(a)=>{[[26,34,3.5],[32,32,4.5],[38,34,3.5]].forEach(([x,y,r])=>g.disc(x,y,r*a,'#8fa8d8'));[[28,33,2],[33,31,2.5]].forEach(([x,y,r])=>g.disc(x,y,r*a,'#c8dcff'))};
+  if(f<=2)cloud(.4+f*.3);
+  if(f>=3&&f<=9){cloud(1);for(let i=0;i<9;i++){const x=24+((i*5+f*3)%17),y=38+((i*7+f*6)%22);g.r(x,y,1,2,'#9fe0ff');g.p(x,y+2,'#3fa3ff')}}
+  if(f>=6){const k=f-6;for(let i=0;i<5;i++){const x=20+((i*7+k*2)%26),y=64-k*4-(i*5)%10;if(i%2)g.spark(x,y,'#5cff7a');else{g.r(x-1,y,3,1,'#5cff7a');g.r(x,y-1,1,3,'#5cff7a')}}
+    if(f<=8)g.ring(32,58,12+k,14+k,'#9fe0ff',4)}
+}
+/* น้ำใสไหลเย็น: สายน้ำใสไหลวนรอบตัว ฟองอากาศลอยขึ้น เกิดม่านน้ำเย็น */
+function water06(g,R,f){
+  const n=Math.min(1,(f+1)/7);
+  for(let i=0;i<3;i++){const a0=f*.7+i*2.1;g.arc(32,58-i*6+4,13,4,a0,a0+n*4.5,i%2?'#3fa3ff':'#9fe0ff');g.arc(32,58-i*6+5,13,4,a0+.2,a0+n*4.2,'#1d5fd1',3)}
+  for(let i=0;i<5;i++){const x=22+((i*9+f)%22),y=66-((f*4+i*9)%30);g.ring(x,y,1,1,'#9fe0ff')}
+  if(f>=8){const k=f-8;g.ring(32,58,13+k,15+k,'#9fe0ff',3);for(let i=0;i<4;i++)g.spark(20+R()*24,40+R()*22,'#9fe0ff')}
+}
+/* น้ำป่าไหลหลาก: คลื่นน้ำป่าสีขุ่นซัดจากตัวผู้ร่าย พาท่อนไม้ใบไม้ไปถล่มเป้า */
+function water07(g,R,f){
+  const wave=(fr,h)=>{for(let x=30;x<=fr;x++){const k=(x-30)/(fr-30+1),hh=Math.round(2+h*Math.pow(k,3)),top=66-hh;g.r(x,top,1,hh+2,k>.7?'#3f7fc0':'#2a5a8a');g.p(x,top,'#9fe0ff');if(k>.85&&x%2)g.p(x,top-1,'#fff')}
+    g.r(fr-14,64-h*.4,4,1,'#6b4a2a');g.leaf(fr-8,62-h*.6,1);g.leaf(fr-20,64,0)};
+  if(f<=1){wave(36+f*4,2+f*2)}
+  if(f>=2&&f<=7)wave([46,62,78,94,108,120][f-2],8);
+  if(f===8){wave(122,10);g.arc(128,52,10,10,Math.PI,Math.PI*1.9,'#3fa3ff');g.arc(128,52,9,9,Math.PI,Math.PI*1.8,'#fff');g.splash(130,54,1.4,WATER,14)}
+  if(f===9){for(let x=106;x<=150;x++){const h=Math.round(5+2*Math.sin(x*.5));g.r(x,66-h,1,h+2,'#2a5a8a');g.p(x,66-h,'#9fe0ff')}g.splash(128,58,1.2,WATER,8,1)}
+  if(f===10){for(let x=116;x<=152;x++){const h=Math.round(2+Math.sin(x*.5));g.r(x,66-h,1,h+2,'#2a5a8a')}g.r(140,64,4,1,'#6b4a2a');g.leaf(130,63,1)}
+  if(f===11){g.ell(129,67,15,2,'#2a5a8a');g.leaf(122,66,0);g.r(134,66,3,1,'#6b4a2a')}
+}
+/* เสาหลักน้ำ: เสาน้ำศักดิ์สิทธิ์พุ่งขึ้นครอบตัว ชำระล้างสถานะ แล้วแตกเป็นละอองประกาย */
+function water08(g,R,f){
+  if(f<=2){g.ring(32,67,8+f*3,2+f*.5,'#3fa3ff');g.ring(32,67,5+f*2,1.5,'#9fe0ff',3)}
+  if(f>=3&&f<=7){const top=67-[10,20,30,38,42][f-3];g.ell(32,67,13,3,'#1d5fd1');
+    for(let y=top;y<=67;y++){const w=11+Math.sin(y*.4+f)*1;g.p(32-w,y,'#3fa3ff');g.p(32+w,y,'#3fa3ff');g.p(32-w+1,y,'#9fe0ff');if((y+f)%5===0){g.p(32-w+3,y,'#fff');g.p(32+w-3,y-2,'#fff')}}
+    g.dither('#9fe0ff',1,21,top,23,67-top);g.ell(32,top,11,2,'#9fe0ff')}
+  if(f>=8){const k=f-8;for(let i=0;i<12;i++){const a=i/12*6.28,d=8+k*5;g.p(Math.round(32+Math.cos(a)*d),Math.round(46+Math.sin(a)*d*.8+k*2),i%3?'#9fe0ff':'#fff')}
+    for(let i=0;i<4;i++)g.spark(20+R()*24,36+R()*26,'#5cff7a');if(k<2)g.ring(32,52,14+k*3,16+k*3,'#3fa3ff',4)}
+}
+
+/* ================= ลม ================= */
+/* วายุหอน: ลมหอนเป็นคลื่นเสียงโค้งหลายวง พุ่งเข้าใส่เป้า */
+function wind02(g,R,f){
+  if(f<=2)for(let i=0;i<=f;i++)g.arc(42+i*4,57,3+i*1.5,4+i*2,-1,1,i%2?'#6fdc8c':'#c8ffd8');
+  if(f>=3&&f<=7){const x=[56,72,88,104,118][f-3];for(let i=0;i<3;i++){const xx=x-i*7,s=1-i*.2;g.arc(xx-6*s,57,6*s,10*s,-1,1,i?'#6fdc8c':'#fff');g.arc(xx-6*s-1,57,6*s,10*s,-.9,.9,'#2f8f5b')}
+    for(let i=0;i<3;i++){const y=50+i*7;for(let xx=x-26;xx<x-8;xx++)g.p(xx,Math.round(y+Math.sin(xx*.5+f)*1.2),'#2f8f5b')}}
+  if(f===8){for(let i=0;i<3;i++)g.arc(126-i*2,57,4+i*2,10+i*2,-1.3,1.3,i?'#6fdc8c':'#fff');for(let i=0;i<6;i++)g.p(Math.round(116+R()*10),Math.round(48+R()*18),'#c8ffd8')}
+  if(f===9||f===10){const x=f===9?140:150;g.arc(x-6,57,6,10,-1,1,'#6fdc8c');g.arc(x-12,57,5,8,-1,1,'#2f8f5b');for(let i=0;i<4;i++)g.leaf(118+R()*28,46+R()*20,i)}
+  if(f===11)for(let i=0;i<4;i++)g.leaf(116+R()*30,52+R()*16,i);
+}
+/* พายุเฉือน: ใบมีดลมหมุนหลายใบ พุ่งเฉือนเป้าหลายครั้ง ทิ้งรอยข่วน */
+function spin(g,x,y,a,r,c){g.arc(x,y,r,r,a,a+2,c);g.arc(x,y,r,r,a+Math.PI,a+Math.PI+2,c);g.p(Math.round(x),Math.round(y),'#fff')}
+function wind03(g,R,f){
+  if(f<=2)for(let i=0;i<1+f;i++)spin(g,44,50+i*7,f*1.3+i,2+f*.4,'#c8ffd8');
+  if(f>=3&&f<=7){for(let i=0;i<4;i++){const p=cl(pg(f,2,8)-i*.08),x=lerp(44,124,p),y=lerp(50+i*5,52+i*3,p)+Math.sin(p*9+i)*3;if(p<=0)continue;spin(g,x,y,f*1.6+i,3.2,i%2?'#6fdc8c':'#c8ffd8');g.p(Math.round(x-5),Math.round(y),'#2f8f5b')}}
+  const sl=[[[118,44],[138,66]],[[138,44],[118,66]],[[114,55],[142,58]]];
+  if(f>=8&&f<=10){for(let i=0;i<=f-8;i++){const[[a,b],[c,d]]=sl[i],w=i===f-8?2:1;g.line(a,b,c,d,i===f-8?'#fff':'#6fdc8c',w)}for(let i=0;i<5;i++)g.p(Math.round(114+R()*28),Math.round(44+R()*22),'#c8ffd8')}
+  if(f===11){for(let i=0;i<3;i++)g.line(122+i*4,52,126+i*4,60,'#ff8a9a');g.leaf(118,60,0);g.leaf(138,56,1)}
+}
+/* พายุกรรโชก: ลมแรงพัดเป็นสายยาว หอบใบไม้กรวดหินพุ่งใส่ แล้ววนรอบเป้า */
+function wind04(g,R,f){
+  if(f<=2)for(let i=0;i<5;i++){const a=i*1.25+f,d=14-f*3;g.line(32+Math.cos(a)*d,56+Math.sin(a)*d,32+Math.cos(a)*(d-4),56+Math.sin(a)*(d-4),'#6fdc8c')}
+  if(f>=3&&f<=7){const x=[60,80,100,118,126][f-3];for(let i=0;i<7;i++){const y=44+i*4,x0=Math.max(36,x-30-((i*7)%11));g.line(x0,y,x-((i*5)%7),y,i%2?'#2f8f5b':'#c8ffd8')}
+    for(let i=0;i<5;i++){const xx=x-4-R()*26,yy=46+R()*20;if(i%2)g.leaf(xx,yy,i);else g.p(Math.round(xx),Math.round(yy),'#8a5a2b')}}
+  if(f===8||f===9){for(let i=0;i<4;i++){const a0=f*1.3+i*1.6;g.arc(128,57,12-i,8+i,a0,a0+2.2,i%2?'#6fdc8c':'#fff')}for(let i=0;i<6;i++)g.leaf(116+R()*26,44+R()*24,i)}
+  if(f===10){for(let i=0;i<5;i++){const y=46+i*5;g.line(136,y,152,y,'#2f8f5b')}for(let i=0;i<4;i++)g.leaf(120+R()*30,48+R()*18,i)}
+  if(f===11)for(let i=0;i<5;i++)g.leaf(114+R()*34,56+R()*12,i);
+}
+/* ฟุตเวิร์ควายุ: วงลมรัดข้อเท้า เส้นความเร็วพุ่งซ้ายขวา ร่างเบาเร็วขึ้น */
+function wind05(g,R,f){
+  const k=Math.min(1,(f+1)/6);
+  g.ring(32,66,10*k+2,2*k+.6,'#6fdc8c',f%2?4:0);if(f>=2)g.ring(32,63,8*k,1.6,'#c8ffd8',3);
+  if(f>=3)for(let i=0;i<4;i++){const y=48+i*5,s=(f+i)%2?1:-1,x=32+s*(14+((f*3+i*5)%6));g.line(x,y,x+s*7,y,i%2?'#2f8f5b':'#c8ffd8')}
+  if(f>=6){const m=f-6;for(let i=0;i<2;i++){const x=24+i*16,y=52-m*3;g.p(x,y,'#6fdc8c');g.p(x+1,y+1,'#6fdc8c');g.p(x,y+2,'#6fdc8c');g.p(x+2,y,'#c8ffd8');g.p(x+3,y+1,'#c8ffd8');g.p(x+2,y+2,'#c8ffd8')}}
+  if(f>=8)for(let i=0;i<3;i++)g.leaf(20+R()*24,44+R()*20,i);
+}
+/* หมัดวายุ: ลมหมุนรวมตัวเป็นกำปั้นลมหน้าตัว ส่องประกาย แล้วซึมเข้าตัว */
+function wind06(g,R,f){
+  if(f<=4)for(let i=0;i<6;i++){const a=i/6*6.28+f,d=16-f*2.5;g.arc(46+Math.cos(a)*d*.4,56+Math.sin(a)*d*.4,d*.5,d*.4,a,a+1.2,i%2?'#6fdc8c':'#c8ffd8')}
+  if(f>=3&&f<=8){const s=f<=5?.6+(f-3)*.2:1;g.ring(46,56,6*s+1,6*s+1,'#2f8f5b',4);g.fist(46,56,WIND);if(f>=6)g.ring(46,56,8+(f-6)*2,8+(f-6)*2,'#c8ffd8',3)}
+  if(f>=8){const k=f-8;g.ring(32,57,12+k,14+k,'#6fdc8c',4);g.arrow(26,52-k*4,'#ff5050');g.arrow(38,49-k*4,'#ff5050');for(let i=0;i<3;i++)g.spark(20+R()*24,42+R()*20,'#c8ffd8')}
+}
+/* ธนูวายุ: น้าวคันธนูลม ยิงลูกศรลมเกลียวพุ่งทะลุเป้า (ออกก่อน) */
+function wind07(g,R,f){
+  const bow=(pull)=>{g.arc(38,57,5,11,-1.3,1.3,'#6fdc8c');g.arc(39,57,5,11,-1.2,1.2,'#c8ffd8');g.line(39+Math.cos(-1.3)*5,57+Math.sin(-1.3)*11,40-pull,57,'#fff');g.line(40-pull,57,39+Math.cos(1.3)*5,57+Math.sin(1.3)*11,'#fff')};
+  if(f<=2){bow(f*2);g.line(40-f*2,57,52-f*2,57,'#c8ffd8');g.p(52-f*2,57,'#fff');g.p(51-f*2,56,'#fff');g.p(51-f*2,58,'#fff')}
+  if(f===3){bow(0);g.line(56,57,72,57,'#fff');for(let i=0;i<4;i++)g.p(Math.round(44+R()*8),Math.round(50+R()*14),'#c8ffd8')}
+  if(f>=4&&f<=6){const x=[86,104,120][f-4];for(let xx=44;xx<x;xx++){const y=57+Math.round(Math.sin(xx*.6)*2.2);g.p(xx,y,xx%2?'#6fdc8c':'#2f8f5b')}g.line(x-12,57,x,57,'#fff');g.p(x+1,57,'#fff');g.p(x,56,'#c8ffd8');g.p(x,58,'#c8ffd8')}
+  if(f===7){g.line(118,57,140,57,'#fff');g.ring(128,57,4,8,'#c8ffd8');g.ring(128,57,7,11,'#6fdc8c',4)}
+  if(f>=8&&f<=9){const k=f-8;g.ring(138+k*6,57,3+k,6+k*2,'#6fdc8c',3);g.ring(132+k*4,57,2,4,'#c8ffd8',4)}
+  if(f>=9)for(let i=0;i<3;i++)g.leaf(118+R()*26,50+R()*16,i);
+}
+/* เสาหลักวายุ: ส่งลมกรรโชกไปใต้เป้า ก่อเป็นเสาพายุหมุนครอบตัว */
+function wind08(g,R,f){
+  if(f<=2)for(let i=0;i<3;i++){const a=f*1.5+i*2.1;g.arc(32,56,10-f*2,6-f,a,a+2,'#6fdc8c')}
+  if(f>=3&&f<=6){const x=[54,76,98,118][f-3];for(let i=0;i<3;i++){const y=60+i*3;g.line(x-20,y,x,y,i%2?'#2f8f5b':'#c8ffd8')}for(let i=0;i<3;i++)g.leaf(x-R()*16,58+R()*6,i)}
+  if(f===7)g.whirl(128,67,12,2,5,1,WIND);
+  if(f>=8&&f<=10){const h=[44,50,40][f-8];g.whirl(128,67,h,3,f===10?10:14,f*1.4,WIND);for(let i=0;i<6;i++){const a=R()*6.28,hh=R()*h;g.leaf(128+Math.cos(a)*(4+hh*.25),66-hh,i)}}
+  if(f===11)for(let i=0;i<6;i++)g.leaf(112+R()*32,40+R()*26,i);
+}
+
+/* ================= ดิน ================= */
+/* เขวี้ยงดิน: ก้อนดินสามก้อนลอยขึ้น เขวี้ยงตามกันเป็นชุด */
+function earth02(g,R,f){
+  const home=[[24,42],[32,36],[40,42]];
+  for(let i=0;i<3;i++){const st=3+i,hitF=7+i;
+    if(f<st){if(f>=i*.5){const e=Math.min(1,(f+1-i*.5)/2);g.rock(home[i][0],lerp(62,home[i][1],e),2.6,i,MUD)}}
+    else if(f<hitF){const p=pg(f,st-1,hitF),pos=q=>arcP(q,home[i][0],home[i][1],124+i*3,52+i*2,14),[x,y]=pos(p);for(let j=1;j<=3;j++){const[a,b]=pos(Math.max(0,p-j*.06));g.p(Math.round(a),Math.round(b),MUD[3])}g.rock(x,y,2.8,i+f,MUD)}
+    else if(f===hitF){const x=124+i*3,y=52+i*2;for(let k=0;k<8;k++){const a=k/8*6.28;g.line(x+Math.cos(a)*3,y+Math.sin(a)*3,x+Math.cos(a)*7,y+Math.sin(a)*6,'#e2b47a')}g.rock(x,y,2.4,i+9,MUD)}
+    else if(f===hitF+1){for(let k=0;k<4;k++){const a=-Math.PI*R();g.rock(124+i*3+Math.cos(a)*8,52+i*2+Math.sin(a)*6,1,k,MUD)}}}
+  if(f>=10)[[118,64,3],[136,64,3]].forEach(([x,y,r])=>g.puff(x,y,r-(f-10),'#5c4a3a','#7a6550'));
+}
+/* ทุ่มหิน: ยกหินยักษ์ขึ้นสุดแขน ทุ่มข้ามไปตกทับเป้าจากด้านบน */
+function earth03(g,R,f){
+  if(f<=3){const y=[60,48,36,30][f];g.rock(32,y,f===0?4:9,1);if(f===0)for(let i=0;i<5;i++)g.p(Math.round(24+R()*16),Math.round(62+R()*4),'#8a5a2b')}
+  if(f>=4&&f<=7){const p=pg(f,3,7),[x,y]=[lerp(32,128,p),lerp(30,18,p)-Math.sin(p*Math.PI)*10];for(let j=1;j<=4;j++)g.r(x-j*5,y+j,2,1,'#b9824a');g.rock(x,y,9.5,1+p*4)}
+  if(f===8){g.rock(128,50,10,6);for(let i=0;i<12;i++){const a=i*Math.PI/6;g.line(128+Math.cos(a)*12,58+Math.sin(a)*6,128+Math.cos(a)*20,58+Math.sin(a)*9,'#e2b47a')}
+    for(let i=0;i<5;i++){const a=Math.PI*(i/4);g.line(128,67,128+Math.cos(a)*22,67+Math.sin(a)*4,'#0e0806')}}
+  if(f===9){for(let i=0;i<8;i++){const a=-Math.PI*R(),d=8+R()*10;g.rock(128+Math.cos(a)*d,56+Math.sin(a)*d*.7,2+R()*2,i)}g.ell(128,68,13,2,'#0e0806')}
+  if(f>=10){g.ell(128,68,13,2,'#0e0806');[[116,65,2.4],[140,66,2],[130,66,1.6]].forEach(([x,y,r],i)=>g.rock(x,y,r,i+3));[[116,56,4],[130,50,5],[140,58,3.5]].forEach(([x,y,r])=>g.puff(x,y,r,'#5c4a3a','#7a6550'))}
+}
+/* หินถล่ม: พื้นสั่นไปถึงเป้า หินหลายก้อนร่วงจากฟ้าถล่มทับ */
+function earth04(g,R,f){
+  if(f<=3){for(let i=0;i<4;i++)g.p(Math.round(24+R()*16),Math.round(60+R()*5),'#b9824a');const x=36+f*24;for(let xx=36;xx<=x;xx++)g.p(xx,67+((xx>>1)%2),'#0e0806')}
+  const R3=[[120,0],[134,1],[127,2],[140,3],[116,4]];
+  if(f>=3&&f<=10)R3.forEach(([x,i])=>{const st=3+i*.8,hf=8+i*.5,p=pg(f,st,hf);if(f<st)return;if(p<1){const y=lerp(-6,52+(i%3)*4,p*p);g.line(x,y-8,x,y-4,'#b9824a');g.rock(x,y,3.6+(i%2),i)}else if(f-hf<1.2){g.rock(x,56+(i%3)*3,2,i+5);for(let k=0;k<5;k++)g.p(Math.round(x-5+R()*10),Math.round(52+R()*12),'#e2b47a')}});
+  if(f>=9){g.ell(128,67,15,2.5,'#0e0806');[[118,65,2.6],[132,64,3],[142,66,2],[126,66,2.2]].forEach(([x,y,r],i)=>g.rock(x,y,r,i+7));[[116,56,4],[130,50,5],[140,58,3.5]].forEach(([x,y,r])=>g.puff(x,y,r,'#5c4a3a','#7a6550'))}
+}
+/* เกาะแกร่งกล้า: แผ่นหินผุดจากพื้น ลอยวนแล้วประกบเป็นเกราะรอบตัว */
+function earth05(g,R,f){
+  const n=6;for(let i=0;i<n;i++){const a=i/n*6.28+(f<7?f*.5:3.5);let rad,y;
+    if(f<=2){rad=14;y=67-f*3}else if(f<=6){rad=14-(f-3)*.8;y=60-(f-3)*2}else{rad=11;y=56}
+    g.rock(32+Math.cos(a)*rad,y+Math.sin(a)*rad*.5,f<=1?1.4:2.2,i)}
+  if(f>=7){g.ring(32,56,12,14,'#b9824a',f>=9?4:0);if(f<=9){g.spark(22,46,'#e2b47a');g.spark(42,48,'#e2b47a')}const k=f-7;g.arrow(32,48-k*3,'#6ec8ff')}
+}
+/* เกาะหนามปิศาจ: หนามหินปิศาจแทงทะลุพื้นรอบตัว ปลายหนามเรืองม่วง */
+function earth06(g,R,f){
+  const n=8,k=Math.min(1,Math.max(0,(f-1)/5));
+  for(let i=0;i<n;i++){const a=i/n*6.28,bx=32+Math.cos(a)*11,by=60+Math.sin(a)*6,h=Math.round(2+k*7+(i%2)*2);if(f>=1)g.spike(bx,by,h,Math.atan2(Math.sin(a)*.5-1,Math.cos(a)),'#8a5a2b','#c084ff')}
+  if(f<=1){g.ell(32,67,12,2.5,'#0e0806')}
+  if(f>=7){g.ring(32,58,14,12,'#a23ad6',f>=9?4:3);for(let i=0;i<3;i++)g.spark(20+R()*24,44+R()*20,'#c084ff','#fff0ff')}
+}
+/* โคลนซัดสาด: คลื่นโคลนข้นก่อตัวที่เท้า ม้วนตัวสูงขึ้นแล้วโถมทับเป้า */
+function earth07(g,R,f){
+  const wave=(fr,h)=>{for(let x=30;x<=fr;x++){const k=(x-30)/(fr-30+1),hh=Math.round(2+h*Math.pow(k,2.5)),top=66-hh;g.r(x,top,1,hh+2,k>.7?MUD[2]:MUD[1]);g.p(x,top,MUD[3]);if(k>.8&&x%2)g.p(x,top-1,MUD[4]);if((x*7)%11===0&&hh>3)g.p(x,top+2,MUD[0])}
+    g.rock(fr-12,64-h*.5,1.2,fr);g.disc(fr-20,63,1,MUD[3])};
+  if(f<=1){for(let i=0;i<4;i++){const x=24+R()*16;g.ell(x,66,1+R(),1,MUD[3]);g.ring(x,65,1.2,1,MUD[4])}wave(34+f*5,2+f*2)}
+  if(f>=2&&f<=7)wave([46,62,78,94,108,118][f-2],[8,9,10,11,12,13][f-2]);
+  if(f===8){wave(120,14);g.arc(128,50,11,12,Math.PI*.95,Math.PI*1.95,MUD[2]);g.arc(128,50,10,11,Math.PI,Math.PI*1.85,MUD[3]);g.arc(128,51,9,10,Math.PI*1.05,Math.PI*1.8,MUD[1]);g.splash(130,52,1.5,MUD,16)}
+  if(f===9){for(let x=106;x<=152;x++){const h=Math.round(7+2*Math.sin(x*.5));g.r(x,66-h,1,h+2,MUD[2]);g.p(x,66-h,MUD[3])}g.splash(128,56,1.3,MUD,10,1);for(let i=0;i<5;i++)g.disc(120+i*4,52+(i%2)*4,1.3,MUD[2])}
+  if(f===10){for(let x=112;x<=150;x++){const h=Math.round(3+Math.sin(x*.5));g.r(x,66-h,1,h+2,MUD[1])}for(let i=0;i<5;i++){const x=120+i*3.5;g.line(x,50+(i%3)*3,x,56+(i%3)*3,MUD[2])}}
+  if(f===11){g.ell(129,67,16,2.2,MUD[1]);g.ell(127,66,9,1,MUD[2]);for(let i=0;i<4;i++){const x=121+i*4;g.line(x,54+(i%2)*3,x,58+(i%2)*3,MUD[2])}}
+}
+/* เสาหลักดิน: รอยแยกวิ่งใต้ดินไปถึงเป้า เสาหินพุ่งทะลุขึ้นกระแทก */
+function earth08(g,R,f){
+  if(f<=2){g.ell(32,67,4+f*3,1+f*.5,'#0e0806');for(let i=0;i<3;i++)g.p(Math.round(26+R()*12),Math.round(61+R()*4),'#b9824a')}
+  if(f>=3&&f<=6){const x=[54,76,98,118][f-3];for(let xx=36;xx<=x;xx++)g.p(xx,67+Math.round(Math.sin(xx*.8)),'#0e0806');for(let i=0;i<2;i++)g.p(x-R()*6,63+R()*3,'#b9824a')}
+  if(f===7){g.ell(128,67,10,2,'#0e0806');for(let i=0;i<6;i++)g.p(Math.round(120+R()*16),Math.round(60+R()*6),'#b9824a')}
+  if(f>=8&&f<=10){const top=[36,30,40][f-8];for(let y=top;y<=67;y++){g.r(122,y,12,1,'#8a5a2b');g.r(122,y,3,1,'#b9824a');g.r(132,y,2,1,'#5c3a1e');if(y%6===0)g.r(124,y,8,1,'#5c3a1e')}
+    g.r(122,top,12,2,'#e2b47a');g.r(121,top+2,1,67-top-2,'#140a04');g.r(134,top+2,1,67-top-2,'#140a04');
+    for(let i=0;i<6;i++){const a=-Math.PI*R(),d=10+R()*10;g.rock(128+Math.cos(a)*d,top+8+Math.sin(a)*d*.6,1.2+R(),i)}
+    if(f===10)[[118,top+6,4],[138,top+8,4]].forEach(([x,y,r])=>g.puff(x,y,r,'#5c4a3a','#7a6550'))}
+  if(f===11){g.ell(128,67,12,2,'#0e0806');[[120,65,2.4],[134,65,2.8],[128,66,2]].forEach(([x,y,r],i)=>g.rock(x,y,r,i+2));[[118,60,3],[138,60,3]].forEach(([x,y,r])=>g.puff(x,y,r,'#5c4a3a','#7a6550'))}
+}
+
+/* ================= ไม่มีธาตุ ================= */
+/* คนดีผีคุ้ม: ยันต์ทองลอยลงมาคุ้มหัว แล้วกางเป็นโดมป้องกันสีทอง */
+function none01(g,R,f){
+  const tal=(y)=>{g.r(29,y,6,9,'#f4e3a8');g.r(29,y,6,1,'#c9a35a');g.r(31,y+2,2,1,'#c4182c');g.r(30,y+4,4,1,'#c4182c');g.r(31,y+6,2,1,'#c4182c')};
+  if(f<=5){const y=[18,24,30,34,34,34][f];tal(y);if(f>=3){for(let i=0;i<8;i++){const a=i/8*6.28,r1=7,r2=9+(f-3)*2;g.line(32+Math.cos(a)*r1,38+Math.sin(a)*r1,32+Math.cos(a)*r2,38+Math.sin(a)*r2,'#ffd84a')}}}
+  if(f>=6){const k=Math.min(1,(f-5)/2);g.arc(32,60,15*k+2,18*k+2,Math.PI,Math.PI*2,'#ffd84a');g.arc(32,60,14*k+2,17*k+2,Math.PI*1.1,Math.PI*1.9,'#fff6b0',4);g.ring(32,66,15*k+2,3,'#d89a1a');
+    const a=f*.8;g.p(Math.round(32+Math.cos(Math.PI+a%Math.PI)*15),Math.round(60-Math.abs(Math.sin(a))*17),'#fff');if(f>=10)g.dither('#ffd84a',1,18,44,29,20)}
+}
+/* เพลงกล่อมเด็ก: โน้ตเพลงลอยเป็นคลื่นไปหาเป้า วนรอบหัว แล้วเป้าหลับ Zzz */
+function none02(g,R,f){
+  const C=['#c8b8ff','#ffc8ec','#b8e8ff'];
+  if(f<=7)for(let i=0;i<4;i++){const p=cl((f+1)/8-i*.1);if(p<=0)continue;const x=lerp(40,124,p),y=48+Math.sin(p*9+i)*5-i*2;g.note(x,y,C[i%3])}
+  if(f>=7&&f<=9)for(let i=0;i<3;i++){const a=f*1.2+i*2.1;g.note(128+Math.cos(a)*10,42+Math.sin(a)*3,C[i])}
+  if(f>=8){const k=f-8;g.zz(134,40-k*3,3,'#c8b8ff');if(k>=1)g.zz(139,32-k*3,4,'#e8e0ff');if(k>=2)g.zz(145,22-k*2,5,'#fff')}
+}
+/* ก้องกังวาน: คำรามสุดเสียง คลื่นเสียงหยัก ๆ ซัดไปกระแทกเป้า จนหัวหมุนมีดาววน */
+function roar(g,x,y,r,c,ph){const n=Math.max(6,Math.round(r*1.6));for(let i=0;i<=n;i++){const a=-1.15+2.3*i/n,rr=r+((i+ph)%2?1.2:-.6);g.p(Math.round(x-r+Math.cos(a)*rr),Math.round(y+Math.sin(a)*rr*1.3),c)}}
+function none03(g,R,f){
+  if(f<=2){for(let i=0;i<=f;i++)roar(g,44+i*4,56,3+i*2,i%2?'#b8b8d8':'#fff',f);for(let i=0;i<3;i++)g.line(42,56,46+f*2,50+i*6,'#e8e8ff');if(f>=1){g.bang(30,32,'#ff5050');g.bang(34,31,'#ff5050')}}
+  if(f>=3&&f<=7){for(let i=0;i<3;i++){const p=cl(pg(f,2,8)-i*.12);if(p<=0)continue;const x=lerp(46,126,p),r=5+p*7;roar(g,x,56,r,i?'#b8b8d8':'#fff',f+i);roar(g,x-1,56,r,'#6b6b8a',f+i+1)}
+    for(let i=0;i<4;i++){const y=46+i*6;g.line(lerp(44,110,pg(f,2,8))-20,y,lerp(44,110,pg(f,2,8))-8,y,'#6b6b8a')}}
+  if(f===8){roar(g,134,56,10,'#fff',0);roar(g,136,56,13,'#b8b8d8',1);for(let i=0;i<8;i++){const a=i/8*6.28;g.line(128+Math.cos(a)*7,56+Math.sin(a)*7,128+Math.cos(a)*11,56+Math.sin(a)*11,'#e8e8ff')}}
+  if(f>=9){for(let i=0;i<3;i++){const a=f*1.1+i*2.1;g.star(128+Math.cos(a)*9,38+Math.sin(a)*2.5,'#ffd84a')}g.arc(128,38,9,2.5,0,Math.PI*2,'#6b6b8a',4)}
+}
+/* ไปให้พ้น!!: ตะโกนไล่ เกิดคลื่นแรงผลักวิ่งไปกระแทกเป้าจนกระเด็นถอย */
+function none04(g,R,f){
+  if(f<=2){g.bang(30,30-f,'#ff5050');g.bang(34,30-f,'#ff5050');if(f>=1)g.arc(40,57,4+f*2,8+f*2,-1,1,'#fff')}
+  if(f>=3&&f<=5){const x=[66,96,120][f-3];g.arc(x-10,57,10,16,-1.1,1.1,'#fff');g.arc(x-11,57,10,16,-1,1,'#e8e8ff');g.arc(x-12,57,10,16,-.9,.9,'#b8b8d8');for(let i=0;i<5;i++){const y=46+i*5;g.line(x-34,y,x-14,y,'#b8b8d8')}}
+  if(f===6){g.star(128,56,'#fff');for(let i=0;i<10;i++){const a=i/10*6.28;g.line(128+Math.cos(a)*6,56+Math.sin(a)*6,128+Math.cos(a)*13,56+Math.sin(a)*12,i%2?'#fff':'#b8b8d8')}}
+  if(f>=7&&f<=9){for(let i=0;i<5;i++){const y=46+i*5,x=136+(f-7)*4;g.line(x,y,x+10,y,'#e8e8ff')}g.puff(124-(f-7)*2,65,2,'#5c4a5a','#7a6a7a')}
+  if(f>=10)for(let i=0;i<3;i++)g.puff(122+i*8,65,2-(f-10)*.6,'#5c4a5a','#7a6a7a');
+}
+/* กล่องสุ่มผีพนัน: กล่องปริศนาหล่นลงมา สั่นดุ๊กดิ๊ก แล้วเปิดออกพร้อมประกาย */
+function none05(g,R,f){
+  const box=(x,y,lid)=>{g.r(x-5,y-4,10,8,'#8a3ffc');g.r(x-5,y-4,10,1,'#b98cff');g.r(x-1,y-4,2,8,'#ffd84a');g.r(x-5,y-1,10,1,'#ffd84a');
+    if(lid!==null){g.r(x-6,y-6-lid,12,2,'#a66bff');g.r(x-1,y-6-lid,2,2,'#ffd84a');g.p(x-2,y-7-lid,'#ffd84a');g.p(x+1,y-7-lid,'#ffd84a')}};
+  if(f<=2)box(32,[22,32,40][f],0);
+  if(f>=3&&f<=6){const s=f%2?1:-1;box(32+s,40,0);g.qmark(31,26-(f%2),'#ffd84a')}
+  if(f===7){box(32,40,4);g.qmark(31,20,'#fff')}
+  if(f>=8){box(32,40,null);const k=f-8;const C=['#ff5050','#ffd84a','#5cff7a','#6ec8ff','#ff8aff'];for(let i=0;i<10;i++){const a=-Math.PI*(.1+i/10*.8),d=6+k*5;g.r(32+Math.cos(a)*d,34+Math.sin(a)*d+k*k*.8,1,1,C[i%5])}
+    if(k<2){g.spark(32,30-k*3,'#ffd84a');g.qmark(31,22-k*4,'#ffd84a')}}
+}
+/* หมัดหลากหลาย: หมัดธาตุสุ่มสามหมัดซัดรัว ๆ ใส่เป้า (สีตามธาตุที่ออก) */
+function none06(g,R,f,o){
+  const P=ELP[o&&o.el]||NEU;
+  for(let i=0;i<3;i++){const st=1+i,hf=7+i,y=50+i*5;
+    if(f===i)g.ring(42,y,3,3,P[3],3);
+    if(f>=st&&f<hf){const p=pg(f,st-1,hf),x=lerp(42,122,p);for(let j=1;j<=3;j++)g.line(x-6-j*4,y-1+j%2,x-4-j*4,y-1+j%2,P[2]);g.fist(x,y,P)}
+    if(f===hf||f===hf+1){const s=f===hf?1:.6;g.burst(124,y,s*.7,R,P);g.fist(122,y,P)}}
+  if(f===11)for(let i=0;i<5;i++)g.p(Math.round(116+R()*20),Math.round(46+R()*16),P[3]);
+}
+/* ชี้เป็นชี้ตาย: ดูดเลือดตัวเองเป็นไอแดงดำ หมุนรวมเป็นดวงแดง-ฟ้า แล้วระเบิดพลังขั้นสูง */
+function none07(g,R,f){
+  if(f<=3)for(let i=0;i<6;i++){const a=i/6*6.28+f*.6,d=4+f*3;g.disc(32+Math.cos(a)*d,54-f*3+Math.sin(a)*d*.6,1.2,i%2?'#8a0010':'#2a0008')}
+  if(f>=3&&f<=7){const p=pg(f,3,7),a=f*1.6;g.disc(32+Math.cos(a)*(12-p*10),40+Math.sin(a)*4,2.2,'#ff3a4a');g.disc(32+Math.cos(a+Math.PI)*(12-p*10),40+Math.sin(a+Math.PI)*4,2.2,'#4aa0ff');g.ring(32,40,12-p*8,5-p*2,'#5a0018',4)}
+  if(f>=8){const k=f-8;g.ring(32,57,13+k,15+k,'#c4182c',4);if(k<2)g.ring(32,57,10+k,12+k,'#4aa0ff',3);
+    g.arrow(24,52-k*4,'#ff5050');g.arrow(40,52-k*4,'#ff5050');g.arrow(32,48-k*4,'#6ec8ff');for(let i=0;i<3;i++)g.p(Math.round(18+R()*28),Math.round(40+R()*24),'#8a0010')}
+}
+
+/* ================= สถานะผิดปกติ (เล่นบนตัวผีที่ติดสถานะ) ================= */
+/* ไฟแค้น: เปลวไฟแค้นสีม่วงลุกเกาะตามตัว ลูกศรลดพลังโจมตี */
+function stBurn(g,R,f){const k=Math.min(1,(f+1)/4);[[26,62],[38,60],[32,52]].forEach(([x,y],i)=>{if(f>=i)g.flame(x,y-(f>5?f-5:0)*.5,1.6*k+(f%2)*.3,VF)});
+  if(f>=3)g.arrow(42,48+(f-3)*1.5,'#ff5050');if(f>=6)for(let i=0;i<4;i++)g.p(Math.round(22+R()*20),Math.round(40+R()*16),'#a23ad6')}
+/* เปียกน้ำ: น้ำหยดใส่จากด้านบน ไหลเยิ้มตามตัว เป็นแอ่งที่พื้น */
+function stWet(g,R,f){for(let i=0;i<6;i++){const x=24+i*3,y=30+((f*6+i*7)%30);if(f<8)g.r(x,y,1,2,'#3fa3ff'),g.p(x,y+2,'#9fe0ff')}
+  if(f>=3){for(let i=0;i<4;i++){const x=25+i*4;g.line(x,50+(i%2)*2,x,52+(i%2)*2+Math.min(6,f-3),'#3fa3ff')}g.ell(32,67,4+Math.min(8,f),1.4,'#1d5fd1')}
+  if(f>=4)g.arrow(42,48+(f-4)*1.2,'#6ec8ff')}
+/* ลมข่วน: กรงเล็บลมข่วนเป็นรอยสามเส้น ทิ้งรอยแผลสีแดง */
+function stScratch(g,R,f){const L=[[22,46,30,62],[28,44,36,60],[34,46,42,62]];
+  L.forEach(([a,b,c,d],i)=>{if(f<i+1)return;const p=Math.min(1,(f-i)/2),x2=lerp(a,c,p),y2=lerp(b,d,p);g.line(a,b,x2,y2,f-i<=2?'#fff':'#ff6a7a');if(f-i<=2)g.line(a+1,b,x2+1,y2,'#6fdc8c')});
+  if(f>=5)for(let i=0;i<3;i++)g.leaf(20+R()*24,44+R()*18,i);if(f>=6)g.arrow(44,50+(f-6),'#6fdc8c')}
+/* ทลายเกาะ: โล่หินรอบตัวร้าวแล้วแตกเป็นเศษร่วง */
+function stBreak(g,R,f){
+  if(f<=3){g.arc(32,57,13,15,Math.PI*1.1,Math.PI*1.9,'#b9824a');g.arc(32,57,12,14,Math.PI*1.15,Math.PI*1.85,'#e2b47a',3);if(f>=1){g.line(26,44,30,50,'#140a04');g.line(30,50,28,54,'#140a04')}if(f>=2){g.line(38,44,35,51,'#140a04');g.line(35,51,38,55,'#140a04')}}
+  if(f>=4){const k=f-4;for(let i=0;i<8;i++){const a=Math.PI*(1.1+i*.1),x=32+Math.cos(a)*(13+k),y=57+Math.sin(a)*(15-k)+k*k*.6;g.rock(x,y,1.2,i)}if(f>=5)g.arrow(44,48+(f-5)*1.2,'#e2b47a')}}
+/* หลับใหล: ฟองสบู่หลับโป่งที่หัว Zzz ลอยขึ้นทีละตัว */
+function stSleep(g,R,f){const b=Math.min(3.5,f*.7);if(f<9){g.ring(40,46,b,b,'#c8e8ff');g.p(39,45,'#fff')}
+  [[42,40,3],[45,33,4],[49,25,5]].forEach(([x,y,s],i)=>{if(f>=2+i*2)g.zz(x,y-(f-2-i*2)*.8,s,i===2?'#fff':'#c8b8ff')})}
+/* เป็นพิษ: ฟองพิษสีม่วงเขียวผุดจากตัว ลอยขึ้นแล้วแตก */
+function stPoison(g,R,f){for(let i=0;i<7;i++){const st=i*.8;if(f<st)continue;const k=f-st,x=22+((i*7)%22),y=62-k*3.5,r=1+(i%3)*.5;if(k<5){g.ring(x,y,r,r,i%2?'#9b5cff':'#7dff6a');g.p(Math.round(x-r*.4),Math.round(y-r*.4),'#e8ffd8')}else if(k<6)g.spark(x,y,'#9b5cff','#7dff6a')}
+  if(f>=2)g.dither('#6b3fa0',1,22,48,21,18);if(f>=4){g.p(30,40,'#7dff6a');g.r(29,41,3,2,'#7dff6a');g.p(29,42,'#1a0010');g.p(31,42,'#1a0010')}}
+/* หมดสติ: ตาลาย ดาวสีทองวนรอบหัว พร้อมวงก้นหอย */
+function stStun(g,R,f){const n=Math.min(3,1+Math.floor(f/2));g.arc(32,42,9,2.5,0,Math.PI*2,'#6b6b8a',4);for(let i=0;i<n;i++){const a=f*.9+i*2.1;g.star(32+Math.cos(a)*9,42+Math.sin(a)*2.5,'#ffd84a')}
+  if(f>=2){const a0=f*.8;for(let i=0;i<14;i++){const a=a0+i*.5,r=i*.35;g.p(Math.round(32+Math.cos(a)*r*1.6),Math.round(52+Math.sin(a)*r),'#e8e8ff')}}}
+/* ผีบังตา: มือผีสีดำม่วงสองข้างยื่นมาปิดตา หมอกมืดคลุมหัว */
+function stBlind(g,R,f){const k=Math.min(1,f/4);
+  [[-1],[1]].forEach(([s])=>{const x=32+s*(16-k*8);g.r(x-3,50,6,4,'#2a0d3d');for(let i=0;i<3;i++)g.r(x-2+i*2,47-(i%2),1,3,'#2a0d3d');g.r(x+s*3-1,52,6,2,'#2a0d3d');g.p(x,50,'#5b1f8a')});
+  if(f>=4){g.dither('#2a0d3d',2,22,46,21,10);for(let i=0;i<3;i++)g.puff(24+i*8,44-(f-4)*.6,2,'#2a0d3d','#5b1f8a')}if(f>=5)g.arrow(44,48+(f-5),'#c084ff')}
+/* id สกิล → ท่า · ms ต่อเฟรม · เฟรมจังหวะโดน/ติดผล · self=เล่นรอบตัวผู้ร่าย */
+const SM=[80,80,80,80,80,80,80,90,100,140];
+const A=[90,80,80,70,60,60,60,60,70,80,90,150],FAST=[80,70,70,60,50,50,50,60,70,80,90,150],BF=[80,80,80,80,80,80,80,80,90,90,100,150];
 const SK={
  fire_01:{draw:fireDraw,ms:[90,80,80,80,90,70,70,60,70,70,70,150],hit:8},
+ fire_02:{draw:fire02,ms:FAST,hit:8},
+ fire_03:{draw:fire03,ms:A,hit:8},
+ fire_04:{draw:fire04,ms:A,hit:8},
+ fire_05:{draw:fire05,ms:BF,hit:8,self:1},
+ fire_06:{draw:fire06,ms:BF,hit:8,self:1},
+ fire_07:{draw:fire07,ms:[100,90,90,70,60,60,60,60,80,90,100,160],hit:8},
+ fire_08:{draw:fire08,ms:[90,80,80,60,60,60,60,80,80,90,90,150],hit:8},
  water_01:{draw:waterDraw,ms:[90,80,80,60,60,60,70,90,80,80,90,150],hit:7},
+ water_02:{draw:water02,ms:[80,70,60,60,70,70,70,70,70,80,90,140],hit:4},
+ water_03:{draw:water03,ms:A,hit:8},
+ water_04:{draw:water04,ms:[90,80,60,60,60,60,60,90,80,90,90,150],hit:8},
+ water_05:{draw:water05,ms:BF,hit:6,self:1},
+ water_06:{draw:water06,ms:BF,hit:8,self:1},
+ water_07:{draw:water07,ms:A,hit:8},
+ water_08:{draw:water08,ms:BF,hit:7,self:1},
  wind_01:{draw:windDraw,ms:[90,80,80,60,60,60,60,60,80,80,90,150],hit:8},
- earth_01:{draw:earthDraw,ms:[90,80,80,90,60,60,60,60,60,80,90,150],hit:9}};
+ wind_02:{draw:wind02,ms:A,hit:8},
+ wind_03:{draw:wind03,ms:[90,80,80,60,60,60,60,60,70,70,90,150],hit:8},
+ wind_04:{draw:wind04,ms:A,hit:8},
+ wind_05:{draw:wind05,ms:BF,hit:7,self:1},
+ wind_06:{draw:wind06,ms:BF,hit:8,self:1},
+ wind_07:{draw:wind07,ms:[90,90,100,60,50,50,50,80,80,80,90,140],hit:7},
+ wind_08:{draw:wind08,ms:[90,80,80,60,60,60,60,90,80,90,90,150],hit:8},
+ earth_01:{draw:earth02,ms:[80,80,80,60,60,60,60,70,70,70,90,150],hit:7},
+ earth_02:{draw:earthDraw,ms:[90,80,80,90,60,60,60,60,60,80,90,150],hit:9},
+ earth_03:{draw:earth03,ms:[90,90,90,100,60,60,60,70,70,90,100,150],hit:8},
+ earth_04:{draw:earth04,ms:[80,80,80,80,70,70,70,70,80,80,100,150],hit:8},
+ earth_05:{draw:earth05,ms:BF,hit:8,self:1},
+ earth_06:{draw:earth06,ms:BF,hit:8,self:1},
+ earth_07:{draw:earth07,ms:A,hit:8},
+ earth_08:{draw:earth08,ms:[90,80,80,60,60,60,60,90,80,90,90,150],hit:8},
+ none_01:{draw:none01,ms:BF,hit:6,self:1},
+ none_02:{draw:none02,ms:[90,90,90,90,90,90,90,90,110,120,130,160],hit:8},
+ none_03:{draw:none03,ms:[90,80,80,70,70,70,70,70,80,100,110,150],hit:8},
+ none_04:{draw:none04,ms:[100,90,90,60,60,60,90,80,80,80,90,140],hit:6},
+ none_05:{draw:none05,ms:[80,80,80,70,70,70,70,90,90,90,100,120],hit:8,self:1},
+ none_06:{draw:none06,ms:[80,70,70,60,60,60,60,70,70,70,80,140],hit:7},
+ none_07:{draw:none07,ms:BF,hit:8,self:1},
+ /* สถานะผิดปกติ: เล่นตอนติดสถานะ และตอนสถานะทำงานจบตา / ทำให้ขยับไม่ได้ */
+ 'st:ไฟแค้น':{draw:stBurn,ms:SM,hit:3,self:1},
+ 'st:เปียกน้ำ':{draw:stWet,ms:SM,hit:3,self:1},
+ 'st:ลมข่วน':{draw:stScratch,ms:SM,hit:3,self:1},
+ 'st:ทลายเกาะ':{draw:stBreak,ms:SM,hit:3,self:1},
+ 'st:หลับใหล':{draw:stSleep,ms:SM,hit:3,self:1},
+ 'st:เป็นพิษ':{draw:stPoison,ms:SM,hit:3,self:1},
+ 'st:หมดสติ':{draw:stStun,ms:SM,hit:3,self:1},
+ 'st:ผีบังตา':{draw:stBlind,ms:SM,hit:3,self:1},
+};
 Object.values(SK).forEach(k=>{k.dur=k.ms.reduce((a,b)=>a+b,0);k.hm=k.ms.slice(0,k.hit).reduce((a,b)=>a+b,0)});
 const ids=Object.keys(SK);
 return{
  has:id=>!!SK[id],
  hit:id=>SK[id].hm,
  dur:id=>SK[id].dur,
- draw(ctx,id,ms,S,T){const k=SK[id];if(!k||ms<0||ms>=k.dur)return;let f=0,acc=0;while(f<k.ms.length-1&&ms>=acc+k.ms[f]){acc+=k.ms[f];f++}
-  const R=rng(ids.indexOf(id)*100+f*7+1);k.draw(G(ctx,S,T,R),R,f)}};
+ self:id=>!!SK[id].self,
+ frames:id=>SK[id].ms.slice(),
+ hitF:id=>SK[id].hit,
+ ids:()=>ids.slice(),
+ draw(ctx,id,ms,S,T,o){const k=SK[id];if(!k||ms<0||ms>=k.dur)return;let f=0,acc=0;while(f<k.ms.length-1&&ms>=acc+k.ms[f]){acc+=k.ms[f];f++}
+  const R=rng(ids.indexOf(id)*100+f*7+1);k.draw(G(ctx,S,T,R),R,f,o||{})}};
 })();
 /* เวลา (ms) ที่เป้าโดนตีของเอฟเฟกต์นี้ — ใช้กำหนดจังหวะเป้าสั่น */
 const fxH=f=>f&&f.vx&&!f.miss&&SVFX.has(f.vx)?SVFX.hit(f.vx):380;
@@ -1494,20 +1915,22 @@ const itAmt=(g,k)=>Math.round(ITV[k]*(hasU(g,'อิ่มเครื่อง�
 function popAt(g,t,col,dy){if(B&&B.two){const p=pos2(g);B.pp={S:p,T:p}}else B.pp=null;pop(t,col,wOf(g),dy)}
 function resetB(g){if(!g)return;g.st=[];g.uq={};g.fe=[];g.ent=g.float=g.hide=null;g.dfd=g.prot=0}
 /* ---------- สถานะ ---------- */
+/* เล่นอนิเมชั่นสถานะผิดปกติบนตัวผี แล้วรอจนถึงจังหวะติดผล */
+async function stFx(g,n){const id='st:'+n;if(!B||!g||!SVFX.has(id))return;B.sfx={id,t:performance.now(),T:B.two?pos2(g):(isP(g)?[130,158]:[350,96])};await sleep(SVFX.hit(id))}
 async function addSt(g,n,t){const s=ST[n];if(!s||!g||g.hp<=0)return false;g.st=g.st||[];
  if(s.k=='debuff'&&uOnce(g,'ล้างความซวย')){await ann(g,'สกิลประจำตัว','✨ ล้างความซวย',isP(g),700);await bsay(`${cn(g)} ปัดเป่า <b>${n}</b> ทิ้ง!`,600);return addSt(g,'เพิ่มพลังโจมตี',3)}
- const o=g.st.find(x=>x.n==n);if(o){o.t=Math.max(o.t,t);o.nw=1}else g.st.push({n,t,nw:1});
+ const o=g.st.find(x=>x.n==n);if(o){o.t=Math.max(o.t,t);o.nw=1}else g.st.push({n,t,nw:1});if(s.k=='debuff')await stFx(g,n);
  bi();popAt(g,(s.k=='debuff'?'⬇ ':'⬆ ')+n,STC(s.k),-18);await bsay(`${cn(g)} ติดสถานะ <b style="color:${STC(s.k)}">${n}</b> ${t} เทิร์น <small>(${s.d})</small>`,800);
  if(s.k=='debuff'&&g.held=='ch_buf'&&g.hp>0){await ann(g,'ไอเทมที่ถือ','🔱 ยันต์หว่าง',isP(g),750);await addSt(g,'เพิ่มพลังโจมตี',3)}
  return true}
 const cleanse=g=>{const n=(g.st||[]).filter(x=>ST[x.n]&&ST[x.n].k=='debuff').length;g.st=(g.st||[]).filter(x=>!(ST[x.n]&&ST[x.n].k=='debuff'));return n};
-async function canAct(g){const x=stFlag(g,'skip');if(!x)return true;popAt(g,'💤 '+x.n,'#cfd8dc');await bsay(`${cn(g)} ติดสถานะ <b style="color:#ff8a7a">${x.n}</b> ทำอะไรไม่ได้!`,750);return false}
+async function canAct(g){const x=stFlag(g,'skip');if(!x)return true;await stFx(g,x.n);popAt(g,'💤 '+x.n,'#cfd8dc');await bsay(`${cn(g)} ติดสถานะ <b style="color:#ff8a7a">${x.n}</b> ทำอะไรไม่ได้!`,750);return false}
 /* ---------- จบเทิร์น: ผลสถานะ / สนาม แล้วลดจำนวนเทิร์น ---------- */
 async function endTurn(list){list=list.filter(Boolean);
  for(const g of list){if(g.hp<=0)continue;
   for(const x of g.st||[]){if(!(x.t>0)||g.hp<=0)continue;const s=ST[x.n];if(!s)continue;
-   if(s.eothp){const v=Math.max(1,Math.round(g.mx*Math.abs(s.eothp)));if(s.eothp<0){g.hp=Math.max(0,g.hp-v);bi();popAt(g,'-'+v,'#ff8a7a');await bsay(`${cn(g)} โดน ${x.n} −${v} HP`,650)}else if(g.hp<g.mx){const h0=g.hp;g.hp=Math.min(g.mx,g.hp+v);bi();await healFx(g,g.hp-h0,wOf(g));await bsay(`${x.n}: ${cn(g)} ฟื้น HP +${g.hp-h0}`,600)}}
-   if(s.eotsp){const v=Math.max(1,Math.round(g.mxsp*Math.abs(s.eotsp)));if(s.eotsp<0){if(g.sp2>0){g.sp2=Math.max(0,g.sp2-v);bi();await bsay(`${cn(g)} โดน ${x.n} SP −${v}`,600)}}else g.sp2=Math.min(g.mxsp,g.sp2+v)}}
+   if(s.eothp){const v=Math.max(1,Math.round(g.mx*Math.abs(s.eothp)));if(s.eothp<0){await stFx(g,x.n);g.hp=Math.max(0,g.hp-v);bi();popAt(g,'-'+v,'#ff8a7a');await bsay(`${cn(g)} โดน ${x.n} −${v} HP`,650)}else if(g.hp<g.mx){const h0=g.hp;g.hp=Math.min(g.mx,g.hp+v);bi();await healFx(g,g.hp-h0,wOf(g));await bsay(`${x.n}: ${cn(g)} ฟื้น HP +${g.hp-h0}`,600)}}
+   if(s.eotsp){const v=Math.max(1,Math.round(g.mxsp*Math.abs(s.eotsp)));if(s.eotsp<0){if(g.sp2>0){await stFx(g,x.n);g.sp2=Math.max(0,g.sp2-v);bi();await bsay(`${cn(g)} โดน ${x.n} SP −${v}`,600)}}else g.sp2=Math.min(g.mxsp,g.sp2+v)}}
   const f=fld();if(f&&g.hp>0){
    if(f.n=='พายุหมุน'&&g.sp.e!='ลม'){const v=Math.max(1,Math.round(g.mx*fNum('พายุหมุน',0,5)/100));g.hp=Math.max(0,g.hp-v);bi();popAt(g,'-'+v,'#9fe');await bsay(`🌪️ พายุหมุน: ${cn(g)} −${v} HP`,600)}
    if(f.n=='บึงน้ำ'&&f.side==wOf(g)&&g.sp2<g.mxsp){const v=Math.max(1,Math.round(g.mxsp*fNum('บึงน้ำ',1,20)/100)),h0=g.sp2;g.sp2=Math.min(g.mxsp,g.sp2+v);bi();await healFx(g,g.sp2-h0,wOf(g),null,'sp');await bsay(`🌊 บึงน้ำ: ${cn(g)} SP +${g.sp2-h0}`,550)}}}
@@ -1531,22 +1954,22 @@ const fx=sk.fx||{},me=pos&&pos.S?{S:pos.S,T:pos.S}:null;
  if(sk!==BASIC&&silenced()){await ann(a,'สกิล','✨ '+sk.n,aP);await bsay(`🔇 แดนความเงียบ! ${cn(a)} ใช้สกิลไม่ได้`,700);return}
  if(!free){const c=skCost(sk);if(a.sp2<c){await bsay(`${cn(a)} SP ไม่พอใช้ ${sk.n}!`,650);return}a.sp2-=c}
  if(sk===BASIC)a.sp2=Math.min(a.mxsp,a.sp2+6);bi();if(!free)await ann(a,sk===BASIC?'โจมตี':'สกิล',(sk===BASIC?'⚔️ ':'✨ ')+sk.n,aP);
- if(fx.random){const r=PK(S.filter(x=>x!==sk&&!x.fx.random));await bsay(`🎲 ${sk.n} สุ่มได้ <b style="color:${skc(r)}">${r.n}</b>!`,800);
+ if(fx.random){if(SVFX.has(sk.id)){B.fx={w:aP?'p':'f',t:performance.now(),el:0,buff:1,vx:sk.id,...(me||{})};await sleep(SVFX.hit(sk.id))}const r=PK(S.filter(x=>x!==sk&&!x.fx.random));await bsay(`🎲 ${sk.n} สุ่มได้ <b style="color:${skc(r)}">${r.n}</b>!`,800);
   if(selfSk(r))return hit(a,a,r,aP,me||pos,1);
   const live=foesOf(a).filter(x=>x&&x.hp>0);if(B.two&&r.fx.multi){for(const t of live)await hit(a,t,r,aP,{S:pos2(a),T:pos2(t)},1);return}
   const t=d&&d!==a&&d.hp>0?d:PK(live);if(!t)return;return hit(a,t,r,aP,B.two?{S:pos2(a),T:pos2(t)}:pos,1)}
  if(fx.selfCut){const h0=a.hp;a.hp=Math.max(1,Math.round(a.hp*(1-fx.selfCut/100)));bi();popAt(a,'-'+(h0-a.hp),'#ff8a7a');await bsay(`${cn(a)} สละ HP ${fx.selfCut}% (−${h0-a.hp})`,700)}
- if(fx.protect){a.prot=B.turn;B.fx={w:aP?'p':'f',t:performance.now(),el:0,buff:1,...(me||{})};await sleep(400);popAt(a,'🛡 '+sk.n,'#ffd84a');await bsay(`${cn(a)} ใช้ ${sk.n}! สกิลที่โจมตีมาเทิร์นนี้ไม่มีผล`,750);return}
- if(fx.heal||fx.healSp||fx.cleanse){B.pp=me;let m=[];if(fx.cleanse&&cleanse(a))m.push('ลบล้างสถานะผิดปกติ');if(fx.heal){const h0=a.hp;a.hp=Math.min(a.mx,a.hp+fx.heal);bi();await healFx(a,a.hp-h0,aP?'p':'f',me&&me.S);m.push('HP +'+(a.hp-h0))}if(fx.healSp){const h0=a.sp2;a.sp2=Math.min(a.mxsp,a.sp2+fx.healSp);bi();await healFx(a,a.sp2-h0,aP?'p':'f',me&&me.S,'sp');m.push('SP +'+(a.sp2-h0))}bi();await bsay(`${cn(a)} ใช้ <b style="color:${skc(sk)}">${sk.n}</b>! ${m.join(' · ')||'ไม่มีอะไรเปลี่ยนแปลง'}`,750)}
+ if(fx.protect){a.prot=B.turn;B.fx={w:aP?'p':'f',t:performance.now(),el:0,buff:1,...(me||{}),...(SVFX.has(sk.id)?{vx:sk.id}:{})};await sleep(SVFX.has(sk.id)?SVFX.hit(sk.id):400);popAt(a,'🛡 '+sk.n,'#ffd84a');await bsay(`${cn(a)} ใช้ ${sk.n}! สกิลที่โจมตีมาเทิร์นนี้ไม่มีผล`,750);return}
+ if(fx.heal||fx.healSp||fx.cleanse){B.pp=me;if(SVFX.has(sk.id)){B.fx={w:aP?'p':'f',t:performance.now(),el:0,heal:1,vx:sk.id,...(me?{T:me.S}:{})};await sleep(SVFX.hit(sk.id))}let m=[];if(fx.cleanse&&cleanse(a))m.push('ลบล้างสถานะผิดปกติ');if(fx.heal){const h0=a.hp;a.hp=Math.min(a.mx,a.hp+fx.heal);bi();await healFx(a,a.hp-h0,aP?'p':'f',me&&me.S);m.push('HP +'+(a.hp-h0))}if(fx.healSp){const h0=a.sp2;a.sp2=Math.min(a.mxsp,a.sp2+fx.healSp);bi();await healFx(a,a.sp2-h0,aP?'p':'f',me&&me.S,'sp');m.push('SP +'+(a.sp2-h0))}bi();await bsay(`${cn(a)} ใช้ <b style="color:${skc(sk)}">${sk.n}</b>! ${m.join(' · ')||'ไม่มีอะไรเปลี่ยนแปลง'}`,750)}
  const el=sk===BASIC?a.sp.e:fx.randEl?PK(Object.keys(EC)):sk.e,w=aP?'f':'p',ec=el?EC[el]:'#ddd';
  if(!sk.p){
   if(fx.force||fx.inflict){if(!d||d===a||d.hp<=0)return;
    if(d.prot==B.turn){B.fx={w,t:performance.now(),el,miss:1,...pos};await sleep(380);popAt(d,'🛡 กันได้!','#ffd84a');await bsay(`${cn(d)} ป้องกัน ${sk.n} ได้!`,700);return}
    let acc=(sk.a||100)/100*stMul(a,'acc')*(2-stMul(d,'eva'));if(firstT(a)&&uOnce(a,'สมาธิแน่วแน่')){acc=1;await ann(a,'สกิลประจำตัว','🎯 สมาธิแน่วแน่',aP,600)}
-   B.fx={w,t:performance.now(),el,miss:Math.random()>=acc?1:0,...pos};await sleep(380);if(B.fx.miss){pop('พลาด!','#cfd8dc',w);await bsay(`${cn(a)} ใช้ <b style="color:${ec}">${sk.n}</b>! แต่พลาดเป้า...`);return}
+   {const ms0=Math.random()>=acc?1:0,vx=!ms0&&SVFX.has(sk.id)?sk.id:0;B.fx={w,t:performance.now(),el,miss:ms0,...pos,...(vx?{vx}:{})};await sleep(vx?SVFX.hit(vx):380)}if(B.fx.miss){pop('พลาด!','#cfd8dc',w);await bsay(`${cn(a)} ใช้ <b style="color:${ec}">${sk.n}</b>! แต่พลาดเป้า...`);return}
    if(fx.force)return forceOut(a,d);
    for(const e of fx.inflict)if(d.hp>0&&Math.random()*100<e.ch)await addSt(d,e.s,e.t)}
-  if(fx.self){B.fx={w:aP?'p':'f',t:performance.now(),el:0,buff:1,...(me||{})};await sleep(400);for(const e of fx.self)await addSt(a,e.s,e.t)}
+  if(fx.self){B.fx={w:aP?'p':'f',t:performance.now(),el:0,buff:1,...(me||{}),...(SVFX.has(sk.id)?{vx:sk.id}:{})};await sleep(SVFX.has(sk.id)?SVFX.hit(sk.id):400);for(const e of fx.self)await addSt(a,e.s,e.t)}
   return}
  /* --- สกิลที่มีดาเมจ --- */
  if(d.prot==B.turn&&sk!==BASIC){B.fx={w,t:performance.now(),el,miss:1,...pos};await sleep(380);popAt(d,'🛡 กันได้!','#ffd84a');await bsay(`${cn(d)} ป้องกัน <b style="color:${ec}">${sk.n}</b> ได้!`,700);return}
@@ -2935,7 +3358,7 @@ const PTY=(()=>{
  function snapH(){const co=B.coop,K=g=>g?co.key.get(g)||null:null,gs={},rl={};
   for(const[g,k]of co.key){gs[k]=[g.hp,g.sp2,g.mx,g.mxsp,g.lv,g.exp,(g.st||[]).filter(x=>x.t>0).map(x=>[x.n,x.t]),g.dfd?1:0,g.rip?1:0,g.ent??null,g.float??null,g.hide??null,g.prot||0];const st=SLW.get(g);if(st&&st.rl!=null)rl[k]=Math.round(st.rl)}
   const tt=o=>o?{...o,t:Math.round(o.t)}:null;
-  return{gs,rl,o:{A:party.map(K),G:co.gt.map(K),F:B.team.map(K)},foe:K(B.foe),sl:B.sl?{p:B.sl.p.map(K),f:B.sl.f.map(K)}:null,fx:tt(B.fx),pa:tt(B.pa),fpa:tt(B.fpa),fl:B.field?{...B.field,t0:Math.round(B.field.t0||0)}:null,turn:B.turn,gp:co.gwant&&!co.gcmd&&!B.busy?1:0,ginv:co.ginv}}
+  return{gs,rl,o:{A:party.map(K),G:co.gt.map(K),F:B.team.map(K)},foe:K(B.foe),sl:B.sl?{p:B.sl.p.map(K),f:B.sl.f.map(K)}:null,fx:tt(B.fx),sfx:tt(B.sfx),pa:tt(B.pa),fpa:tt(B.fpa),fl:B.field?{...B.field,t0:Math.round(B.field.t0||0)}:null,turn:B.turn,gp:co.gwant&&!co.gcmd&&!B.busy?1:0,ginv:co.ginv}}
  /* ส่งสถานะให้ลูกทีม — รวมข้อความ/ตัวเลข/ป้าย (ev) ไปในข้อความเดียวกัน และเว้นระยะอย่างน้อย 80 มิลลิวินาที (กันโดนจำกัดจำนวนข้อความของเซิร์ฟเวอร์จนอนิเมชั่นหาย) */
  function flush(force){if(!(coopOn()&&B.coop.role=='h'&&!B.coop.done))return;const co=B.coop,n=performance.now();co.evq=co.evq||[];
   if(n-co.lastT<(force?80:120)){if(force&&!co.ft)co.ft=setTimeout(()=>{co.ft=0;flush(true)},Math.max(10,80-(n-co.lastT)));return}
@@ -2961,7 +3384,7 @@ const PTY=(()=>{
   /* อนิเมชั่น: เวลาเริ่มของหัวหน้า → เวลาเครื่องเรา · ถ้าข้อความมาช้า (เน็ต/เซิร์ฟเวอร์หน่วง) อนิเมชั่นใหม่จะเริ่มเล่นตั้งแต่ต้นแทนที่จะถูกข้ามไป */
   const now=performance.now(),RP=co.rp=co.rp||{},TL=(id,h)=>{if(h==null)return h;const o=RP[id];if(o&&o.h===h)return o.l;let l=T(h);if(now-l>140)l=now-40;RP[id]={h,l};return l};
   for(const k in s.rl||{}){const g=M[k];if(!g)continue;let st=SLW.get(g);if(!st)SLW.set(g,st={});st.rl=TL('rl'+k,num(s.rl[k]))}
-  const fx=(o,id)=>o&&typeof o=='object'?{...o,t:TL(id,num(o.t)),S:pt(o.S),T:pt(o.T)}:null;B.fx=fx(s.fx,'fx');B.pa=fx(s.pa,'pa');B.fpa=fx(s.fpa,'fpa');
+  const fx=(o,id)=>o&&typeof o=='object'?{...o,t:TL(id,num(o.t)),S:pt(o.S),T:pt(o.T)}:null;B.fx=fx(s.fx,'fx');B.sfx=fx(s.sfx,'sfx');B.pa=fx(s.pa,'pa');B.fpa=fx(s.fpa,'fpa');
   B.field=s.fl&&FLD[s.fl.n]?{...s.fl,t0:T(s.fl.t0)}:null;B.turn=s.turn|0||B.turn;if(s.ginv)co.ginv={heal:Math.max(0,s.ginv.heal|0),sp:Math.max(0,s.ginv.sp|0)};
   const mine=guestOf(co);for(const g of PA())if(co.gt.includes(g))co.seen.add(g);
   if(s.gp&&mine&&!co.sent){if(!co.picking){co.picking=1;B.si=PA().indexOf(mine);B.busy=false;B.t=20;bm2('main')}}
