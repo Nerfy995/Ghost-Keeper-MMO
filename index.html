@@ -709,10 +709,10 @@ function gLoadSave(g,lg){const id=g.gid||(lg?LEGACY_SP[g.si]:SP[g.si]&&SP[g.si].
 /* ระหว่างประลองอารีน่า HP/SP ของทีมถูกเติมเต็มชั่วคราว → เซฟค่าก่อนเข้าอารีน่า (กันออกเกมกลางคันแล้วได้ HP เต็มฟรี) */
 function snap(){const VP=typeof BV!='undefined'?BV.real():null;if(!VP)return snap1();const p0=party;party=VP;try{return snap1()}finally{party=p0}}   // Ver.0.1.5: กำลังดูการต่อสู้ของคนอื่น → เซฟทีมจริงของเรา
 function snap1(){const T=typeof ARS!='undefined'&&ARS?ARS.map(([g,h,s])=>{const o=[g,g.hp,g.sp2];g.hp=h;g.sp2=s;return o}):null;try{return snap0()}finally{if(T)T.forEach(([g,h,s])=>{g.hp=h;g.sp2=s})}}
-function snap0(){return JSON.stringify({party:party.map(gSave),box:box.map(gSave),dxi:Object.keys(dx).filter(i=>dx[i]&&SP[i]).map(i=>SP[i].id),gc,inv,pname,av,gold,stock:stock.map(gSave),stockT,passed,mv:MAPV,qs,qc,qk,qb,qt,qf,qa,ush:USH,arIn:typeof ARS!='undefined'&&ARS&&!(B&&B.pvp)?1:0,shu:SHU,hc:HC,qv:5,npcp:NPCP,ap:AP,ar:AR,jk:{u:JKU,s:JSK},hot,newb:NEWB,job:JOB,jq:JQ,stall:typeof STALL!='undefined'?STALL:undefined,sto:typeof STO!='undefined'?STO:undefined,rgp:RGP,bless:BLESS,bnt:BNT,gmk:typeof GMK!='undefined'?GMK.dump():undefined,imk:typeof IMK!='undefined'?IMK.dump():undefined,bank:typeof BANK!='undefined'?BANK.dump():undefined,boss:mons.map(m=>({g:gSave(m.g),dead:m.dead,rt:m.rt})),wb:typeof WSY!='undefined'?WSY.dump():undefined,house:HOUSE,au:{...AU,on:false},aud:AUD})}
+function snap0(){return JSON.stringify({party:party.map(gSave),box:box.map(gSave),dxi:Object.keys(dx).filter(i=>dx[i]&&SP[i]).map(i=>SP[i].id),gc,inv,pname,av,gold,stock:stock.map(gSave),stockT,passed,mv:MAPV,qs,qc,qk,qb,qt,qf,qa,ush:USH,arIn:typeof ARS!='undefined'&&ARS&&!(B&&B.pvp)?1:0,shu:SHU,hc:HC,qv:5,npcp:NPCP,ap:AP,ar:AR,jk:{u:JKU,s:JSK},hot,newb:NEWB,job:JOB,jq:JQ,stall:typeof STALL!='undefined'?STALL:undefined,sto:typeof STO!='undefined'?STO:undefined,rgp:RGP,bless:BLESS,bnt:BNT,gmk:typeof GMK!='undefined'?GMK.dump():undefined,imk:typeof IMK!='undefined'?IMK.dump():undefined,bank:typeof BANK!='undefined'?BANK.dump():undefined,boss:mons.map(m=>({g:gSave(m.g),dead:m.dead,rt:m.rt})),wb:typeof WSY!='undefined'?WSY.dump():undefined,house:HOUSE,pos:posSnap(),au:{...AU,on:false},aud:AUD})}
 function save(){if(!hasChar())return;if(SB.on()){try{stSet(snap())}catch(e){}cloudSave();return}try{stSet(snap());SVERR=''}catch(e){SVERR=e.message}if(LSBAD||SVERR)svWarn()}
 let LOADERR='';
-function load(raw0){let raw=null;try{raw=raw0!=null?raw0:stGet();const d=JSON.parse(raw);if(d&&d.party&&(d.party.length||d.newb)){NEWB=d.party.length?0:d.newb?1:0;JOB=JOBS[d.job]?d.job:'';JQ=!JOB&&JOBS[d.jq]?d.jq:'';RGP=d.rgp?1:0;BLESS=d.bless&&typeof d.bless=='object'?{d:String(d.bless.d||''),k:d.bless.k|0,u:+d.bless.u||0}:{d:'',k:-1,u:0};if(typeof GMK!='undefined')GMK.restore(d.gmk);if(typeof BOUNTY!='undefined')BOUNTY.restore(d.bnt);if(typeof IMK!='undefined')IMK.restore(d.imk);STO={};if(d.sto&&typeof d.sto=='object')for(const k in d.sto){const n=Math.floor(+d.sto[k]);if(ALL[k]&&n>0)STO[k]=n}if(typeof BANK!='undefined')BANK.restore(d.bank);STALL=Array.from({length:STALL_N},(_,i)=>{const x=(d.stall||[])[i];return x&&ALL[x.k]&&x.n>0&&x.p>0?{k:x.k,n:x.n|0,p:x.p|0,on:x.on?1:0}:null});const lg=(d.qv||0)<5;({party,box,gc,inv}=d);dx={};if(Array.isArray(d.dxi))d.dxi.forEach(id=>{const i=gi(id);if(i!=null)dx[i]=1});else Object.keys(d.dx||{}).forEach(k=>{const i=gi(LEGACY_SP[k]);if(i!=null&&d.dx[k])dx[i]=1});if(inv.book){inv.book_c=(inv.book_c||0)+inv.book}delete inv.book;pname=d.pname||'ผู้เล่น';inv={sp:2,book_c:0,book_r:0,book_l:0,ch100:0,orange:0,house:0,master:1,mind:0,jk_cat:0,jk_pha:0,jk_hulk:0,jk_yak:0,jk_war:0,jk_bak:0,jk_ann:0,jk_spi:0,jbox:0,dust:0,so_d:0,so_w:0,so_a:0,so_f:0,ch_life:2,ch_hold:2,ch_crit:2,ch_buf:2,deed:0,bottle:0,...inv};inv.house=0;gold=d.gold??100;stock=(d.stock||[]).map(g=>g&&gLoadSave(g,lg));stockT=d.stockT||0;if(stock.some(g=>g&&g.lv!=6)||(d.stock||[]).some((g,i)=>g&&!stock[i])){stock=[];stockT=0}passed=!!d.passed;if(d.qv>=2){qs={1:0,2:0,3:0,4:0,5:0,...d.qs};qk=d.qk||0}else{const o=d.qs||{};qs={1:0,2:o[1]||0,3:o[2]||0,4:o[3]||0,5:0};qk=0}if((d.qv||0)<3){const a=qs[4];qs[4]=qs[5];qs[5]=a}qc=d.qc||0;qb=d.qb||0;qt=d.qt||0;qf=d.qf||0;qa=d.qa||0;USH=d.ush&&Array.isArray(d.ush.it)?d.ush:USH;ARQ=!!d.arIn;if((d.qv||0)<4&&qt)qt=7;SHU=d.shu||0;NPCP=d.mv==MAPV&&d.npcp&&typeof d.npcp=='object'?d.npcp:{};npcApply();AP=Math.max(0,+d.ap||0);AR={w:0,l:0,...(d.ar||{})};if(d.jk){JKU=[...new Set(['normal',...(Array.isArray(d.jk.u)?d.jk.u:[])])].filter(x=>JKL.some(j=>j[0]==x));JSK=JKU.includes(d.jk.s)?d.jk.s:'normal'}HC={sz:0,sh:null,pl:null,pg:[],...(d.hc||{})};hot=Array.from({length:9},(_,i)=>{const k=(d.hot||[])[i];return k&&ALL[k]?k:null});HOUSE=d.mv==MAPV?d.house||null:null;if(HOUSE&&!HOUSE.owner)HOUSE.owner=pname;if(d.au)AU={...AU,...d.au,on:false};AUD=d.aud||AUD;if(HOUSE)npcOf(HOUSE.map).push(hnode());av=d.av||av;if(d.wb&&typeof WSY!='undefined')WSY.restore(d.wb);if(Array.isArray(d.boss))d.boss.forEach((o,i)=>{const m=mons[i];if(!m||!o||!o.g)return;const g=gLoadSave(o.g,lg);if(!g||d.mv!=MAPV||(m.sp&&SP[g.si].id!=m.sp))return;g.boss=1;m.g=g;m.lv=g.lv;m.dead=o.dead||0;m.rt=o.rt||0});party=party.map(g=>gLoadSave(g,lg)).filter(Boolean);box=box.map(g=>gLoadSave(g,lg)).filter(Boolean);if(!party.length&&box.length)party.push(box.shift());return 1}}catch(e){LOADERR=e.message;try{if(raw)localStorage.setItem('gho1_bak',raw)}catch(_){}toast('⚠️ โหลดเซฟเดิมไม่สำเร็จ: '+e.message)}}
+function load(raw0){let raw=null;try{raw=raw0!=null?raw0:stGet();const d=JSON.parse(raw);if(d&&d.party&&(d.party.length||d.newb)){NEWB=d.party.length?0:d.newb?1:0;JOB=JOBS[d.job]?d.job:'';JQ=!JOB&&JOBS[d.jq]?d.jq:'';RGP=d.rgp?1:0;BLESS=d.bless&&typeof d.bless=='object'?{d:String(d.bless.d||''),k:d.bless.k|0,u:+d.bless.u||0}:{d:'',k:-1,u:0};if(typeof GMK!='undefined')GMK.restore(d.gmk);if(typeof BOUNTY!='undefined')BOUNTY.restore(d.bnt);if(typeof IMK!='undefined')IMK.restore(d.imk);STO={};if(d.sto&&typeof d.sto=='object')for(const k in d.sto){const n=Math.floor(+d.sto[k]);if(ALL[k]&&n>0)STO[k]=n}if(typeof BANK!='undefined')BANK.restore(d.bank);STALL=Array.from({length:STALL_N},(_,i)=>{const x=(d.stall||[])[i];return x&&ALL[x.k]&&x.n>0&&x.p>0?{k:x.k,n:x.n|0,p:x.p|0,on:x.on?1:0}:null});const lg=(d.qv||0)<5;({party,box,gc,inv}=d);dx={};if(Array.isArray(d.dxi))d.dxi.forEach(id=>{const i=gi(id);if(i!=null)dx[i]=1});else Object.keys(d.dx||{}).forEach(k=>{const i=gi(LEGACY_SP[k]);if(i!=null&&d.dx[k])dx[i]=1});if(inv.book){inv.book_c=(inv.book_c||0)+inv.book}delete inv.book;pname=d.pname||'ผู้เล่น';inv={sp:2,book_c:0,book_r:0,book_l:0,ch100:0,orange:0,house:0,master:1,mind:0,jk_cat:0,jk_pha:0,jk_hulk:0,jk_yak:0,jk_war:0,jk_bak:0,jk_ann:0,jk_spi:0,jbox:0,dust:0,so_d:0,so_w:0,so_a:0,so_f:0,ch_life:2,ch_hold:2,ch_crit:2,ch_buf:2,deed:0,bottle:0,...inv};inv.house=0;gold=d.gold??100;stock=(d.stock||[]).map(g=>g&&gLoadSave(g,lg));stockT=d.stockT||0;if(stock.some(g=>g&&g.lv!=6)||(d.stock||[]).some((g,i)=>g&&!stock[i])){stock=[];stockT=0}passed=!!d.passed;if(d.qv>=2){qs={1:0,2:0,3:0,4:0,5:0,...d.qs};qk=d.qk||0}else{const o=d.qs||{};qs={1:0,2:o[1]||0,3:o[2]||0,4:o[3]||0,5:0};qk=0}if((d.qv||0)<3){const a=qs[4];qs[4]=qs[5];qs[5]=a}qc=d.qc||0;qb=d.qb||0;qt=d.qt||0;qf=d.qf||0;qa=d.qa||0;USH=d.ush&&Array.isArray(d.ush.it)?d.ush:USH;ARQ=!!d.arIn;if((d.qv||0)<4&&qt)qt=7;SHU=d.shu||0;NPCP=d.mv==MAPV&&d.npcp&&typeof d.npcp=='object'?d.npcp:{};npcApply();AP=Math.max(0,+d.ap||0);AR={w:0,l:0,...(d.ar||{})};if(d.jk){JKU=[...new Set(['normal',...(Array.isArray(d.jk.u)?d.jk.u:[])])].filter(x=>JKL.some(j=>j[0]==x));JSK=JKU.includes(d.jk.s)?d.jk.s:'normal'}HC={sz:0,sh:null,pl:null,pg:[],...(d.hc||{})};hot=Array.from({length:9},(_,i)=>{const k=(d.hot||[])[i];return k&&ALL[k]?k:null});HOUSE=d.mv==MAPV?d.house||null:null;if(HOUSE&&!HOUSE.owner)HOUSE.owner=pname;if(d.au)AU={...AU,...d.au,on:false};AUD=d.aud||AUD;if(HOUSE)npcOf(HOUSE.map).push(hnode());av=d.av||av;if(d.wb&&typeof WSY!='undefined')WSY.restore(d.wb);if(Array.isArray(d.boss))d.boss.forEach((o,i)=>{const m=mons[i];if(!m||!o||!o.g)return;const g=gLoadSave(o.g,lg);if(!g||d.mv!=MAPV||(m.sp&&SP[g.si].id!=m.sp))return;g.boss=1;m.g=g;m.lv=g.lv;m.dead=o.dead||0;m.rt=o.rt||0});party=party.map(g=>gLoadSave(g,lg)).filter(Boolean);box=box.map(g=>gLoadSave(g,lg)).filter(Boolean);if(!party.length&&box.length)party.push(box.shift());try{posLoad(d.mv==MAPV?d.pos:null)}catch(e){}return 1}}catch(e){LOADERR=e.message;try{if(raw)localStorage.setItem('gho1_bak',raw)}catch(_){}toast('⚠️ โหลดเซฟเดิมไม่สำเร็จ: '+e.message)}}
 addEventListener('pagehide',()=>{save();if(SB.on())cloudSave(1,1)});document.addEventListener('visibilitychange',()=>{if(document.hidden){save();if(SB.on())cloudSave(1,1)}});
 const b64e=t=>btoa(unescape(encodeURIComponent(t))),b64d=t=>decodeURIComponent(escape(atob(t.trim())));
 function saveUI(m){if(SB.on())return accUI(m);save();openM('💾 เซฟเกม',`<p>เกมเซฟอัตโนมัติทุก 15 วินาที ${LSBAD?'<b style="color:#ff6a6a">แต่เบราว์เซอร์นี้บล็อกการเซฟ</b> — ให้คัดลอกรหัสด้านล่างเก็บไว้ แล้ววางกลับมาเมื่อเปิดใหม่':'(ถ้าเปลี่ยนเครื่อง/เบราว์เซอร์ ให้ใช้รหัสเซฟด้านล่างย้ายข้อมูล)'}</p>${m?`<p style="color:#ffd84a">${m}</p>`:''}<div class="cd"><b>รหัสเซฟของคุณ</b><br><textarea id="svc" readonly style="width:100%;height:9cqh;background:#0b0f0d;color:#9fe;font-size:.8em" onclick="this.select()">${b64e(snap())}</textarea><button class="bn" onclick="svCopy()">📋 คัดลอก</button></div><div class="cd"><b>โหลดจากรหัสเซฟ</b><br><textarea id="svi" placeholder="วางรหัสเซฟที่นี่" style="width:100%;height:9cqh;background:#0b0f0d;color:#fff;font-size:.8em"></textarea><button class="bn" onclick="svImport()">📥 โหลดรหัสนี้ (เกมจะรีโหลด)</button></div>`)}
@@ -1208,6 +1208,11 @@ function shrine(x,y,tm){const r=(col,a,b,w,h)=>{c.fillStyle=col;c.fillRect(x+a,y
 function merch(x,y){ppl(c,x,y,{sk:2,hc:0,hs:0,hat:2,sh:5,pt:5},'d',0);c.fillStyle='#3a2a55';c.fillRect(x-5,y-10,10,7);c.fillStyle='#ffd84a';c.fillRect(x+5,y-8,2,3);c.fillStyle='#6b4a2a';c.fillRect(x-10,y-5,5,5)}
 function mv(o,mx,my){if(!blk(o.x+mx,o.y))o.x+=mx;if(!blk(o.x,o.y+my))o.y+=my}
 function sos(){openM('🆘 กลับจุดเซฟ','<p>วาร์ปกลับจุดเซฟทันที (ไม่เสียของ/GC) ใช้เมื่อติดหรือเดินไม่ได้</p><button class="bn" onclick="goSave()">✅ กลับจุดเซฟ</button>')}
+/* Ver.0.1.5: จุดล่าสุดที่ออกจากเกม — เซฟแมพ+ตำแหน่งไว้ (อยู่ในบ้านพกพา = หน้าบ้านหลังนั้น) แล้วเข้าเกมครั้งหน้าเกิดที่เดิม
+   ถ้าตำแหน่งเดิมใช้ไม่ได้ (เดินไม่ได้/แมพไม่มีแล้ว) หาที่ว่างใกล้ๆ ไม่ได้ → จุดเซฟ */
+function posSnap(){if(MAPID==2){const H=HV?{m:HV.m,x:HV.x,y:HV.y}:HOUSE?{m:HOUSE.map,x:HOUSE.x,y:HOUSE.y}:null;return H?{m:H.m,x:Math.round(H.x),y:Math.round(H.y)+14,d:'d'}:null}return{m:MAPID,x:Math.round(P.x),y:Math.round(P.y),d:P.d}}
+function posLoad(o){if(!o||typeof o!='object'||NEWB)return;const m=o.m|0,D=MAPDEF[m];if(m==2||!D||!isFinite(o.x)||!isFinite(o.y))return;const x=+o.x,y=+o.y;if(x<8||y<8||x>D.w*16-8||y>D.h*16-4)return;
+ setMap(m,x,y);if(blk(P.x,P.y)){const f=freeNear(x,y,6);if(f){P.x=f[0];P.y=f[1]}else return setMap(...WARPS.save)}if(/^[udlr]$/.test(o.d))P.d=o.d;P.safe=performance.now()+2500;trail.length=0}
 function goSave(){closeM();setMap(...WARPS.save);toast('กลับจุดเซฟแล้ว')}
 function drawN(n,tm){if(n.t=='house'||n.t=='rhouse')houseDraw(n.x,n.y);else if(n.t=='shrine'&&n.v=='tree')sacredTree(c,n.x,n.y,tm);else if(n.t=='portal'){if(n.v=='village')wmVillage(c,n.x,n.y,tm);else if(n.v=='grave')wmGrave(c,n.x,n.y,tm);else wmJungle(c,n.x,n.y)}else if(n.t=='shrine'||n.t=='hshrine')shrine(n.x,n.y,tm);else if(n.t=='pillar')pillar(n.x,n.y,tm);else if(n.t=='hghost'){dg(c,n.x,n.y,n.g,1,tm,{pose:'walk',vx:n.vx,vy:n.vy,mem:n});label(n.g.sp.n,n.x,n.y-20,n.g.sp.t==2?'#c58cff':'#bfe8ff')}else if(n.t=='shop')merch(n.x,n.y);else if(n.t=='ptable')ptableDraw(n.x,n.y,tm);else if(n.t=='sbox')sboxDraw(n.x,n.y);else if(n.t=='altar')altarDraw(n.x,n.y,tm);else if(n.t=='tghost')tgDraw(n,tm);else if(n.t=='banker')bankerDraw(n.x,n.y,tm);else if(n.t=='stall')stallDraw(n.x,n.y,HV?stallList(HV.uid).length>0:stallSelling().length>0);else npcp(n);
  if(typeof NME!='undefined'&&NME.on&&npcMovable(n)){const on=NME.sel===n;c.strokeStyle=on?'#ffd84a':'#7dd3ff';c.lineWidth=1;c.setLineDash(on?[]:[2,2]);c.strokeRect(n.x-13.5,n.y-n.lh+.5,27,n.lh+4);c.setLineDash([])}
@@ -1973,7 +1978,7 @@ function bi(){if(B.two)return bi2();const L=lead()||party[0],F=B.foe;
 function bm(k){const L=lead(),bc=$('#bc');const b=(t,f,d,st)=>`<button ${d?'disabled':''} style="${st||''}" onclick="${f}">${t}</button>`;
  if(k=='none')bc.innerHTML='';
  else if(k=='main'&&B&&B.auto){bc.innerHTML=`<div style="grid-column:1/3;text-align:center;color:#d8b8ff;padding:1cqh 0">🔮 ร่างทรง — ${nm(L)} กำลังต่อสู้เองอัตโนมัติ...</div>`;const BB=B;setTimeout(()=>arAuto(BB),650)}   // Ver.0.1.5: การประลองร่างทรง
- else if(k=='main'){const fl=floating(L);bc.innerHTML=b('โจมตี <small>+6 SP</small>',"act('attack',BASIC)",fl)+b('ป้องกัน <small>+3 SP</small>',"act('defend')")+b(silenced()?'ทักษะ <small>🔇</small>':'ทักษะ',"bm('sk')",fl||silenced())+b('ไอเทม',"bm('it')",fl)+b('สลับตัว',"swp()",fl)+b('หลบหนี',"act('run')",fl)}
+ else if(k=='main'){const fl=floating(L),rt=B&&B.rt;if(rt)B.rtOpen=B.turn;bc.innerHTML=b('โจมตี <small>+6 SP</small>',"act('attack',BASIC)",fl)+b('ป้องกัน <small>+3 SP</small>',"act('defend')")+b(silenced()?'ทักษะ <small>🔇</small>':'ทักษะ',"bm('sk')",fl||silenced())+b('ไอเทม',"bm('it')",fl||rt)+b('สลับตัว',"swp()",fl)+(rt?b('🏳️ ยอมแพ้',"rtFF()"):b('หลบหนี',"act('run')",fl))}   // rt = ท้าประลองแบบเรียลไทม์ (ไม่มีไอเทม · หลบหนี → ยอมแพ้)
  else if(k=='sk')bc.innerHTML=L.sk.map((s,i)=>b(s.n,`act('skill',lead().sk[${i}])`,!canSk(L,s),sst(s))).join('')+b('กลับ',"bm('main')");
  else{const gp=Math.abs(B.foe.lv-L.lv),why=B.team?'ผีของอาจารย์':B.foe.boss?'จับไม่ได้':gp>5?'เลเวลห่าง '+gp+' (เกิน 5)':'',mo=inv.master<1||!!why;bc.innerHTML=b(`ยา HP ×${inv.heal}`,"pickBT('heal')")+b(`ยา SP ×${inv.sp}`,"pickBT('sp')")+b(`หม้ออาจารย์คง ×${inv.master}${inv.master>0&&why?' <small>ใช้ไม่ได้ · '+why+'</small>':''}`,"act('master')",mo)+b('กลับ',"bm('main')")}}
 function blog(t){PTY.ev('l',{t});BV.ev('l',{t});const l=$('#bl');l.innerHTML+=`<div>${t}</div>`;while(l.children.length>5)l.firstChild.remove();say2('Battle','ระบบ',t)}
@@ -2095,10 +2100,12 @@ const fx=sk.fx||{},me=pos&&pos.S?{S:pos.S,T:pos.S}:null;
  let bro=null,bs=0;if(B.two){bro=alliesOf(d).find(x=>x.hp>0&&hasU(x,'จิตวิญญาณลูกพี่'));if(bro){bs=Math.min(bro.hp-1,Math.round(dm*uNum(bro,0,20)/100));if(bs>0)dm-=bs;else bro=null}}
  const vx=sk!==BASIC&&SVFX.has(sk.id)?sk.id:0;await fxAt({w,t:performance.now(),el,...pos,...(vx?{vx}:{})},vx?SVFX.hit(vx):380,G);let nh=d.hp-dm;const pr=[];
  if(nh<=0&&uOnce(d,'9 ชีวิต')){nh=1;pr.push({u:1,k:'🐈 9 ชีวิต',t:'🐈 9 ชีวิต! รอดตายเหลือ HP 1'})}else if(nh<=0&&d.held=='ch_life'&&!d.u1){nh=1;d.u1=1;pr.push({k:'ch_life',t:'🧧 ยันต์กันตาย ทำงาน! HP เหลือ 1'})}
+ const h2=dbl&&dm>=2?[Math.ceil(dm/2),dm-Math.ceil(dm/2)]:null;   // Ver.0.1.5: ตี 2 ที → ดาเมจเด้ง 2 ครั้ง (ครั้งแรกครึ่งหนึ่ง แล้วตามด้วยอีกครึ่ง)
+ if(h2){d.hp=Math.max(Math.max(0,nh),d.hp-h2[0]);B.pp=pos||null;bi();pop('-'+h2[0],'#fff',w);await sleep(330);if(B&&B.fx)B.fx={...B.fx,t:performance.now()-370}}
  d.hp=Math.max(0,nh);if(bro)bro.hp-=bs;if(B.two&&d.hp<=0&&pos&&pos.T)(B.fade=B.fade||[]).push({g:d,x:pos.T[0],y:pos.T[1]+(aP?30:36),u:aP?5:6,t:performance.now()});
  let rv=0;const rf=stFlag(d,'reflect');if(rf&&a!==d){rv=Math.max(1,Math.round(Math.min(dm,d.mx)*ST[rf.n].reflect));a.hp=Math.max(0,a.hp-rv)}
- B.pp=pos||null;bi();pop((cr?'💥 ':'')+'-'+dm,cr?'#ff5050':'#fff',w);B.pp=pos||null;if(mul>1)pop('ได้ผลดีมาก!','#ffd84a',w,-9);if(mul<1)pop('ไม่ค่อยได้ผล','#9fb4c8',w,-9);
- await bsay(`${cn(a)} ใช้ <b style="color:${ec}">${sk.n}</b>! −${dm}${stab>1?' ✦ธาตุตรงตัว':''}${cr?' 💥คริติคอล!':''}${tags.length?' '+tags.join(' '):''}`,mul==1?750:450);
+ B.pp=pos||null;bi();pop((cr?'💥 ':'')+'-'+(h2?h2[1]:dm),cr?'#ff5050':'#fff',w,h2?7:0);B.pp=pos||null;if(mul>1)pop('ได้ผลดีมาก!','#ffd84a',w,-9);if(mul<1)pop('ไม่ค่อยได้ผล','#9fb4c8',w,-9);
+ await bsay(`${cn(a)} ใช้ <b style="color:${ec}">${sk.n}</b>! ${h2?'−'+h2[0]+' −'+h2[1]:'−'+dm}${stab>1?' ✦ธาตุตรงตัว':''}${cr?' 💥คริติคอล!':''}${tags.length?' '+tags.join(' '):''}`,mul==1?750:450);
  if(mul>1)await bsay(man?'<b style="color:#ffd84a">เส้นทางลูกผู้ชาย! ได้ผลดีมาก!</b>':'<b style="color:#ffd84a">ได้ผลดีมาก!</b>',600);if(mul<1)await bsay('<span style="color:#9fb4c8">ไม่ค่อยได้ผล...</span>',600);
  if(bro){bi();await ann(bro,'สกิลประจำตัว','🛡 จิตวิญญาณลูกพี่',!aP,650);popAt(bro,'-'+bs,'#fff');await bsay(`${cn(bro)} รับดาเมจแทน ${bs}`,600)}
  if(rv){await ann(d,'สถานะ','🌵 '+rf.n,!aP,600);popAt(a,'-'+rv,'#ffb0b0');await bsay(`${rf.n} สะท้อนดาเมจใส่ ${cn(a)} −${rv}`,650)}
@@ -2118,21 +2125,25 @@ function startBattle(w,team,two,coop){TG=null;JOY.x=JOY.y=0;mode='battle';party.
  blog(hasU(w.g,'ผีลักซ่อน')?'<b style="color:#aaa">???</b> ปรากฏตัว!':`${w.g.shiny?'✨ ผีสีพิเศษ! ':''}${cn(w.g)}${w.g.boss?'':' Lv.'+w.g.lv} ปรากฏตัว!`);if(coop)blog('🤝 ปาร์ตี้ 2v2! '+PA().map(nm).join(' และ ')+' ร่วมกันสู้กับ '+FA().map(nm).join(' และ '));else if(B.bs)blog('👥 2vs1! ส่ง '+PA().map(nm).join(' และ ')+' รุมสู้กับ '+nm(w.g));else if(two)blog('👥 2v2! '+TN()+'ส่ง '+FA().map(nm).join(' และ ')+' ลงสนาม');bi();bm('none');const nw0=performance.now();B.pa={t:nw0,m:'rl'};if(team&&!(coop&&coop.wild)&&!B.bs)B.fpa={t:nw0+300,m:'rl'};const BB=B;
  sleep(team?(two?2800:2300):1900).then(async()=>{if(B!==BB)return;B.pa=null;B.fpa=null;for(const g of two?[...PA(),...FA()]:[lead(),B.foe])await onEnter(g,1);if(B!==BB)return;B.busy=false;B.t=20;bi();two?bm2s():bm('main')})}
 function endBattle(rm){try{BV.hostEnd()}catch(e){}if(rm){for(const w of[B.w,B.coop&&B.coop.w2]){if(!w)continue;if(w.sync){WSY.kill(w);continue}for(const[m,arr]of Object.entries(WILDS)){const i=arr.indexOf(w);if(i>=0){arr.splice(i,1);setTimeout(()=>spawnWild(+m),SPAWN_RESPAWN_MS)}}}}party.forEach(g=>{resetB(g);g.u1=g.u2=g.rip=0});resetB(B.foe);P.safe=performance.now()+2500;B=null;mode='world';$('#g').classList.remove('bm');$('#bt').style.display='none';hud();save()}
-function battleTimerTick(){const T=$('#tmr'),N=$('#trn');if(B){N.style.display=B.pa?'none':'block';const f=fld(),tt='เทิร์น '+(B.turn||1)+(f?' · 🌐'+f.n+' ('+f.t+')':'');if(N.textContent!=tt)N.textContent=tt}else N.style.display='none';if(!B||B.busy||B.auto){T.style.display='none';return}B.t-=.1;T.style.display='block';const n=Math.max(0,Math.ceil(B.t-1e-6));if(T.textContent!=n)T.textContent=n;T.classList.toggle('lo',n<=5);if(B.t<=0){if(B.coop){B.t=20;if(B.coop.role=='h')PTY.timeout()}else if(B.two)B.t=20;else act(floating(lead())?'defend':'attack',BASIC)}}
+function battleTimerTick(){const T=$('#tmr'),N=$('#trn');if(B){N.style.display=B.pa?'none':'block';const f=fld(),tt='เทิร์น '+(B.turn||1)+(f?' · 🌐'+f.n+' ('+f.t+')':'');if(N.textContent!=tt)N.textContent=tt}else N.style.display='none';if(!B||B.busy||B.auto){T.style.display='none';return}B.t-=.1;T.style.display='block';const n=Math.max(0,Math.ceil(B.t-1e-6));if(T.textContent!=n)T.textContent=n;T.classList.toggle('lo',n<=5);if(B.t<=0){if(B.view)return BV.rtTimeout();if(B.coop){B.t=20;if(B.coop.role=='h')PTY.timeout()}else if(B.two)B.t=20;else act(floating(lead())?'defend':'attack',BASIC)}}
 async function swp(){if(!B||B.busy)return;const ci=party.findIndex(g=>g.hp>0);if(party.filter(g=>g.hp>0).length<2)return blog('ไม่มีผีสำรองให้สลับ');if(lockedIn(party[ci]))return blog('👁️ ถูกสายตานักล่าจ้องอยู่ เปลี่ยนตัวไม่ได้!');if(floating(party[ci]))return blog('เทิร์นแรกของลอยหน้าลอยตา ทำได้แค่ป้องกัน');B.busy=true;
  const i=await ask('สลับตัว',party.map((g,i)=>g.hp>0&&i!=ci?`<div class="cd tr"><canvas data-i="${i}" width="32" height="32"></canvas><div style="flex:1"><b>${nm(g)}</b> ${LV(g)} · ธาตุ${g.sp.e}${hpr(g,1)}${spx(g,1)}${exb(g,1)}</div><button class="bn" onclick="ans(${i})">สลับตัวนี้ (ใช้ 1 เทิร์น)</button></div>`:'').join('')+'<button class="bn" onclick="ans(-1)">↩ ยกเลิก</button>',()=>document.querySelectorAll('#mb canvas[data-i]').forEach(k=>spr(k,party[+k.dataset.i],2)));
  B.busy=false;if(i>=0)act('switch',i)}
 /* ---------- เทิร์น 1v1 ---------- */
-async function act(type,sk){if(!B||B.busy)return;let L=lead();let F=B.foe;
+/* คำสั่งของผู้เล่นฝ่ายตรงข้าม (ท้าประลองแบบเรียลไทม์) → ท่าที่ใช้ */
+function rtFs(q,F){if(floating(F)||q.ty=='defend')return FDEF;if(q.ty=='skill'){const s=F.sk[q.si|0];if(s&&canSk(F,s))return s}return BASIC}
+function rtFF(){if(!B||!B.rt||B.busy)return;B.busy=true;bm('none');lose('🏳️ คุณยอมแพ้...')}
+async function act(type,sk){if(!B||B.busy||B.view)return;let L=lead();let F=B.foe;
  if(floating(L)&&type!='defend'){if(type=='attack'&&sk===BASIC&&B.t<=0)type='defend';else return blog('🎈 เทิร์นแรกของลอยหน้าลอยตา ทำได้แค่ป้องกัน')}
  if(type=='heal'&&inv.heal<1)return blog('ไม่มียาแล้ว!');if(type=='sp'&&inv.sp<1)return blog('ไม่มียา SP แล้ว!');
  if(type=='skill'&&!canSk(L,sk))return blog(silenced()?'🔇 แดนความเงียบ! ใช้สกิลไม่ได้':'SP ไม่พอ!');
  if(B.team&&(type=='run'||type=='jar'||type=='master'))return blog('ในการประลอง ห้ามหนีหรือใช้ไห!');if((type=='jar'||type=='master')&&F.boss)return blog('มอนสเตอร์ตัวนี้จับไม่ได้!');
  if(type=='master'){if(inv.master<1)return blog('ไม่มีหม้ออาจารย์คงแล้ว!');const gp=Math.abs(F.lv-L.lv);if(gp>5)return blog(`ใช้ไม่ได้! เลเวลผีห่างจากผีของเรา ${gp} เลเวล (ต้องไม่เกิน 5)`)}
  if(type=='jar'){if(!(inv.jar>0))return blog('ไม่มีไหแล้ว!');if(F.hp/F.mx>=.5)return blog('ต้องทำให้ HP ผีต่ำกว่า 50% ก่อนจึงจะจับได้')}
- const BB=B;B.busy=true;bm('none');let sw0=0;
- if(B.team&&B.team.length>1&&type!='run'&&type!='jar'&&!lockedIn(F)&&!floating(F)){const ai=foeSwIdx(F,L);if(ai>0){const old=F,nw=B.team[ai];B.fpa={t:performance.now(),m:'rc'};await ann(old,TN(),'🔄 ถอนตัวกลับ',0,700);await sleep(700);B.team[0]=nw;B.team[ai]=old;old.st=[];old.dfd=0;F=nw;B.foe=nw;B.def=false;bi();B.fpa={t:performance.now(),m:'rl'};await ann(nw,TN(),'👻 ส่งตัวใหม่',0,900);await sleep(1000);B.fpa=null;await bsay(`${TN()}เรียก ${cn(old)} กลับ ส่ง ${cn(nw)} ธาตุ<span style="color:${EC[nw.sp.e]}">${nw.sp.e}</span> ลงสนาม!`);await swIn(nw,B.turn);sw0=1}}
- const fs=sw0?{sw:1}:foePick(F,L),att=type=='attack'||type=='skill',fast=g=>firstT(g)&&uOnce(g,'ตีนผี')?10:0;
+ const BB=B;B.busy=true;bm('none');let sw0=0,gq=null;
+ if(B.rt){const q=await BV.rtWait(BB);if(B!==BB)return;B.rtOpen=0;gq=q&&q.ty!='auto'?q:null;F=B.foe;if(gq&&gq.ty=='ff'){await bsay(`🏳️ ${NET.esc(B.rt.n||TN())} ยอมแพ้!`,900);return arenaEnd(1)}}   // Ver.0.1.5: ท้าประลองแบบเรียลไทม์ — รอคำสั่งของอีกฝ่าย (หมดเวลา/หลุด → AI สั่งแทน)
+ if(B.team&&B.team.length>1&&type!='run'&&type!='jar'&&!lockedIn(F)&&!floating(F)){const ai=gq?(gq.ty=='switch'?B.team.indexOf(gq.g):-1):foeSwIdx(F,L);if(ai>0){const old=F,nw=B.team[ai];B.fpa={t:performance.now(),m:'rc'};await ann(old,TN(),'🔄 ถอนตัวกลับ',0,700);await sleep(700);B.team[0]=nw;B.team[ai]=old;old.st=[];old.dfd=0;F=nw;B.foe=nw;B.def=false;bi();B.fpa={t:performance.now(),m:'rl'};await ann(nw,TN(),'👻 ส่งตัวใหม่',0,900);await sleep(1000);B.fpa=null;await bsay(`${TN()}เรียก ${cn(old)} กลับ ส่ง ${cn(nw)} ธาตุ<span style="color:${EC[nw.sp.e]}">${nw.sp.e}</span> ลงสนาม!`);await swIn(nw,B.turn);sw0=1}}
+ const fs=sw0?{sw:1}:gq?rtFs(gq,F):foePick(F,L),att=type=='attack'||type=='skill',fast=g=>firstT(g)&&uOnce(g,'ตีนผี')?10:0;
  const od=[{w:'p',p:att?(sk.pri||0)+fast(L):2,s:spd(L)},{w:'f',p:fs.sw?0:(fs.pri||0)+(fs.def?0:fast(F)),s:spd(F)}].sort((a,b)=>b.p-a.p||b.s-a.s||Math.random()-.5);
  if(od[0].p>=10&&od[1].p>=10&&Math.random()<.5)od.reverse();
  let cur=L;const F0=F;
@@ -2168,7 +2179,7 @@ async function win(caught){const F=B.foe,L=lead();if(!B.team&&qs[1]==1){qk++;sav
  await lvUps(L);
  if(shareOn()){await bsay('💞 ยาเชื่อมจิต: แชร์ EXP ให้ผีทุกตัวในทีม',700);for(const g of party)if(g!==L){if(g.lv<lvMax())g.exp+=xpOf(g,ex);await lvUps(g)}}await altarExp(ex)}
  const tr=!!B.team;if(tr&&B.team.length>1){B.team.shift();B.team.unshift(B.team.splice(bestFoeIdx(B.team,lead()||L),1)[0]);const nx=B.team[0];await bsay(`${TN()}จะส่ง ${cn(nx)} Lv.${nx.lv} ธาตุ<span style="color:${EC[nx.sp.e]}">${nx.sp.e}</span> ออกมา!`,900);const al=party.filter(g=>g.hp>0);let sw=null;
-   if(al.length>1&&!B.auto){const i=await ask('ผีตัวถัดไป: '+nm(nx)+' (ธาตุ'+nx.sp.e+')','<p>จะใช้ผีตัวเดิมต่อ หรือเปลี่ยนตัว?</p><button class="bn" onclick="ans(-1)">✅ ใช้ '+nm(al[0])+' ต่อ</button>'+party.map((g,i)=>g.hp>0&&g!==al[0]?`<div class="cd tr"><canvas data-i="${i}" width="32" height="32"></canvas><div style="flex:1"><b>${nm(g)}</b> ${LV(g)} · ธาตุ${g.sp.e}<br><small>HP ${g.hp}/${g.mx}</small></div><button class="bn" onclick="ans(${i})">เปลี่ยนเป็นตัวนี้</button></div>`:'').join(''),()=>document.querySelectorAll('#mb canvas[data-i]').forEach(q=>spr(q,party[+q.dataset.i],2)));if(i>=0){B.pa={t:performance.now(),m:'rc'};await sleep(1400);lead().st=[];party.unshift(party.splice(i,1)[0]);sw=lead();bi();B.pa={t:performance.now(),m:'rl'};await sleep(1900);B.pa=null}}
+   if(al.length>1&&!B.auto&&!B.rt){const i=await ask('ผีตัวถัดไป: '+nm(nx)+' (ธาตุ'+nx.sp.e+')','<p>จะใช้ผีตัวเดิมต่อ หรือเปลี่ยนตัว?</p><button class="bn" onclick="ans(-1)">✅ ใช้ '+nm(al[0])+' ต่อ</button>'+party.map((g,i)=>g.hp>0&&g!==al[0]?`<div class="cd tr"><canvas data-i="${i}" width="32" height="32"></canvas><div style="flex:1"><b>${nm(g)}</b> ${LV(g)} · ธาตุ${g.sp.e}<br><small>HP ${g.hp}/${g.mx}</small></div><button class="bn" onclick="ans(${i})">เปลี่ยนเป็นตัวนี้</button></div>`:'').join(''),()=>document.querySelectorAll('#mb canvas[data-i]').forEach(q=>spr(q,party[+q.dataset.i],2)));if(i>=0){B.pa={t:performance.now(),m:'rc'};await sleep(1400);lead().st=[];party.unshift(party.splice(i,1)[0]);sw=lead();bi();B.pa={t:performance.now(),m:'rl'};await sleep(1900);B.pa=null}}
    B.foe=nx;B.dying=null;B.def=false;bi();B.fpa={t:performance.now(),m:'rl'};await bsay(`${TN()}ส่ง ${cn(nx)} ลงสนาม!`,1900);B.fpa=null;if(sw)await onEnter(sw,B.turn);await onEnter(nx,B.turn);B.t=20;B.busy=false;bi();bm('main');return}
  if(B.arena)return arenaEnd(1);
  if(tr){passed=true;save()}
@@ -2177,9 +2188,9 @@ async function win(caught){const F=B.foe,L=lead();if(!B.team&&qs[1]==1){qk++;sav
 async function lose(m){await bsay(m);if(B.arena)return arenaEnd(0);const bs=!!B.foe.boss;{const F=B.foe;if(!bs){F.hp=F.mx;F.sp2=F.mxsp}resetB(F)}const lost=Math.floor(gc*DROPS.loseGcRate);gc-=lost;party.forEach(g=>{g.hp=g.mx;g.sp2=g.mxsp});P.x=WARPS.save[1];P.y=WARPS.save[2];trail.length=0;endBattle(0);toast((lost?'เสีย '+lost+' GC · ':'')+(bs?'มอนสเตอร์ยังคง HP เดิม':'ผีป่าฟื้น HP/SP เต็ม'))}
 async function faint(D){await sleep(450);B.fx=null;B.dying={w:'p',t:performance.now(),g:D};await bsay(`${cn(D)} สลบแล้ว!`,2300);D.st=[];
  const rest=party.filter(g=>g.hp>0);if(!rest.length)return lose('ผีทั้งหมดสลบ... กลับจุดเซฟ');
- const go=B.auto?1:await ask('ผีของคุณสลบแล้ว!',`<p>${nm(D)} ล้มลง — ยังมีผีสำรอง ${rest.length} ตัว จะสู้ต่อหรือยอมแพ้?</p><button class="bn" onclick="ans(1)">⚔️ สู้ต่อ</button><button class="bn" onclick="ans(0)">🏳️ ยอมแพ้</button>`);
+ const go=B.auto||B.rt?1:await ask('ผีของคุณสลบแล้ว!',`<p>${nm(D)} ล้มลง — ยังมีผีสำรอง ${rest.length} ตัว จะสู้ต่อหรือยอมแพ้?</p><button class="bn" onclick="ans(1)">⚔️ สู้ต่อ</button><button class="bn" onclick="ans(0)">🏳️ ยอมแพ้</button>`);
  if(!go)return lose('คุณยอมแพ้... กลับจุดเซฟ');
- const i=B.auto?arAutoNext():await ask('เลือกผีตัวต่อไป',party.map((g,i)=>g.hp>0?`<div class="cd tr"><canvas data-i="${i}" width="32" height="32"></canvas><div style="flex:1"><b>${nm(g)}</b> ${LV(g)} · ธาตุ${g.sp.e}${hpr(g,1)}${spx(g,1)}${exb(g,1)}</div><button class="bn" onclick="ans(${i})">ส่งลงสนาม</button></div>`:'').join(''),()=>document.querySelectorAll('#mb canvas[data-i]').forEach(k=>spr(k,party[+k.dataset.i],2)));
+ const i=B.auto||B.rt?arAutoNext():await ask('เลือกผีตัวต่อไป',party.map((g,i)=>g.hp>0?`<div class="cd tr"><canvas data-i="${i}" width="32" height="32"></canvas><div style="flex:1"><b>${nm(g)}</b> ${LV(g)} · ธาตุ${g.sp.e}${hpr(g,1)}${spx(g,1)}${exb(g,1)}</div><button class="bn" onclick="ans(${i})">ส่งลงสนาม</button></div>`:'').join(''),()=>document.querySelectorAll('#mb canvas[data-i]').forEach(k=>spr(k,party[+k.dataset.i],2)));
  const N=party[i];party.unshift(party.splice(i,1)[0]);B.dying=null;B.def=false;bi();B.pa={t:performance.now(),m:'rl'};await ann(N,'ส่งผีลงสนาม','👻 ไปเลย!',1,900);await sleep(1000);B.pa=null;await bsay(`ไปเลย! ${cn(N)}`,600);await onEnter(N,B.turn);B.t=20;B.busy=false;bi();bm('main')}
 /* AI ฝั่งศัตรู: เลือกสกิล, สลับตัวตามธาตุ */
 const mu=(a,b)=>BEAT[a]==b?1:0,fsc=(c,L)=>mu(c.sp.e,L.sp.e)-mu(L.sp.e,c.sp.e);
@@ -3013,32 +3024,41 @@ function jboxOpen(){if(mode!='world')return;if(inv.jbox<1)return toast('ไม�
 let AP=0,AR={w:0,l:0},ARO=null,ARS=null;
 const arRank=p=>{let r=ARENA.ranks[0];for(const x of ARENA.ranks)if(p>=x.min)r=x;return r},arTag=p=>{const r=arRank(p);return `<b style="color:${r.c}">${r.n}</b>`};
 function arAvgLv(){const L=party.length?party:[{lv:1}];return Math.round(L.reduce((a,g)=>a+g.lv,0)/L.length)}
-/* Ver.0.1.5: อารีน่ามี 2 โหมด
-   1) การประลองร่างทรง — ผีของเราสู้เองอัตโนมัติ (สั่งสกิลเองไม่ได้) · มีตารางอันดับผู้เล่นจริง · มีแต้มแล้วจะจับคู่กับ "ข้อมูลทีมของผู้เล่นจริง" ที่อยู่ขั้นเดียวกัน
-      (ยังไม่มีแต้ม / ออฟไลน์ / ไม่มีผู้เล่นจริงในขั้นเดียวกัน → สู้กับ NPC ซึ่งไม่มีอันดับ) — ฝั่งเซิร์ฟเวอร์: supabase/update_v017_arena.sql
-   2) การประลองของหมอผี — โหมดต่อสู้แบบเรียลไทม์ (ยังไม่เปิดใช้งาน) */
+/* Ver.0.1.5: อารีน่ามี 2 โหมด (แต้ม / ขั้น / ตารางอันดับ ใช้ร่วมกัน)
+   1) การประลองร่างทรง — ผีของเราสู้เองอัตโนมัติ (สั่งสกิลเองไม่ได้)
+   2) การประลองของหมอผี — เราสั่งผีเองทุกเทิร์น (แบบเรียลไทม์)
+   การจับคู่เหมือนกันทั้งสองโหมด: มีแต้มแล้วจะสุ่มผู้เล่นจริงขั้นเดียวกัน แล้วดึงข้อมูลทีมของคนนั้นมาสู้ (ฝั่งตรงข้ามใช้ AI)
+   (ยังไม่มีแต้ม / ออฟไลน์ / ไม่มีผู้เล่นจริงในขั้นเดียวกัน → สู้กับ NPC ซึ่งไม่มีอันดับ)
+   ผู้เล่นที่ถูกดึงข้อมูลมาสู้ได้/เสียแต้มจริง: เราชนะ = เขาเสีย 5–10 · เราแพ้ = เขาได้ 10–15 (คิดที่เซิร์ฟเวอร์ — supabase/update_v018_arena2.sql)
+   ออนไลน์: แต้มจริงเก็บที่เซิร์ฟเวอร์ เปิดหน้าอารีน่าแล้วดึงแต้มล่าสุดมา (รู้ได้ว่าระหว่างไม่อยู่ถูกท้าแล้วได้/เสียแต้มเท่าไร) */
 const AR_ON=()=>SB.on()&&!!SB.uid&&typeof NET!='undefined';
 const arRpc=(f,b)=>SB.q('rpc/'+f,{m:'POST',b:b||{}});
 const arTeam=()=>party.slice(0,4).map(gSave);
+let ARM='auto';const ARMN={auto:'🔮 การประลองร่างทรง',man:'🧙 การประลองของหมอผี'};
+/* รับแต้มจริงจากเซิร์ฟเวอร์ (ถ้าเปลี่ยนจากที่เครื่องรู้ = ถูกผู้เล่นอื่นดึงข้อมูลไปประลอง) */
+function arTake(r,quiet){if(!r||typeof r!='object'||!isFinite(+r.pts))return 0;const p=Math.max(0,r.pts|0),d=p-AP;AP=p;AR.w=Math.max(0,r.w|0);AR.l=Math.max(0,r.l|0);if(d&&!quiet)toast(`🏆 ระหว่างที่คุณไม่อยู่ มีผู้เล่นดึงทีมของคุณไปประลอง — แต้มอารีน่า ${d>0?'+':''}${d} (รวม ${AP})`);save();return d}
 let ARSY=0;function arSync(force){if(!AR_ON())return Promise.resolve();const t=Date.now();if(!force&&t-ARSY<60000)return Promise.resolve();ARSY=t;
- return arRpc('gk_arena_sync',{p_pts:AP,p_w:AR.w,p_l:AR.l,p_team:party.length?arTeam():[],p_av:av}).catch(e=>console.warn('arena sync',e))}
+ return arRpc('gk_arena_sync',{p_pts:AP,p_w:AR.w,p_l:AR.l,p_team:party.length?arTeam():[],p_av:av}).then(r=>{arTake(r);return r}).catch(e=>console.warn('arena sync',e))}
 function arenaUI(m){if(mode!='world')return;
- openM('🏆 อารีน่า',`<p style="margin:.2cqh 0 .8cqh">เลือกรูปแบบการประลอง</p><div style="display:flex;gap:1.2cqw;align-items:stretch">
- <div class="cd" style="flex:1;margin:0;display:flex;flex-direction:column;border-color:#c58cff"><div style="font-size:1.25em;font-weight:800;color:#d8b8ff">🔮 การประลองร่างทรง</div><div style="flex:1;margin:.5cqh 0;font-size:.9em">ผีของเราจะต่อสู้เองอัตโนมัติ — สั่งสกิลเองไม่ได้<br>• มีตารางอันดับผู้เล่น<br>• มีแต้มแล้ว จับคู่กับผู้เล่นจริงในขั้นเดียวกัน</div><div style="margin-bottom:.5cqh"><small>แต้มของคุณ <b style="color:${arRank(AP).c}">${AP}</b> · ขั้น ${arTag(AP)}</small></div><button class="bn" onclick="arMedium()">▶ เข้าสู่การประลองร่างทรง</button></div>
- <div class="cd" style="flex:1;margin:0;display:flex;flex-direction:column;opacity:.7"><div style="font-size:1.25em;font-weight:800;color:#ffd84a">🧙 การประลองของหมอผี</div><div style="flex:1;margin:.5cqh 0;font-size:.9em">การต่อสู้แบบเรียลไทม์ — หมอผีสั่งผีเองกับผู้เล่นจริง</div><button class="bn" disabled>🔒 ยังไม่เปิดใช้งาน</button></div></div>
+ const card=(md,col,bc,desc)=>`<div class="cd" style="flex:1;margin:0;display:flex;flex-direction:column;border-color:${bc}"><div style="font-size:1.25em;font-weight:800;color:${col}">${ARMN[md]}</div><div style="flex:1;margin:.5cqh 0;font-size:.9em">${desc}</div><button class="bn" onclick="arMode('${md}')">▶ เข้าสู่${ARMN[md].slice(3)}</button></div>`;
+ openM('🏆 อารีน่า',`<p style="margin:.2cqh 0 .8cqh">เลือกรูปแบบการประลอง · แต้มของคุณ <b style="color:${arRank(AP).c}">${AP}</b> · ขั้น ${arTag(AP)}</p><div style="display:flex;gap:1.2cqw;align-items:stretch">
+ ${card('auto','#d8b8ff','#c58cff','ผีของเราจะต่อสู้เองอัตโนมัติ — สั่งสกิลเองไม่ได้')}
+ ${card('man','#ffd84a','#caa24a','การต่อสู้แบบเรียลไทม์ — หมอผีสั่งผีเองทุกเทิร์น')}</div>
+ <div class="cd" style="margin:.6cqh 0 0;font-size:.85em">• ทั้งสองโหมดใช้แต้ม/ตารางอันดับเดียวกัน · มีแต้มแล้วจับคู่กับข้อมูลทีมของผู้เล่นจริงในขั้นเดียวกัน<br>• ผู้เล่นที่ถูกดึงข้อมูลมาสู้ ได้/เสียแต้มจริงด้วย (เราชนะ = เขาเสียแต้ม · เราแพ้ = เขาได้แต้ม)</div>
  ${m?`<div class="cd" style="color:#ffd84a">${m}</div>`:''}`);arSync()}
+function arMode(md,m){ARM=md=='man'?'man':'auto';arMedium(m)}
 function arMedium(m){if(mode!='world')return;const r=arRank(AP),nx=ARENA.ranks.find(x=>x.min>AP);
- openM('🔮 การประลองร่างทรง',`<div style="display:flex;gap:1.2cqw;align-items:stretch">
+ openM(ARMN[ARM],`<div style="display:flex;gap:1.2cqw;align-items:stretch">
  <div class="cd" style="flex:1;margin:0;text-align:center"><div style="font-size:.85em;opacity:.8">แต้มอารีน่า</div><div style="font-size:2.4em;font-weight:800;color:${r.c};line-height:1.2">${AP}</div><div>ขั้น ${arTag(AP)}</div><small>${nx?`อีก ${nx.min-AP} แต้มถึงขั้น ${nx.n}`:'ขั้นสูงสุดแล้ว'}</small><div style="margin-top:.5cqh"><small>ชนะ ${AR.w} · แพ้ ${AR.l}</small></div></div>
- <div class="cd" style="flex:1;margin:0"><b>ขั้นอารีน่า</b>${ARENA.ranks.map((x,i)=>{const hi=ARENA.ranks[i+1];return `<div style="display:flex;justify-content:space-between;${x===r?'font-weight:700':'opacity:.75'}"><span style="color:${x.c}">${x===r?'▶ ':''}${x.n}</span><span>${x.min}${hi?'–'+(hi.min-1):' ขึ้นไป'}</span></div>`}).join('')}<div style="margin-top:.5cqh;font-size:.85em;opacity:.85">ชนะ +${ARENA.win[0]}–${ARENA.win[1]} · แพ้ −${ARENA.lose[0]}–${ARENA.lose[1]}<br>ผีสู้เองอัตโนมัติ · HP/SP ไม่ลด · ไม่ได้ EXP/เงิน/ไอเทม</div></div></div>
+ <div class="cd" style="flex:1;margin:0"><b>ขั้นอารีน่า</b>${ARENA.ranks.map((x,i)=>{const hi=ARENA.ranks[i+1];return `<div style="display:flex;justify-content:space-between;${x===r?'font-weight:700':'opacity:.75'}"><span style="color:${x.c}">${x===r?'▶ ':''}${x.n}</span><span>${x.min}${hi?'–'+(hi.min-1):' ขึ้นไป'}</span></div>`}).join('')}<div style="margin-top:.5cqh;font-size:.85em;opacity:.85">ชนะ +${ARENA.win[0]}–${ARENA.win[1]} · แพ้ −${ARENA.lose[0]}–${ARENA.lose[1]}<br>${ARM=='auto'?'ผีสู้เองอัตโนมัติ':'สั่งผีเองทุกเทิร์น'} · HP/SP ไม่ลด · ไม่ได้ EXP/เงิน/ไอเทม</div></div></div>
  ${m?`<div class="cd" style="color:#ffd84a">${m}</div>`:''}<button class="bn" ${party.length?'':'disabled'} onclick="arSearch()">🔍 ค้นหาคู่ประลอง</button><button class="bn" onclick="arTop()">📊 ตารางอันดับ</button><button class="bn" onclick="arenaUI()">↩ กลับ</button>`)}
 /* ตารางอันดับ (เฉพาะผู้เล่นจริง) */
 async function arTop(){if(mode!='world')return;const back='<button class="bn" onclick="arMedium()">↩ กลับ</button>';
- if(!AR_ON())return openM('📊 ตารางอันดับ — การประลองร่างทรง','<p>ตารางอันดับใช้ได้เฉพาะตอนเล่นออนไลน์ (อันดับมีแต่ผู้เล่นจริง — NPC ไม่มีอันดับ)</p>'+back);
- openM('📊 ตารางอันดับ — การประลองร่างทรง','<p>⏳ กำลังโหลด...</p>'+back);await arSync(1);let d=null;
- try{d=await arRpc('gk_arena_top',{p_n:50})}catch(e){return openM('📊 ตารางอันดับ — การประลองร่างทรง',`<p>โหลดไม่สำเร็จ: ${NET.esc(e.message||e)}</p><p><small>ถ้าเซิร์ฟเวอร์ยังไม่ได้อัปเดต ให้รัน supabase/update_v017_arena.sql</small></p>`+back)}
+ if(!AR_ON())return openM('📊 ตารางอันดับอารีน่า','<p>ตารางอันดับใช้ได้เฉพาะตอนเล่นออนไลน์ (อันดับมีแต่ผู้เล่นจริง — NPC ไม่มีอันดับ)</p>'+back);
+ openM('📊 ตารางอันดับอารีน่า','<p>⏳ กำลังโหลด...</p>'+back);await arSync(1);let d=null;
+ try{d=await arRpc('gk_arena_top',{p_n:50})}catch(e){return openM('📊 ตารางอันดับอารีน่า',`<p>โหลดไม่สำเร็จ: ${NET.esc(e.message||e)}</p><p><small>ถ้าเซิร์ฟเวอร์ยังไม่ได้อัปเดต ให้รัน supabase/update_v017_arena.sql และ update_v018_arena2.sql</small></p>`+back)}
  if(!$('#mt').textContent.includes('ตารางอันดับ'))return;const L=(d&&d.top)||[],md=['🥇','🥈','🥉'];
- openM('📊 ตารางอันดับ — การประลองร่างทรง',`<div class="cd" style="display:flex;justify-content:space-between"><span>อันดับของคุณ: <b>${d&&d.me?'#'+d.me.rank:'— (ยังไม่เคยประลอง)'}</b></span><small>ผู้เล่นที่มีอันดับ ${d&&d.n||0} คน</small></div>
+ openM('📊 ตารางอันดับอารีน่า',`<div class="cd" style="display:flex;justify-content:space-between"><span>อันดับของคุณ: <b>${d&&d.me?'#'+d.me.rank:'— (ยังไม่เคยประลอง)'}</b></span><small>ผู้เล่นที่มีอันดับ ${d&&d.n||0} คน</small></div>
   <div style="display:grid;grid-template-columns:3em 1fr 5em 7em 6em;gap:.2cqh .8cqw;align-items:center"><b>#</b><b>ผู้เล่น</b><b style="text-align:right">แต้ม</b><b>ขั้น</b><b style="text-align:right">ชนะ/แพ้</b>
   ${L.map((r,i)=>`<span>${md[i]||i+1}</span><span style="${r[4]?'color:#ffe27a;font-weight:700':''}">${NET.esc(r[0])}${r[4]?' (คุณ)':''}</span><span style="text-align:right;font-weight:700;color:${arRank(r[1]).c}">${r[1]}</span><span>${arTag(r[1])}</span><span style="text-align:right">${r[2]}/${r[3]}</span>`).join('')||'<span style="grid-column:1/6;opacity:.8">ยังไม่มีผู้เล่นในตารางอันดับ</span>'}</div>${back}`)}
 /* ช่วงแต้มของขั้นเดียวกัน (ใช้จับคู่) */
@@ -3048,28 +3068,31 @@ async function arSearch(){if(mode!='world'||!party.length)return;let o=null,why=
  if(AP>0&&AR_ON()){openM('🔍 กำลังค้นหาคู่ประลอง...','<p>⏳ กำลังหาผู้เล่นจริงที่อยู่ขั้นเดียวกับคุณ...</p>');
   try{await arSync();const b=arBand(AP),d=await arRpc('gk_arena_match',{p_min:b[0],p_max:b[1]});
    const team=d&&Array.isArray(d.team)?d.team.slice(0,4).map(x=>{try{const g=gLoadSave(JSON.parse(JSON.stringify(x)));if(g){recalc(g);g.hp=g.mx;g.sp2=g.mxsp}return g}catch(e){return null}}).filter(Boolean):[];
-   if(team.length)o={n:String(d.n||'?').slice(0,12),av:d.av&&typeof d.av=='object'?d.av:rav(),team,pts:Math.max(0,d.pts|0),real:1};else why='ยังไม่มีผู้เล่นจริงในขั้นเดียวกัน — จับคู่กับ NPC แทน'}
+   if(team.length)o={n:String(d.n||'?').slice(0,12),av:d.av&&typeof d.av=='object'?d.av:rav(),team,pts:Math.max(0,d.pts|0),real:1,fid:d.fid||null};else why='ยังไม่มีผู้เล่นจริงในขั้นเดียวกัน — จับคู่กับ NPC แทน'}
   catch(e){why='เชื่อมต่อตารางอันดับไม่ได้ — จับคู่กับ NPC แทน'}
   if(!$('#mt').textContent.includes('ค้นหาคู่ประลอง'))return}
  else why=AP>0?'โหมดออฟไลน์ — จับคู่กับ NPC':'ยังไม่มีแต้ม — ประลองกับ NPC ก่อน (มีแต้มแล้วจะจับคู่กับผู้เล่นจริง)';
  ARO=o||arNpc();const T=ARO.team;
  openM(ARO.real?'🔍 พบคู่ประลอง (ผู้เล่นจริง)!':'🔍 พบนักสู้!',`<div style="display:flex;gap:1.5cqw;align-items:center"><canvas id="aro" width="30" height="34" style="width:9cqw;image-rendering:pixelated;background:#2a3a3a;border-radius:6px"></canvas>
- <div style="flex:1"><div style="font-size:1.4em;font-weight:800">${NET.esc(ARO.n)}${ARO.real?' <small style="color:#8fe3ff">👤 ผู้เล่น</small>':' <small style="opacity:.7">NPC</small>'}</div><div>${ARO.real?`ขั้น ${arTag(ARO.pts)} · ${ARO.pts} แต้ม`:'NPC (ไม่มีอันดับ)'} · ผีเลเวล ${Math.min(...T.map(g=>g.lv))}–${Math.max(...T.map(g=>g.lv))}</div><div style="margin:.4cqh 0">ผี ${T.length} ตัว ${tmI(T)}</div><small style="opacity:.8">🔮 ผีสู้เองอัตโนมัติ · ทีมเรา HP/SP เต็มระหว่างสู้ และกลับเป็นเหมือนเดิมหลังสู้</small></div></div>
+ <div style="flex:1"><div style="font-size:1.4em;font-weight:800">${NET.esc(ARO.n)}${ARO.real?' <small style="color:#8fe3ff">👤 ผู้เล่น</small>':' <small style="opacity:.7">NPC</small>'}</div><div>${ARO.real?`ขั้น ${arTag(ARO.pts)} · ${ARO.pts} แต้ม`:'NPC (ไม่มีอันดับ)'} · ผีเลเวล ${Math.min(...T.map(g=>g.lv))}–${Math.max(...T.map(g=>g.lv))}</div><div style="margin:.4cqh 0">ผี ${T.length} ตัว ${tmI(T)}</div><small style="opacity:.8">${ARM=='auto'?'🔮 ผีสู้เองอัตโนมัติ':'🧙 สั่งผีเองทุกเทิร์น'}${ARO.real?' · ถ้าเราชนะ เขาเสียแต้มจริง / ถ้าเราแพ้ เขาได้แต้ม':''} · ทีมเรา HP/SP เต็มระหว่างสู้ และกลับเป็นเหมือนเดิมหลังสู้</small></div></div>
  ${why?`<div class="cd" style="margin:.5cqh 0"><small>${why}</small></div>`:''}<button class="bn" onclick="arGo()">⚔️ เริ่มประลอง</button><button class="bn" onclick="arSearch()">🔄 ค้นหาใหม่</button><button class="bn" onclick="arMedium()">↩ กลับ</button>`);
  const k=$('#aro').getContext('2d');k.clearRect(0,0,30,34);ppl(k,15,31,ARO.av,'d',0)}
 function arGo(){if(!ARO||mode!='world'||!party.length)return;closeM();ARS=party.map(g=>[g,g.hp,g.sp2]);party.forEach(g=>{g.hp=g.mx;g.sp2=g.mxsp});
- const t=ARO.team;t.unshift(t.splice(bestFoeIdx(t,lead()),1)[0]);startBattle({g:t[0],trainer:1,arena:1,tn:ARO.n,auto:1},t);B.auto=1;B.areal=ARO.real?1:0;blog('🔮 การประลองร่างทรง — ผีจะต่อสู้เองอัตโนมัติ');ARO=null}
+ const t=ARO.team;t.unshift(t.splice(bestFoeIdx(t,lead()),1)[0]);const au=ARM=='auto';startBattle({g:t[0],trainer:1,arena:1,tn:ARO.n,auto:au?1:0},t);B.areal=ARO.real?1:0;B.afid=ARO.fid||null;blog(au?'🔮 การประลองร่างทรง — ผีจะต่อสู้เองอัตโนมัติ':'🧙 การประลองของหมอผี — สั่งผีของคุณเองทุกเทิร์น');ARO=null}
 /* ---------- ร่างทรง: ผีฝั่งเราเลือกคำสั่งเอง (ใช้สมองเดียวกับ AI ฝั่งศัตรู) ---------- */
 function arAuto(BB){if(!B||B!==BB||!B.auto||B.busy||mode!='battle')return;const L=lead(),F=B.foe;if(!L||!F)return;
  const s=foePick(L,F);if(s===FDEF||s.def)return act('defend');if(s===BASIC||!canSk(L,s))return act(floating(L)?'defend':'attack',BASIC);act('skill',s)}
 const arAutoNext=()=>{const i=bestFoeIdx(party,B.foe);return party[i]&&party[i].hp>0?i:party.findIndex(g=>g.hp>0)};
 async function arenaEnd(won){if(B&&B.pvp)return PVP.end(won);   // ท้าประลองผู้เล่นอื่น (js/online/spectate.js)
-const r0=arRank(AP),d=won?RI(ARENA.win[0],ARENA.win[1]):-RI(ARENA.lose[0],ARENA.lose[1]),p0=AP;AP=Math.max(0,AP+d);if(won)AR.w++;else AR.l++;if(qs[4]==1)qa++;
+const r0=arRank(AP),d=won?RI(ARENA.win[0],ARENA.win[1]):-RI(ARENA.lose[0],ARENA.lose[1]),p0=AP,fid=B.afid||null,real=!!B.areal;AP=Math.max(0,AP+d);if(won)AR.w++;else AR.l++;if(qs[4]==1)qa++;
+ const rep=arReport(won,d,fid);   // ออนไลน์: ส่งผลให้เซิร์ฟเวอร์ (เจ้าของทีมที่ถูกดึงมาสู้ได้/เสียแต้มจริง)
  await bsay(won?`🏆 ชนะการประลองอารีน่า! แต้ม +${AP-p0}`:`แพ้การประลองอารีน่า... แต้ม −${p0-AP}`,1100);
- if(ARS)ARS.forEach(([g,h,s])=>{g.hp=h;g.sp2=Math.min(g.mxsp,s)});ARS=null;endBattle(0);const r1=arRank(AP);arSync(1);
- arMedium((won?`🏆 ชนะ! ได้แต้ม +${AP-p0}`:`💀 แพ้... เสียแต้ม −${p0-AP}`)+` (รวม ${AP})`+(r1!==r0?` · ${ARENA.ranks.indexOf(r1)>ARENA.ranks.indexOf(r0)?'⬆ เลื่อนขั้นเป็น':'⬇ ตกขั้นเป็น'} ${arTag(AP)}`:''))}
+ if(ARS)ARS.forEach(([g,h,s])=>{g.hp=h;g.sp2=Math.min(g.mxsp,s)});ARS=null;endBattle(0);await rep;const r1=arRank(AP);
+ arMedium((won?`🏆 ชนะ! ได้แต้ม +${AP-p0}`:`💀 แพ้... เสียแต้ม −${p0-AP}`)+` (รวม ${AP})`+(r1!==r0?` · ${ARENA.ranks.indexOf(r1)>ARENA.ranks.indexOf(r0)?'⬆ เลื่อนขั้นเป็น':'⬇ ตกขั้นเป็น'} ${arTag(AP)}`:'')+(real&&fid?`<br><small>${won?'คู่ประลองถูกหักแต้มจริง':'คู่ประลองได้แต้มจริง'}</small>`:''))}
+/* ส่งผลการประลองให้เซิร์ฟเวอร์ (ออนไลน์) — เซิร์ฟเวอร์ยังไม่อัปเดตเป็น v018 → ใช้วิธีเดิม (ส่งแต้มทั้งก้อน) */
+async function arReport(won,d,fid){if(!AR_ON())return;try{const r=await arRpc('gk_arena_report',{p_fight:fid,p_won:!!won,p_d:d});arTake(r,1)}catch(e){console.warn('arena report',e);ARSY=0;await arSync(1)}}
 /* ออกเกม/รีเฟรชกลางประลอง → นับเป็นแพ้ (เสียแต้ม, ไม่นับเควส) และ HP/SP กลับเป็นค่าก่อนเข้าอารีน่า (เซฟเก็บค่าก่อนเข้าไว้แล้ว) */
-function arQuitCheck(){if(!ARQ||!party.length||mode!='world')return;ARQ=false;const p0=AP;AP=Math.max(0,AP-RI(ARENA.lose[0],ARENA.lose[1]));AR.l++;save();toast(`ออกจากเกมระหว่างประลองอารีน่า — นับเป็นแพ้ (แต้ม −${p0-AP})`)}
+function arQuitCheck(){if(!ARQ||!party.length||mode!='world')return;ARQ=false;const p0=AP,dd=RI(ARENA.lose[0],ARENA.lose[1]);AP=Math.max(0,AP-dd);arReport(0,-dd,null);AR.l++;save();toast(`ออกจากเกมระหว่างประลองอารีน่า — นับเป็นแพ้ (แต้ม −${p0-AP})`)}
 /* Bot Auto (เดิน/สู้อัตโนมัติ, จำกัด 2 ชม./วัน) */
 function autoUI(){if(mode!='world')return;if(!autoOK())return openM('🤖 Auto 🔒',`<p>ระบบ Auto ยังถูกล็อกอยู่</p><p>ปลดล็อคได้โดยทำ <b>ภารกิจที่ 1: เอาชนะผี 10 ตัว</b> แล้วไปรับรางวัลจากคุณทักษิณ</p><div class="cd">${qs[1]==1?'ความคืบหน้า: '+qprog(1)+(qdone(1)?' ✅ กลับไปรับรางวัลที่คุณทักษิณ':''):'ยังไม่ได้รับภารกิจที่ 1 — ไปคุยกับคุณทักษิณ'}</div>`);const ck=(id,on)=>`<input type="checkbox" id="${id}" ${on?'checked':''} style="width:2.6cqw;height:2.6cqw;margin-right:1cqw;vertical-align:middle">`,num=(id,v)=>`<input type="number" id="${id}" min="1" max="99" value="${v}" style="width:7cqw;font:inherit;padding:.3cqh .5cqw;background:#0d1210;color:#fff;border:1px solid var(--ln);border-radius:4px;text-align:center"> %`;
  openM('🤖 Auto',`<div class="cd">⏱ เวลา Auto คงเหลือวันนี้: <b>${fmtT(auLeft())}</b> / 2:00:00 <small>(นับเฉพาะตอน Auto ทำงาน · รีเซ็ตทุกเที่ยงคืน)</small></div><div class="cd"><label>${ck('au1',AU.walk)}🚶 เดินอัตโนมัติ <small>(เดินหาผีป่า ไม่เดินเข้าหาบอส)</small></label></div><div class="cd"><label>${ck('au2',AU.skill)}✨ ใช้สกิลอัตโนมัติ <small>(SP หมดจะตีธรรมดา)</small></label></div><div class="cd"><label>${ck('au3',AU.hp)}🧪 ใช้ยาเมื่อ HP ต่ำกว่า ${num('au3n',AU.hpn)}</label></div><div class="cd"><label>${ck('au4',AU.sp)}💧 ใช้ยาเมื่อ SP ต่ำกว่า ${num('au4n',AU.spn)}</label></div><div class="cd"><label>${ck('au5',AU.run)}🏃 หลบหนีเมื่อ HP ต่ำกว่า ${num('au5n',AU.runn)}</label></div><div style="display:flex;gap:1cqw"><button class="bn" style="flex:1" onclick="autoGo()">▶ ทำงาน</button><button class="bn" style="flex:1" onclick="autoStop()">ยกเลิก</button></div><small>ใช้ยาฟื้น HP/ยา SP จากกระเป๋า · ทำงานในการต่อสู้ 1v1 กับผีป่า (ห้ามหนีในการประลอง)</small>`)}
@@ -3715,10 +3738,11 @@ if(!SB.on()){const b=document.querySelector('#mn [data-x="pty"]');if(b)b.style.d
      → ไม่มีคนดูเกิน 15 วิ หรือจบการต่อสู้ ('bx') → ปิดห้องเอง · ถ้าคนนั้นอยู่ในปาร์ตี้ จะดูจากเครื่องหัวหน้าปาร์ตี้ (เครื่องที่คำนวณการต่อสู้)
      คนดู: เห็นฉากต่อสู้เหมือนเจ้าของทุกอย่าง แต่กดคำสั่งไม่ได้ · ระหว่างดู ทีมผีของเราถูกเก็บไว้ (เซฟใช้ทีมจริงของเราเสมอ)
    ท้าประลอง: กดตัวละคร → "⚔️ ท้าประลอง" → อีกฝ่ายต้องกดยืนยัน ('cq' ถาม / 'ca' ตอบ พร้อมข้อมูลทีมผี)
-     → เครื่องคนท้าเป็นผู้คำนวณ: ประลองแบบร่างทรง (ผีทั้งสองฝ่ายสู้เองอัตโนมัติ) · คนรับคำท้าดูการต่อสู้สดผ่านระบบดูการต่อสู้
+     → แบบเรียลไทม์: เครื่องคนท้าเป็นผู้คำนวณ · คนรับคำท้าเข้าห้องดูการต่อสู้แบบกลับด้านจอ แล้วส่งคำสั่งของผีตัวเอง ('rc') ทุกเทิร์น
+       (หมดเวลา 20 วิ = โจมตีธรรมดา · หลุด/ไม่ส่ง = AI สั่งแทน · ยอมแพ้ได้ทั้งสองฝ่าย)
      → จบแล้วส่งผล ('cr') · ไม่ได้/ไม่เสียอะไร (เป็นการประลองฉันมิตร) HP/SP กลับเป็นเหมือนก่อนสู้ ไม่มีผลกับแต้มอารีน่า */
 const BV=(()=>{
- const S={ch:null,K:null,rsig:'',lastJ:'',lastT:0,evq:[],ft:0,q:0,nv:0,empty:0,full:0,V:null};
+ const S={KM:null,KB:null,KN:0,rtRes:null,rtT:0,ch:null,K:null,rsig:'',lastJ:'',lastT:0,evq:[],ft:0,q:0,nv:0,empty:0,full:0,V:null};
  const me=()=>NET.S.uid,esc=t=>NET.esc(t);
  const num=v=>isFinite(+v)?+v:0,pt=a=>Array.isArray(a)&&a.length==2?[num(a[0]),num(a[1])]:undefined,col=c=>/^#[0-9a-f]{3,8}$/i.test(c)?c:'#fff';
  const gLoad=o=>{try{const g=gLoadSave(JSON.parse(JSON.stringify(o)));if(g&&o.boss)g.boss=1;return g}catch(e){return null}};
@@ -3730,32 +3754,40 @@ const BV=(()=>{
    for(const a of[...x.attributes])if(a.name!='style'||/url|expression|@/i.test(a.value))x.removeAttribute(a.name);walk(x)}};walk(d.content);return d.innerHTML}
  /* ================= ฝั่งคนที่กำลังสู้ (host) ================= */
  const canHost=()=>NET.live&&mode=='battle'&&!!B&&!B.view&&!(B.coop&&B.coop.role=='g');
- function roster(){const K=new Map();party.forEach((g,i)=>K.set(g,'a'+i));if(B.coop)B.coop.gt.forEach((g,i)=>K.set(g,'g'+i));(B.team||[B.foe]).forEach((g,i)=>{if(g&&!K.has(g))K.set(g,'f'+i)});return K}
+ /* คีย์ของผีแต่ละตัวคงที่ตลอดการต่อสู้ (สลับตำแหน่งในทีมแล้วคีย์ไม่เปลี่ยน — คนดู/คู่ประลองอ้างผีด้วยคีย์นี้) */
+ function roster(){if(S.KB!==B){S.KB=B;S.KM=new Map();S.KN=0}const K=S.KM,add=(g,p)=>{if(g&&!K.has(g))K.set(g,p+(S.KN++))};party.forEach(g=>add(g,'a'));if(B.coop)B.coop.gt.forEach(g=>add(g,'g'));(B.team||[B.foe]).forEach(g=>add(g,'f'));return K}
  function snap(K){const k=g=>g?K.get(g)||null:null,gs={},rl={},tt=o=>o?{...o,t:Math.round(o.t),g:undefined}:null;
   for(const[g,key]of K){gs[key]=[g.hp,g.sp2,g.mx,g.mxsp,g.lv,g.exp,(g.st||[]).filter(x=>x.t>0).map(x=>[x.n,x.t]),g.dfd?1:0,g.rip?1:0,g.ent??null,g.float??null,g.hide??null,g.prot||0,g.held||null];const st=SLW.get(g);if(st&&st.rl!=null)rl[key]=Math.round(st.rl)}
   return{gs,rl,o:{A:party.map(k),G:B.coop?B.coop.gt.map(k):[],F:(B.team||[B.foe]).map(k)},foe:k(B.foe),sl:B.sl?{p:B.sl.p.map(k),f:B.sl.f.map(k)}:null,
    fx:tt(B.fx),sfx:tt(B.sfx),pa:tt(B.pa),fpa:tt(B.fpa),dy:B.dying?{w:B.dying.w,t:Math.round(B.dying.t),g:k(B.dying.g)}:null,jar:B.jar?{t:Math.round(B.jar.t),ok:B.jar.ok?1:0}:null,hf:B.hideFoe?1:0,df:B.def?1:0,
-   fl:B.field?{...B.field,t0:Math.round(B.field.t0||0)}:null,turn:B.turn}}
- function full(K){const R={};for(const[g,k]of K)R[k]=PTY.gNet(g);return{R,h:pname,pn:B.coop?B.coop.pn||'':'',two:B.two?1:0,tn:B.team?TN():'',arena:B.arena?1:0,auto:B.auto?1:0,pvp:B.pvp?B.pvp.n:'',fsk:B.fsk||'normal',boss:B.foe&&B.foe.boss?1:0}}
+   fl:B.field?{...B.field,t0:Math.round(B.field.t0||0)}:null,turn:B.turn,gp:B.rt&&B.rtOpen===B.turn&&!(B.gq&&B.gq.turn===B.turn)?1:0}}
+ function full(K){const R={};for(const[g,k]of K)R[k]=PTY.gNet(g);return{R,h:pname,pn:B.coop?B.coop.pn||'':'',two:B.two?1:0,tn:B.team?TN():'',arena:B.arena?1:0,auto:B.auto?1:0,pvp:B.pvp?B.pvp.n:'',rt:B.rt?B.rt.u:'',fsk:B.fsk||'normal',boss:B.foe&&B.foe.boss?1:0}}
  function flush(force){if(!S.ch||S.ch.st!='joined'||!canHost())return;const n=performance.now();
   if(n-S.lastT<(force?80:120)){if(force&&!S.ft)S.ft=setTimeout(()=>{S.ft=0;flush(true)},Math.max(10,80-(n-S.lastT)));return}
   let s,K;try{K=roster();s=snap(K)}catch(e){return}const rs=[...K].map(([g,k])=>k+':'+g.si+':'+(g.shiny?1:0)).join(',');
   const j=JSON.stringify(s);if(j===S.lastJ&&!S.evq.length&&!S.full&&rs===S.rsig&&n-S.lastT<5000)return;
   const m={...s,now:Math.round(n),q:++S.q};if(S.full||rs!==S.rsig)m.F=full(K);const ev=S.evq.slice(0,40);if(ev.length)m.ev=ev;
   if(S.ch.send('bs',m)){S.lastJ=j;S.lastT=n;S.rsig=rs;S.full=0;S.K=K;S.evq.splice(0,ev.length)}}
- function open(){if(S.ch)return;S.ch=RT.channel('gk:bv:'+me(),{key:me()}).listen('vq',()=>{S.full=1;flush(true)}).onPresence(st=>{S.nv=Object.keys(st).filter(u=>u!=me()).length});
+ function open(){if(S.ch)return;S.ch=RT.channel('gk:bv:'+me(),{key:me()}).listen('vq',()=>{S.full=1;flush(true)}).listen('rc',rtCmd).onPresence(st=>{S.nv=Object.keys(st).filter(u=>u!=me()).length});
   S.ch.on._joined=()=>{S.full=1;flush(true)};S.empty=0;S.rsig='';S.lastJ='';S.evq=[];S.full=1}
  function close(){if(S.ch){try{S.ch.leave()}catch(e){}}S.ch=null;S.evq=[];S.lastJ='';S.K=null;S.nv=0}
  function onReq(m){if(!m||m.to!=me()||!m.u||m.u==me())return;if(!canHost()){gsend('vn',{u:me(),to:m.u});return}open();S.full=1;flush(true)}
  /* ข้อความ/ตัวเลข/ป้ายระหว่างต่อสู้ (เรียกจาก blog, pop, ann) */
  function ev(e,d){if(!S.ch||!canHost())return;if(e=='a'){let k=null;try{k=(S.K||roster()).get(d.g)||roster().get(d.g)||null}catch(x){}d={...d,g:k}}S.evq.push({e,...d});if(S.evq.length>60)S.evq.splice(0,S.evq.length-60);flush(true)}
- function hostEnd(){if(!S.ch)return;try{flush(true)}catch(e){}const ch=S.ch;try{if(ch.st=='joined'){const ev=S.evq.splice(0,40);ch.send('bx',{ev:ev.length?ev:undefined})}}catch(e){}close()}
+ /* ---------- ท้าประลองแบบเรียลไทม์: เครื่องคนท้า (host) รับคำสั่งของคู่ประลอง ---------- */
+ function rtCmd(d){if(!d||!B||!B.rt||B.view||d.u!==B.rt.u||(d.turn|0)!==B.turn||(B.gq&&B.gq.turn===B.turn))return;const ty=String(d.ty);let q=null;
+  if(ty=='attack'||ty=='defend'||ty=='ff')q={ty};else if(ty=='skill')q={ty,si:Math.max(0,Math.min(3,d.si|0))};
+  else if(ty=='switch'){let g=null;for(const[x,k]of S.KM||[])if(k===d.k)g=x;if(g&&B.team.includes(g)&&g.hp>0&&g!==B.foe)q={ty,g}}
+  if(!q)return;q.turn=B.turn;B.gq=q;flush(true);if(S.rtRes){const r=S.rtRes;S.rtRes=null;r(q)}}
+ function rtWait(BB){if(BB.gq&&BB.gq.turn===BB.turn)return Promise.resolve(BB.gq);if(S.rtRes){S.rtRes({ty:'auto'})}flush(true);$('#bc').innerHTML=`<div style="grid-column:1/3;font-size:.9em;color:#ffe9a8;text-align:center;padding:1cqh 0">⏳ รอ ${esc(BB.rt.n||'คู่ประลอง')} เลือกคำสั่ง...</div>`;
+  return new Promise(r=>{S.rtRes=r;S.rtT=Date.now();setTimeout(()=>{if(S.rtRes===r){S.rtRes=null;r({ty:'auto'})}},25000)})}
+ function hostEnd(){if(S.rtRes){const r=S.rtRes;S.rtRes=null;r({ty:'auto'})}if(!S.ch)return;try{flush(true)}catch(e){}const ch=S.ch;try{if(ch.st=='joined'){const ev=S.evq.splice(0,40);ch.send('bx',{ev:ev.length?ev:undefined})}}catch(e){}close()}
  /* ================= ฝั่งคนดู (viewer) ================= */
  const viewing=()=>!!(S.V&&S.V.on);
  function view(u,o={}){if(!NET.live)return toast('ยังไม่ได้เชื่อมต่อออนไลน์');if(mode!='world')return;if(S.V)stop();
   if(PTY.S.p)return toast('อยู่ในปาร์ตี้ดูการต่อสู้ไม่ได้ — ออกจากปาร์ตี้ก่อน');
   const pt=NET.S.on[u]&&NET.S.on[u].pt,host=pt&&NET.S.on[pt]?pt:u;if(host==me())return;
-  const V=S.V={u:host,n:NET.nameOf(host),ch:null,M:{},on:0,last:Date.now(),t0:Date.now(),real:null,pvp:!!o.pvp,tries:o.pvp?6:1,rp:{}};
+  const V=S.V={u:host,n:NET.nameOf(host),ch:null,M:{},on:0,last:Date.now(),t0:Date.now(),real:null,pvp:!!o.pvp,rt:!!o.rt,flip:!!o.rt,tries:o.pvp?6:1,rp:{},sent:0};   // rt = ท้าประลองแบบเรียลไทม์: กลับด้านจอ (ผีเราอยู่ฝั่งเรา) + สั่งผีเอง
   const ch=V.ch=RT.channel('gk:bv:'+host,{key:me()}).listen('bs',onBs).listen('bx',onBx);ch.on._joined=()=>{ch.send('vq',{})};ch.track({v:1});
   gsend('vw',{u:me(),to:host});if(!o.pvp)toast('👁️ กำลังเชื่อมต่อเพื่อดูการต่อสู้ของ '+V.n+'...')}
  function onNo(m){const V=S.V;if(!V||!m||m.to!=me()||m.u!=V.u||V.on)return;if(--V.tries>0){setTimeout(()=>{if(S.V===V&&!V.on)gsend('vw',{u:me(),to:V.u})},1500);return}stop(V.pvp?'':'⚔️ '+V.n+' ไม่ได้ต่อสู้อยู่แล้ว')}
@@ -3764,38 +3796,55 @@ const BV=(()=>{
   TG=null;JOY.x=JOY.y=0;mode='battle';$('#g').classList.add('bm');
   B={view:1,two:!!F.two,team:[],foe:null,w:null,tn:String(F.tn||'').slice(0,20),arena:!!F.arena,auto:!!F.auto,fsk:JKL.some(j=>j[0]==F.fsk)?F.fsk:'normal',busy:true,def:false,t:20,si:0,acts:[],turn:1,field:null};
   $('#bt').style.display='block';$('#bl').innerHTML='';
-  blog(`👁️ กำลังดูการต่อสู้ของ <b>${esc(V.n)}</b>${F.pn?' และ <b>'+esc(F.pn)+'</b> (ปาร์ตี้)':''}${F.pvp?' — ประลองกับ <b>'+esc(F.pvp)+'</b>':F.arena?' — การประลองร่างทรง':''}`);bar()}
- function bar(){$('#bc').innerHTML=`<div style="grid-column:1/3;display:flex;align-items:center;gap:1cqw;justify-content:center;padding:.6cqh 0"><span style="color:#8fe3ff">👁️ กำลังดูการต่อสู้ของ <b>${esc(S.V?S.V.n:'')}</b></span><button class="bn" onclick="BV.stop()">✖ เลิกดู</button></div>`}
+  if(V.rt)blog(`⚔️ ประลองแบบเรียลไทม์กับ <b>${esc(V.n)}</b> — สั่งผีของคุณเองทุกเทิร์น`);else blog(`👁️ กำลังดูการต่อสู้ของ <b>${esc(V.n)}</b>${F.pn?' และ <b>'+esc(F.pn)+'</b> (ปาร์ตี้)':''}${F.pvp?' — ประลองกับ <b>'+esc(F.pvp)+'</b>':F.arena?' — การประลองร่างทรง':''}`);bar()}
+ function bar(){if(S.V&&S.V.rt){$('#bc').innerHTML=`<div style="grid-column:1/3;font-size:.9em;color:#ffe9a8;text-align:center;padding:1cqh 0">⏳ รอเทิร์นถัดไป...</div>`;return}$('#bc').innerHTML=`<div style="grid-column:1/3;display:flex;align-items:center;gap:1cqw;justify-content:center;padding:.6cqh 0"><span style="color:#8fe3ff">👁️ กำลังดูการต่อสู้ของ <b>${esc(S.V?S.V.n:'')}</b></span><button class="bn" onclick="BV.stop()">✖ เลิกดู</button></div>`}
  function onBs(s){const V=S.V;if(!V||!s||typeof s!='object')return;V.last=Date.now();
-  if(s.F&&s.F.R&&typeof s.F.R=='object'){const M={};for(const k in s.F.R){if(!/^[agf]\d$/.test(k))continue;const g=gLoad(s.F.R[k]);if(g)M[k]=g}V.M=M;if(!V.on){if(!Object.keys(M).length)return;enter(s.F)}else{B.two=!!s.F.two}}
+  if(s.F&&s.F.R&&typeof s.F.R=='object'){const M={};for(const k in s.F.R){if(!/^[agf]\d{1,3}$/.test(k))continue;const g=gLoad(s.F.R[k]);if(g)M[k]=g}V.M=M;if(!V.on){if(!Object.keys(M).length)return;enter(s.F)}else{B.two=!!s.F.two}}
   if(!V.on)return;const M=V.M,K=k=>k&&M[k]||null,off=performance.now()-num(s.now),T=x=>x==null?x:num(x)+off;
   for(const k in s.gs||{}){const g=M[k],a=s.gs[k];if(!g||!Array.isArray(a))continue;g.hp=num(a[0]);g.sp2=num(a[1]);g.mx=num(a[2])||g.mx;g.mxsp=num(a[3])||g.mxsp;g.lv=num(a[4])||g.lv;g.exp=num(a[5]);
    g.st=(Array.isArray(a[6])?a[6]:[]).filter(x=>Array.isArray(x)&&ST[x[0]]).map(x=>({n:x[0],t:num(x[1])}));g.dfd=a[7]?1:0;g.rip=a[8]?1:0;g.ent=a[9];g.float=a[10];g.hide=a[11];g.prot=num(a[12]);g.held=ALL[a[13]]?a[13]:null}
-  const L=ks=>Array.isArray(ks)?ks.map(K).filter(Boolean):[],o=s.o||{},A=L(o.A),G=L(o.G),F=L(o.F);
+  const L=ks=>Array.isArray(ks)?ks.map(K).filter(Boolean):[],o=s.o||{},G=L(o.G),FL=V.flip;let A=L(o.A),F=L(o.F);if(FL){const t=A;A=F;F=t}
   const sl=s.sl&&Array.isArray(s.sl.p)&&Array.isArray(s.sl.f)?{p:s.sl.p.slice(0,2).map(K),f:s.sl.f.slice(0,2).map(K)}:null;
   if(G.length){const fr=sl?sl.p.filter(Boolean):[];party=[...fr,...A.filter(g=>!fr.includes(g)),...G.filter(g=>!fr.includes(g))]}else if(A.length)party=A;   // ปาร์ตี้: ให้ผีที่อยู่บนสนามมาก่อน (PA() = 2 ตัวแรกที่ยังสู้ได้)
-  if(F.length)B.team=F;B.foe=K(s.foe)||B.team[0]||B.foe;if(sl)B.sl=sl;
+  if(F.length)B.team=F;B.foe=FL?(F.find(g=>g.hp>0)||F[0]||B.foe):(K(s.foe)||B.team[0]||B.foe);if(sl)B.sl=sl;
   const now=performance.now(),RP=V.rp,TL=(id,h)=>{if(h==null)return h;const x=RP[id];if(x&&x.h===h)return x.l;let l=T(h);if(now-l>140)l=now-40;RP[id]={h,l};return l};
   for(const k in s.rl||{}){const g=M[k];if(!g)continue;let st=SLW.get(g);if(!st)SLW.set(g,st={});st.rl=TL('rl'+k,num(s.rl[k]))}
-  const fx=(x,id)=>x&&typeof x=='object'?{...x,t:TL(id,num(x.t)),S:pt(x.S),T:pt(x.T),TT:Array.isArray(x.TT)?x.TT.slice(0,3).map(pt).filter(Boolean):undefined}:null;
-  B.fx=fx(s.fx,'fx');B.sfx=fx(s.sfx,'sfx');B.pa=fx(s.pa,'pa');B.fpa=fx(s.fpa,'fpa');
-  B.dying=s.dy&&typeof s.dy=='object'?{w:s.dy.w=='p'?'p':'f',t:TL('dy',num(s.dy.t)),g:K(s.dy.g)||undefined}:null;
+  const P_=FL?fp:pt,W_=w=>FL?fw(w):w;
+  const fx=(x,id)=>x&&typeof x=='object'?{...x,t:TL(id,num(x.t)),w:W_(x.w),S:P_(x.S),T:P_(x.T),TT:Array.isArray(x.TT)?x.TT.slice(0,3).map(P_).filter(Boolean):undefined}:null;
+  B.fx=fx(s.fx,'fx');B.sfx=fx(s.sfx,'sfx');B.pa=fx(FL?s.fpa:s.pa,'pa');B.fpa=fx(FL?s.pa:s.fpa,'fpa');
+  B.dying=s.dy&&typeof s.dy=='object'?{w:W_(s.dy.w=='p'?'p':'f'),t:TL('dy',num(s.dy.t)),g:K(s.dy.g)||undefined}:null;
   B.jar=s.jar&&typeof s.jar=='object'?{t:TL('jar',num(s.jar.t)),ok:!!s.jar.ok}:null;B.hideFoe=!!s.hf;B.def=!!s.df;
   B.field=s.fl&&FLD[s.fl.n]?{...s.fl,t0:T(s.fl.t0)}:null;B.turn=s.turn|0||B.turn;
-  try{bi()}catch(e){}if(Array.isArray(s.ev))for(const e of s.ev.slice(0,40))onEv(e)}
+  try{bi()}catch(e){}if(Array.isArray(s.ev))for(const e of s.ev.slice(0,40))onEv(e);
+  if(V.rt&&!V.ended){if(s.gp&&V.sent!==B.turn){if(V.pick!==B.turn){V.pick=B.turn;B.busy=false;B.t=20;rtUI('main')}}else if(V.pick===B.turn&&!s.gp&&V.sent!==B.turn){V.pick=0;B.busy=true;bar()}}}
+ /* ---------- คู่ประลอง (เรียลไทม์): สั่งผีของตัวเอง ---------- */
+ function rtUI(k){const V=S.V;if(!V||!V.on||!B)return;const L=lead(),bc=$('#bc'),b=(t,f,d,st)=>`<button ${d?'disabled':''} style="${st||''}" onclick="${f}">${t}</button>`;if(!L)return;
+  if(k=='sk')bc.innerHTML=L.sk.map((s,i)=>b(s.n,`BV.rtSend('skill',${i})`,!canSk(L,s),sst(s))).join('')+b('กลับ',"BV.rtUI('main')");
+  else if(k=='sw')bc.innerHTML=party.map((g,i)=>g.hp>0&&g!==L?b(`${nm(g)} <small>HP ${g.hp}/${g.mx}</small>`,`BV.rtSend('switch',${i})`,0,`border-color:${EC[g.sp.e]}`):'').join('')+b('กลับ',"BV.rtUI('main')");
+  else{const fl=floating(L),bn=party.some(g=>g.hp>0&&g!==L);bc.innerHTML=`<div style="grid-column:1/3;font-size:.85em;color:#8fe3ff">⚔️ ประลองกับ ${esc(V.n)} — สั่ง ${nm(L)}</div>`+b('โจมตี <small>+6 SP</small>',"BV.rtSend('attack')",fl)+b('ป้องกัน <small>+3 SP</small>',"BV.rtSend('defend')")+b(silenced()?'ทักษะ <small>🔇</small>':'ทักษะ',"BV.rtUI('sk')",fl||silenced())+b('สลับตัว',"BV.rtUI('sw')",fl||!bn||lockedIn(L))+b('🏳️ ยอมแพ้',"BV.rtSend('ff')",0,'grid-column:1/3')}}
+ function rtSend(ty,i){const V=S.V;if(!V||!V.rt||!B||B.busy||V.sent===B.turn)return;const d={u:me(),turn:B.turn,ty};
+  if(ty=='skill'){const s=lead().sk[i];if(!s||!canSk(lead(),s))return;d.si=i}if(ty=='switch'){const g=party[i];let k=null;for(const kk in V.M)if(V.M[kk]===g)k=kk;if(!k)return;d.k=k}
+  if(!V.ch||!V.ch.send('rc',d))return toast('ส่งคำสั่งไม่สำเร็จ ลองใหม่');V.sent=B.turn;B.busy=true;$('#bc').innerHTML=`<div style="grid-column:1/3;font-size:.9em;color:#ffe9a8;text-align:center;padding:1cqh 0">✅ ส่งคำสั่งแล้ว — รอ ${esc(V.n)}...</div>`}
+ function rtTimeout(){const V=S.V;if(!V||!V.rt||!B||B.busy)return;rtSend(floating(lead())?'defend':'attack')}
  function onEv(e){if(!viewing()||!e)return;
-  if(e.e=='l')blog(safeH(e.t));
-  else if(e.e=='p'){B.pp=e.pp&&typeof e.pp=='object'?{S:pt(e.pp.S),T:pt(e.pp.T)}:null;if(B.pp&&!B.pp.T)B.pp=null;pop(String(e.t).slice(0,30),col(e.col),e.w=='f'?'f':'p',num(e.dy))}
-  else if(e.e=='a'){const g=S.V.M[e.g];if(g)ann(g,safeH(e.k),safeH(e.n),!!e.aP,Math.max(200,Math.min(3000,num(e.ms)||850)))}}
+  const FL=S.V.flip,P_=FL?fp:pt;
+  if(e.e=='l')blog(FL?swapC(safeH(e.t)):safeH(e.t));
+  else if(e.e=='p'){B.pp=e.pp&&typeof e.pp=='object'?{S:P_(e.pp.S),T:P_(e.pp.T)}:null;if(B.pp&&!B.pp.T)B.pp=null;const w=e.w=='f'?'f':'p';pop(String(e.t).slice(0,30),col(e.col),FL?fw(w):w,num(e.dy))}
+  else if(e.e=='a'){const g=S.V.M[e.g];if(g)ann(g,safeH(e.k),safeH(e.n),FL?!e.aP:!!e.aP,Math.max(200,Math.min(3000,num(e.ms)||850)))}}
+ /* กลับด้านจอ (คู่ประลองเรียลไทม์): ฝั่ง/ตำแหน่ง/สีชื่อ */
+ const fw=w=>w=='p'?'f':w=='f'?'p':w,PP1=[130,158],FP1=[350,96],near=(a,b)=>Math.abs(a[0]-b[0])<2&&Math.abs(a[1]-b[1])<2;
+ function fp(a){const q=pt(a);if(!q)return q;return near(q,PP1)?FP1.slice():near(q,FP1)?PP1.slice():q}
+ const swapC=h=>String(h).replace(/#5cff7a/gi,'#@@1').replace(/#ff6060/gi,'#5cff7a').replace(/#@@1/g,'#ff6060');
  function onBx(d){const V=S.V;if(!V)return;if(d&&Array.isArray(d.ev))d.ev.slice(0,40).forEach(onEv);if(!V.on)return stop();V.ended=1;
   $('#bc').innerHTML=`<div style="grid-column:1/3;text-align:center;color:#ffe9a8;padding:1cqh 0">🏁 การต่อสู้จบแล้ว</div>`;setTimeout(()=>{if(S.V===V)stop()},2600)}
  function stop(msg){const V=S.V;if(!V)return;S.V=null;try{V.ch&&V.ch.leave()}catch(e){}
   if(V.on){party=V.real||party;B=null;mode='world';$('#g').classList.remove('bm');$('#bt').style.display='none';$('#bc').innerHTML='';P.safe=performance.now()+1500;try{hud()}catch(e){}}
   if(msg)toast(msg)}
- function tick(){if(S.ch){if(!canHost())close();else{flush();if(!S.nv){if(!S.empty)S.empty=Date.now();else if(Date.now()-S.empty>15000)close()}else S.empty=0}}
+ function tick(){if(S.rtRes&&(!S.ch||!S.nv)&&Date.now()-S.rtT>4000){const r=S.rtRes;S.rtRes=null;r({ty:'auto'})}   // คู่ประลองหลุด/ไม่อยู่ในห้อง → AI สั่งแทน
+  if(S.ch){if(!canHost())close();else{flush();if(!S.nv){if(!S.empty)S.empty=Date.now();else if(Date.now()-S.empty>15000)close()}else S.empty=0}}
   const V=S.V;if(V){const t=Date.now();if(!V.on&&t-V.t0>(V.pvp?12000:9000))stop(V.pvp?'':'ดูการต่อสู้ไม่ได้ — ลองใหม่อีกครั้ง');else if(V.on&&!V.ended&&t-V.last>20000)stop('การเชื่อมต่อหลุด — เลิกดูการต่อสู้')}}
  function reset(){close();if(S.V)stop()}
- return{view,stop:()=>stop(),onReq,onNo,ev,hostEnd,tick,reset,real:()=>viewing()?S.V.real:null,get viewing(){return viewing()},get hosting(){return !!S.ch},get S(){return S}}})();
+ return{view,stop:()=>stop(),onReq,onNo,ev,hostEnd,tick,reset,rtWait,rtUI,rtSend,rtTimeout,real:()=>viewing()?S.V.real:null,get viewing(){return viewing()},get hosting(){return !!S.ch},get S(){return S}}})();
 
 /* ================= ท้าประลองผู้เล่นอื่น ================= */
 const PVP=(()=>{
@@ -3810,11 +3859,11 @@ const PVP=(()=>{
  async function onAsk(m){if(!m||m.to!=me()||!m.u||m.u==me())return;const n=nameOf(m.u);
   if(!ready()||$('#md').style.display=='flex'||S.inc[m.u]){gsend('ca',{u:me(),to:m.u,ok:0,busy:1});return}
   S.inc[m.u]=Date.now();NET.sys('⚔️ '+esc(n)+' ท้าประลองกับคุณ!');
-  const ok=await ask('⚔️ คำท้าประลอง',`<p style="font-size:1.2em"><b style="color:#8fe3ff">${esc(n)}</b> ท้าประลองกับคุณ!</p><div class="cd"><small>รูปแบบ: <b>ประลองร่างทรง</b> — ผีทั้งสองฝ่ายสู้เองอัตโนมัติ · คุณจะได้ดูการต่อสู้สด<br>ประลองฉันมิตร: ไม่ได้/ไม่เสียอะไร ผีไม่บาดเจ็บ ไม่มีผลกับแต้มอารีน่า</small></div><div style="text-align:right"><button class="bn" onclick="ans(1)">✅ รับคำท้า</button><button class="bn" onclick="ans(0)">✖ ปฏิเสธ</button></div>`);
+  const ok=await ask('⚔️ คำท้าประลอง',`<p style="font-size:1.2em"><b style="color:#8fe3ff">${esc(n)}</b> ท้าประลองกับคุณ!</p><div class="cd"><small>รูปแบบ: <b>ประลองแบบเรียลไทม์</b> — ต่างฝ่ายต่างสั่งผีของตัวเองทุกเทิร์น (20 วินาที/เทิร์น · ไม่มีไอเทม · หมดเวลา = โจมตีธรรมดา)<br>ประลองฉันมิตร: ไม่ได้/ไม่เสียอะไร ผีไม่บาดเจ็บ ไม่มีผลกับแต้มอารีน่า</small></div><div style="text-align:right"><button class="bn" onclick="ans(1)">✅ รับคำท้า</button><button class="bn" onclick="ans(0)">✖ ปฏิเสธ</button></div>`);
   const t=S.inc[m.u];delete S.inc[m.u];
   if(ok!==1||!t||Date.now()-t>60000||!ready()||!NET.S.on[m.u]){gsend('ca',{u:me(),to:m.u,ok:0});if(ok===1)toast('คำท้าหมดอายุแล้ว');return}
   if(!gsend('ca',{u:me(),to:m.u,ok:1,n:pname,av,team:party.slice(0,4).map(gSave)}))return toast('ตอบรับไม่สำเร็จ ลองใหม่อีกครั้ง');
-  toast('⚔️ รับคำท้าแล้ว — กำลังเข้าชมการประลอง...');setTimeout(()=>{if(mode=='world')BV.view(m.u,{pvp:1})},900)}
+  toast('⚔️ รับคำท้าแล้ว — กำลังเข้าสู่การประลอง...');setTimeout(()=>{if(mode=='world')BV.view(m.u,{pvp:1,rt:1})},900)}
  function onAns(m){if(!m||m.to!=me()||!S.out||S.out.to!=m.u)return;S.out=null;const n=nameOf(m.u);
   if(!m.ok)return NET.sys('⚔️ '+esc(n)+(m.busy?' ไม่ว่างตอนนี้':' ปฏิเสธคำท้าประลอง'));
   if(!ready()){gsend('cr',{u:me(),to:m.u,x:1});return toast('เริ่มประลองไม่ได้ (ต้องอยู่นอกการต่อสู้ และมีผีที่สู้ได้)')}
@@ -3822,8 +3871,8 @@ const PVP=(()=>{
   if(!team.length){gsend('cr',{u:me(),to:m.u,x:1});return toast('ข้อมูลทีมของ '+n+' ไม่ถูกต้อง')}
   if($('#md').style.display=='flex'){if(CHR){const r=CHR;CHR=null;closeM();try{r(-1)}catch(e){}}else closeM()}
   const nm_=String(m.n||n).slice(0,12);ARS=party.map(g=>[g,g.hp,g.sp2]);party.forEach(g=>{g.hp=g.mx;g.sp2=g.mxsp});
-  team.unshift(team.splice(bestFoeIdx(team,lead()),1)[0]);startBattle({g:team[0],trainer:1,arena:1,tn:nm_,auto:1},team);B.pvp={u:m.u,n:nm_};
-  blog(`⚔️ ประลองกับ <b>${esc(nm_)}</b> (ผู้เล่นจริง) — ผีทั้งสองฝ่ายสู้เองอัตโนมัติ`)}
+  team.unshift(team.splice(bestFoeIdx(team,lead()),1)[0]);startBattle({g:team[0],trainer:1,arena:1,tn:nm_},team);B.pvp={u:m.u,n:nm_};B.rt={u:m.u,n:nm_};
+  blog(`⚔️ ประลองแบบเรียลไทม์กับ <b>${esc(nm_)}</b> — ต่างฝ่ายต่างสั่งผีของตัวเอง`)}
  /* จบการประลอง (เรียกจาก arenaEnd เมื่อ B.pvp) */
  async function end(won){const o=B.pvp;await bsay(won?`🏆 ชนะการประลองกับ ${esc(o.n)}!`:`💀 แพ้การประลองกับ ${esc(o.n)}...`,1300);
   if(ARS)ARS.forEach(([g,h,s])=>{g.hp=h;g.sp2=Math.min(g.mxsp,s)});ARS=null;endBattle(0);gsend('cr',{u:me(),to:o.u,w:won?1:0});
