@@ -171,6 +171,22 @@ kbd{background:#2b3a34;border:1px solid #6a7a70;border-bottom-width:3px;border-r
 /* Ver.0.1.5: ลากจัดลำดับผีในหน้าทีมผี */
 .tdh{cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;font-size:1.4em;padding:0 .8cqw;color:#ffd84a;align-self:stretch;display:flex;align-items:center}
 .tmr.drg{position:relative;z-index:5;box-shadow:0 0 0 2px #ffd84a,0 6px 16px rgba(0,0,0,.6);background:#22301e;cursor:grabbing}
+
+/* หน้าสร้างตัวละคร (อวาตาร์ใหม่) */
+.avc{display:grid;grid-template-columns:1fr 1.55fr;gap:1.2cqw;margin-bottom:.8cqh}
+.avl{display:flex;flex-direction:column;gap:.8cqh;min-width:0}
+.af1{display:grid;gap:.4cqh}.af1 b{background:#2b4658;border:1px solid #4a6a7a;text-align:center;padding:.4cqh;border-radius:3px}
+.af1 input{background:#333;color:#fff;border:1px solid #777;border-radius:3px;font:inherit;padding:.4cqh .5cqw;min-width:0}
+#ap{width:100%;background:#16201c;border:1px solid var(--ln);border-radius:4px;image-rendering:pixelated}
+.avb{display:flex;gap:.4cqw}.avb .bn{flex:1;margin:0;padding:.6cqh .4cqw}
+.avr{display:grid;gap:.6cqh;min-width:0}
+.avrow{display:grid;grid-template-columns:4.6em 1fr;gap:.5cqw;align-items:center}
+.avrow b{font-size:.85em;color:#bcd}
+.avo{display:flex;flex-wrap:wrap;gap:.35cqw}
+.avo button{background:#1d2622;border:1px solid #3a4a42;color:var(--tx);border-radius:3px;font:inherit;font-size:.8em;padding:.3cqh .6cqw;cursor:pointer}
+.avo button.on{background:#5a4a1a;border-color:#ffd84a;color:#ffe9a8}
+.avo button.sw{width:1.7em;height:1.7em;padding:0;border-radius:50%;border:2px solid #0008}
+.avo button.sw.on{border-color:#ffd84a;box-shadow:0 0 0 1px #000}
 </style>
 </head><body>
 <div id="rt" onclick="this.remove()">📱 หมุนเครื่องเป็นแนวนอน แล้วกดปุ่ม ⛶ มุมขวาบนเพื่อเล่นเต็มจอ (แตะเพื่อปิด)</div>
@@ -724,7 +740,7 @@ const CHAT_CFG={
 };
 /* ตัวแปรสถานะผู้เล่นทั้งหมด (ทีม, โกดัง, กระเป๋า, เงิน, เควส, Auto, สกินไห) */
 /* ---------- state ---------- */
-let pname='',av={sk:0,hc:1,hs:0,hat:0,sh:0,pt:5},party=[],box=[],dx={},gc=100,gold=5,stock=[],stockT=0,passed=false,qs={1:0,2:0,3:0,4:0,5:0},qc=0,qk=0,qb=0,qt=0,qf=0,qa=0,SHU=0,inv={heal:0,forget:0,book_c:0,book_r:0,book_l:0,ch100:0,sp:0,jk_cat:0,jk_pha:0,jk_hulk:0,jk_yak:0,jk_war:0,jk_bak:0,jk_ann:0,jk_spi:0,jbox:0,orange:0,house:0,master:0,mind:0,dust:0,so_d:0,so_w:0,so_a:0,so_f:0,ch_life:0,ch_hold:0,ch_crit:0,ch_buf:0,deed:0,bottle:0},mode='world',B=null,hot=Array(9).fill(null),HOTED=0,AUHOME=0,HOUSE=null,chatNext=0,AU={on:false,walk:false,skill:false,hp:false,hpn:50,sp:false,spn:50,run:false,runn:30,i:0,cx:0,cy:0,map:0};
+let pname='',av={g:'m',sk:1,hc:0,hs:1,hat:0,out:0},party=[],box=[],dx={},gc=100,gold=5,stock=[],stockT=0,passed=false,qs={1:0,2:0,3:0,4:0,5:0},qc=0,qk=0,qb=0,qt=0,qf=0,qa=0,SHU=0,inv={heal:0,forget:0,book_c:0,book_r:0,book_l:0,ch100:0,sp:0,jk_cat:0,jk_pha:0,jk_hulk:0,jk_yak:0,jk_war:0,jk_bak:0,jk_ann:0,jk_spi:0,jbox:0,orange:0,house:0,master:0,mind:0,dust:0,so_d:0,so_w:0,so_a:0,so_f:0,ch_life:0,ch_hold:0,ch_crit:0,ch_buf:0,deed:0,bottle:0},mode='world',B=null,hot=Array(9).fill(null),HOTED=0,AUHOME=0,HOUSE=null,chatNext=0,AU={on:false,walk:false,skill:false,hp:false,hpn:50,sp:false,spn:50,run:false,runn:30,i:0,cx:0,cy:0,map:0};
 const lead=()=>party.find(g=>g.hp>0);
 /* NEWB = ตัวละครใหม่ที่ยังไม่ได้คุยกับผู้ใหญ่บ้าน (ยังไม่มีผี · NPC อื่นล็อคไว้) — ของเริ่มต้นได้จากผู้ใหญ่บ้าน (js/systems/npcs.js → CHIEF_GIFT) */
 let NEWB=0,JOB='',JQ='';   // JOB = สายอาชีพ ('herb' หมอยา / 'merchant' พ่อค้าเถื่อน) · JQ = เควสอาชีพที่รับไว้ (js/systems/jobs.js)
@@ -791,7 +807,7 @@ function snap1(){const T=typeof ARS!='undefined'&&ARS?ARS.map(([g,h,s])=>{const 
 function snap0(){return JSON.stringify({party:party.map(gSave),box:box.map(gSave),dxi:Object.keys(dx).filter(i=>dx[i]&&SP[i]).map(i=>SP[i].id),gc,inv,pname,av,gold,stock:stock.map(gSave),stockT,passed,mv:MAPV,qs,qc,qk,qb,qt,qf,qa,ush:USH,arIn:typeof ARS!='undefined'&&ARS&&!(B&&B.pvp)?1:0,shu:SHU,hc:HC,qv:5,npcp:NPCP,ap:AP,ar:AR,jk:{u:JKU,s:JSK},hot,newb:NEWB,job:JOB,jq:JQ,stall:typeof STALL!='undefined'?STALL:undefined,sto:typeof STO!='undefined'?STO:undefined,rgp:RGP,bless:BLESS,bnt:BNT,gmk:typeof GMK!='undefined'?GMK.dump():undefined,imk:typeof IMK!='undefined'?IMK.dump():undefined,bank:typeof BANK!='undefined'?BANK.dump():undefined,boss:mons.map(m=>({g:gSave(m.g),dead:m.dead,rt:m.rt})),wb:typeof WSY!='undefined'?WSY.dump():undefined,house:HOUSE,pos:posSnap(),au:{...AU,on:false},aud:AUD})}
 function save(){if(!hasChar())return;if(SB.on()){try{stSet(snap())}catch(e){}cloudSave();return}try{stSet(snap());SVERR=''}catch(e){SVERR=e.message}if(LSBAD||SVERR)svWarn()}
 let LOADERR='';
-function load(raw0){let raw=null;try{raw=raw0!=null?raw0:stGet();const d=JSON.parse(raw);if(d&&d.party&&(d.party.length||d.newb)){NEWB=d.party.length?0:d.newb?1:0;JOB=JOBS[d.job]?d.job:'';JQ=!JOB&&JOBS[d.jq]?d.jq:'';RGP=d.rgp?1:0;BLESS=d.bless&&typeof d.bless=='object'?{d:String(d.bless.d||''),k:d.bless.k|0,u:+d.bless.u||0}:{d:'',k:-1,u:0};if(typeof GMK!='undefined')GMK.restore(d.gmk);if(typeof BOUNTY!='undefined')BOUNTY.restore(d.bnt);if(typeof IMK!='undefined')IMK.restore(d.imk);STO={};if(d.sto&&typeof d.sto=='object')for(const k in d.sto){const n=Math.floor(+d.sto[k]);if(ALL[k]&&n>0)STO[k]=n}if(typeof BANK!='undefined')BANK.restore(d.bank);STALL=Array.from({length:STALL_N},(_,i)=>{const x=(d.stall||[])[i];return x&&ALL[x.k]&&x.n>0&&x.p>0?{k:x.k,n:x.n|0,p:x.p|0,on:x.on?1:0}:null});const lg=(d.qv||0)<5;({party,box,gc,inv}=d);dx={};if(Array.isArray(d.dxi))d.dxi.forEach(id=>{const i=gi(id);if(i!=null)dx[i]=1});else Object.keys(d.dx||{}).forEach(k=>{const i=gi(LEGACY_SP[k]);if(i!=null&&d.dx[k])dx[i]=1});if(inv.book){inv.book_c=(inv.book_c||0)+inv.book}delete inv.book;pname=d.pname||'ผู้เล่น';inv={sp:2,book_c:0,book_r:0,book_l:0,ch100:0,orange:0,house:0,master:1,mind:0,jk_cat:0,jk_pha:0,jk_hulk:0,jk_yak:0,jk_war:0,jk_bak:0,jk_ann:0,jk_spi:0,jbox:0,dust:0,so_d:0,so_w:0,so_a:0,so_f:0,ch_life:2,ch_hold:2,ch_crit:2,ch_buf:2,deed:0,bottle:0,...inv};inv.house=0;gold=d.gold??100;stock=(d.stock||[]).map(g=>g&&gLoadSave(g,lg));stockT=d.stockT||0;if(stock.some(g=>g&&g.lv!=6)||(d.stock||[]).some((g,i)=>g&&!stock[i])){stock=[];stockT=0}passed=!!d.passed;if(d.qv>=2){qs={1:0,2:0,3:0,4:0,5:0,...d.qs};qk=d.qk||0}else{const o=d.qs||{};qs={1:0,2:o[1]||0,3:o[2]||0,4:o[3]||0,5:0};qk=0}if((d.qv||0)<3){const a=qs[4];qs[4]=qs[5];qs[5]=a}qc=d.qc||0;qb=d.qb||0;qt=d.qt||0;qf=d.qf||0;qa=d.qa||0;USH=d.ush&&Array.isArray(d.ush.it)?d.ush:USH;ARQ=!!d.arIn;if((d.qv||0)<4&&qt)qt=7;SHU=d.shu||0;NPCP=d.mv==MAPV&&d.npcp&&typeof d.npcp=='object'?d.npcp:{};npcApply();AP=Math.max(0,+d.ap||0);AR={w:0,l:0,...(d.ar||{})};if(d.jk){JKU=[...new Set(['normal',...(Array.isArray(d.jk.u)?d.jk.u:[])])].filter(x=>JKL.some(j=>j[0]==x));JSK=JKU.includes(d.jk.s)?d.jk.s:'normal'}HC={sz:0,sh:null,pl:null,pg:[],...(d.hc||{})};hot=Array.from({length:9},(_,i)=>{const k=(d.hot||[])[i];return k&&ALL[k]?k:null});HOUSE=d.mv==MAPV?d.house||null:null;if(HOUSE&&!HOUSE.owner)HOUSE.owner=pname;if(d.au)AU={...AU,...d.au,on:false};AUD=d.aud||AUD;if(HOUSE)npcOf(HOUSE.map).push(hnode());av=d.av||av;if(d.wb&&typeof WSY!='undefined')WSY.restore(d.wb);if(Array.isArray(d.boss))d.boss.forEach((o,i)=>{const m=mons[i];if(!m||!o||!o.g)return;const g=gLoadSave(o.g,lg);if(!g||d.mv!=MAPV||(m.sp&&SP[g.si].id!=m.sp))return;g.boss=1;m.g=g;m.lv=g.lv;m.dead=o.dead||0;m.rt=o.rt||0});party=party.map(g=>gLoadSave(g,lg)).filter(Boolean);box=box.map(g=>gLoadSave(g,lg)).filter(Boolean);if(!party.length&&box.length)party.push(box.shift());try{posLoad(d.mv==MAPV?d.pos:null)}catch(e){}return 1}}catch(e){LOADERR=e.message;try{if(raw)localStorage.setItem('gho1_bak',raw)}catch(_){}toast('⚠️ โหลดเซฟเดิมไม่สำเร็จ: '+e.message)}}
+function load(raw0){let raw=null;try{raw=raw0!=null?raw0:stGet();const d=JSON.parse(raw);if(d&&d.party&&(d.party.length||d.newb)){NEWB=d.party.length?0:d.newb?1:0;JOB=JOBS[d.job]?d.job:'';JQ=!JOB&&JOBS[d.jq]?d.jq:'';RGP=d.rgp?1:0;BLESS=d.bless&&typeof d.bless=='object'?{d:String(d.bless.d||''),k:d.bless.k|0,u:+d.bless.u||0}:{d:'',k:-1,u:0};if(typeof GMK!='undefined')GMK.restore(d.gmk);if(typeof BOUNTY!='undefined')BOUNTY.restore(d.bnt);if(typeof IMK!='undefined')IMK.restore(d.imk);STO={};if(d.sto&&typeof d.sto=='object')for(const k in d.sto){const n=Math.floor(+d.sto[k]);if(ALL[k]&&n>0)STO[k]=n}if(typeof BANK!='undefined')BANK.restore(d.bank);STALL=Array.from({length:STALL_N},(_,i)=>{const x=(d.stall||[])[i];return x&&ALL[x.k]&&x.n>0&&x.p>0?{k:x.k,n:x.n|0,p:x.p|0,on:x.on?1:0}:null});const lg=(d.qv||0)<5;({party,box,gc,inv}=d);dx={};if(Array.isArray(d.dxi))d.dxi.forEach(id=>{const i=gi(id);if(i!=null)dx[i]=1});else Object.keys(d.dx||{}).forEach(k=>{const i=gi(LEGACY_SP[k]);if(i!=null&&d.dx[k])dx[i]=1});if(inv.book){inv.book_c=(inv.book_c||0)+inv.book}delete inv.book;pname=d.pname||'ผู้เล่น';inv={sp:2,book_c:0,book_r:0,book_l:0,ch100:0,orange:0,house:0,master:1,mind:0,jk_cat:0,jk_pha:0,jk_hulk:0,jk_yak:0,jk_war:0,jk_bak:0,jk_ann:0,jk_spi:0,jbox:0,dust:0,so_d:0,so_w:0,so_a:0,so_f:0,ch_life:2,ch_hold:2,ch_crit:2,ch_buf:2,deed:0,bottle:0,...inv};inv.house=0;gold=d.gold??100;stock=(d.stock||[]).map(g=>g&&gLoadSave(g,lg));stockT=d.stockT||0;if(stock.some(g=>g&&g.lv!=6)||(d.stock||[]).some((g,i)=>g&&!stock[i])){stock=[];stockT=0}passed=!!d.passed;if(d.qv>=2){qs={1:0,2:0,3:0,4:0,5:0,...d.qs};qk=d.qk||0}else{const o=d.qs||{};qs={1:0,2:o[1]||0,3:o[2]||0,4:o[3]||0,5:0};qk=0}if((d.qv||0)<3){const a=qs[4];qs[4]=qs[5];qs[5]=a}qc=d.qc||0;qb=d.qb||0;qt=d.qt||0;qf=d.qf||0;qa=d.qa||0;USH=d.ush&&Array.isArray(d.ush.it)?d.ush:USH;ARQ=!!d.arIn;if((d.qv||0)<4&&qt)qt=7;SHU=d.shu||0;NPCP=d.mv==MAPV&&d.npcp&&typeof d.npcp=='object'?d.npcp:{};npcApply();AP=Math.max(0,+d.ap||0);AR={w:0,l:0,...(d.ar||{})};if(d.jk){JKU=[...new Set(['normal',...(Array.isArray(d.jk.u)?d.jk.u:[])])].filter(x=>JKL.some(j=>j[0]==x));JSK=JKU.includes(d.jk.s)?d.jk.s:'normal'}HC={sz:0,sh:null,pl:null,pg:[],...(d.hc||{})};hot=Array.from({length:9},(_,i)=>{const k=(d.hot||[])[i];return k&&ALL[k]?k:null});HOUSE=d.mv==MAPV?d.house||null:null;if(HOUSE&&!HOUSE.owner)HOUSE.owner=pname;if(d.au)AU={...AU,...d.au,on:false};AUD=d.aud||AUD;if(HOUSE)npcOf(HOUSE.map).push(hnode());av=d.av?avClean(d.av):av;if(d.wb&&typeof WSY!='undefined')WSY.restore(d.wb);if(Array.isArray(d.boss))d.boss.forEach((o,i)=>{const m=mons[i];if(!m||!o||!o.g)return;const g=gLoadSave(o.g,lg);if(!g||d.mv!=MAPV||(m.sp&&SP[g.si].id!=m.sp))return;g.boss=1;m.g=g;m.lv=g.lv;m.dead=o.dead||0;m.rt=o.rt||0});party=party.map(g=>gLoadSave(g,lg)).filter(Boolean);box=box.map(g=>gLoadSave(g,lg)).filter(Boolean);if(!party.length&&box.length)party.push(box.shift());try{posLoad(d.mv==MAPV?d.pos:null)}catch(e){}return 1}}catch(e){LOADERR=e.message;try{if(raw)localStorage.setItem('gho1_bak',raw)}catch(_){}toast('⚠️ โหลดเซฟเดิมไม่สำเร็จ: '+e.message)}}
 addEventListener('pagehide',()=>{save();if(SB.on())cloudSave(1,1)});document.addEventListener('visibilitychange',()=>{if(document.hidden){save();if(SB.on())cloudSave(1,1)}});
 const b64e=t=>btoa(unescape(encodeURIComponent(t))),b64d=t=>decodeURIComponent(escape(atob(t.trim())));
 function saveUI(m){if(SB.on())return accUI(m);save();openM('💾 เซฟเกม',`<p>เกมเซฟอัตโนมัติทุก 15 วินาที ${LSBAD?'<b style="color:#ff6a6a">แต่เบราว์เซอร์นี้บล็อกการเซฟ</b> — ให้คัดลอกรหัสด้านล่างเก็บไว้ แล้ววางกลับมาเมื่อเปิดใหม่':'(ถ้าเปลี่ยนเครื่อง/เบราว์เซอร์ ให้ใช้รหัสเซฟด้านล่างย้ายข้อมูล)'}</p>${m?`<p style="color:#ffd84a">${m}</p>`:''}<div class="cd"><b>รหัสเซฟของคุณ</b><br><textarea id="svc" readonly style="width:100%;height:9cqh;background:#0b0f0d;color:#9fe;font-size:.8em" onclick="this.select()">${b64e(snap())}</textarea><button class="bn" onclick="svCopy()">📋 คัดลอก</button></div><div class="cd"><b>โหลดจากรหัสเซฟ</b><br><textarea id="svi" placeholder="วางรหัสเซฟที่นี่" style="width:100%;height:9cqh;background:#0b0f0d;color:#fff;font-size:.8em"></textarea><button class="bn" onclick="svImport()">📥 โหลดรหัสนี้ (เกมจะรีโหลด)</button></div>`)}
@@ -822,16 +838,7 @@ function dg0(t,x,by,g,u,tm,o){const GI=GIMG[g.sp.id];if(GI&&GI.ok&&dgT(t,x,by,g,
  if(s.t>=1){t.fillStyle=EC[s.e];t.fillRect(ox+2*u,oy-2*u,u,2*u);t.fillRect(ox+9*u,oy-2*u,u,2*u)}
  if(s.t==2){t.fillStyle='#ffd84a';t.fillRect(ox+3*u,oy-2*u,6*u,u);t.fillRect(ox+3*u,oy-3*u,u,u);t.fillRect(ox+8*u,oy-3*u,u,u);t.fillRect(ox+5*u,oy-3*u,2*u,u)}
  t.restore();if(g.shiny&&(tm/200|0)%2){t.fillStyle='#fff';t.fillRect(ox+10*u,oy-u,u,3*u);t.fillRect(ox+9*u,oy,3*u,u)}}
-const SKC=['#f5d6b5','#e8b98a','#c98f5f','#8a5a3a','#5a3a26'],HCC=['#2a1a10','#5a3a2a','#c94a3a','#e8c35a','#e070a0','#6a8fe0','#e6e6e6'],CLC=['#3a6fd0','#d0503a','#4aa06a','#8a4ad0','#e8b030','#2a3350','#eeeeee'],CN=['น้ำเงิน','แดง','เขียว','ม่วง','เหลือง','กรมท่า','ขาว'];
-const AVO=[['สีผิว','sk',['สีผิว 1','สีผิว 2','สีผิว 3','สีผิว 4','สีผิว 5']],['ทรงผม','hs',['ผมสั้น','ผมยาว','ผมแกละ']],['สีผม','hc',['ดำ','น้ำตาล','แดง','บลอนด์','ชมพู','ฟ้า','ขาว']],['หมวก','hat',['ไม่มี','หมวกแก๊ป','หมวกปีกกว้าง']],['เสื้อ','sh',CN],['กางเกง','pt',CN]];
-function ppl0(t,x,y,a,d,st){const b=(st/8|0)%2;t.fillStyle='rgba(0,0,0,.25)';t.fillRect(x-5,y-1,10,3);
- t.fillStyle=CLC[a.pt];t.fillRect(x-3,y-4,2,4-b);t.fillRect(x+1,y-4,2,3+b);t.fillStyle=CLC[a.sh];t.fillRect(x-4,y-10,8,6);
- t.fillStyle=SKC[a.sk];t.fillRect(x-3,y-16,6,6);t.fillStyle=HCC[a.hc];t.fillRect(x-4,y-17,8,3);
- if(d=='u')t.fillRect(x-3,y-14,6,4);else if(d!='d')t.fillRect(d=='l'?x+1:x-4,y-14,3,3);
- if(a.hs==1){t.fillRect(x-4,y-14,1,8);t.fillRect(x+3,y-14,1,8)}if(a.hs==2){t.fillRect(x-5,y-15,2,5);t.fillRect(x+3,y-15,2,5)}
- t.fillStyle='#222';if(d=='d'){t.fillRect(x-2,y-13,1,1);t.fillRect(x+1,y-13,1,1)}else if(d!='u')t.fillRect(d=='l'?x-2:x+1,y-13,1,1);
- if(a.hat==1){t.fillStyle='#c0392b';t.fillRect(x-4,y-19,8,3);if(d!='u')t.fillRect(d=='r'?x:d=='l'?x-6:x-5,y-17,d=='d'?10:6,1)}
- if(a.hat==2){t.fillStyle='#3a3a55';t.fillRect(x-7,y-17,14,2);t.fillRect(x-3,y-22,6,5)}}
+/* ตัวละครผู้เล่นแบบเก่า (ppl0 / AVO) ถูกแทนด้วย js/render/avatar.js */
 /* เส้นขอบดำรอบตัวละคร — ใช้กับผู้เล่น/NPC และผีแบบพิกเซลสำรองเท่านั้น (รูปผีมีขอบในไฟล์แล้ว) */
 /* ---------- เส้นขอบดำรอบตัวละคร (ผี / ผู้เล่น / NPC) — สร้างจากรูปตอนรัน ไม่แก้รูปต้นฉบับ ---------- */
 const OUTL=(()=>{const OLC=[0,0,0];
@@ -850,7 +857,582 @@ function dg(t,x,by,g,u,tm,o){const GI=g&&g.sp&&GIMG[g.sp.id];
  /* รูปผีมีเส้นขอบดำในไฟล์ภาพแล้ว (assets/ghosts) — ไม่ต้องเติมขอบซ้ำตอนรัน */
  if(GI&&GI.ok)return dg0(t,x,by,g,u,tm,o);
  const x0=Math.floor(x-7*u)-6,y0=Math.floor(by-16*u)-6;OUTL.olDraw(t,x0,y0,Math.ceil(14*u)+12,Math.ceil(18*u)+12,Math.max(1,Math.round(u/4)),k=>dg0(k,x,by,g,u,tm,o))}
-function ppl(t,x,y,a,d,st){OUTL.olDraw(t,Math.floor(x)-10,Math.floor(y)-25,20,30,1,k=>ppl0(k,x,y,a,d,st))}
+/* ppl() (วาดผู้เล่น/NPC) ย้ายไปอยู่ที่ js/render/avatar.js — อวาตาร์แบบใหม่มีขอบดำในตัวแล้ว */
+/* อวาตาร์ผู้เล่นแบบใหม่ (หัวโตตัวเล็ก) — วาดด้วยโค้ดเป็นเลเยอร์: เพศ/ผม/สีผม/สีผิว/หมวก/ชุด + ช่องแฟชั่น 4 ช่อง + สัตว์ขี่ (อนาคต)
+   cell 40x48, feet baseline y=44, center between x19|x20 */
+const PAV = (() => {
+const W = 40, H = 48, OUT = '#120e16';
+
+/* ---------- palettes ---------- */
+const SKIN = [
+  { n: 'ผิวขาว',   c: ['#f2d3b6', '#d8aa88'] },
+  { n: 'ผิวเหลือง', c: ['#e6be93', '#c5946a'] },
+  { n: 'ผิวแทน',   c: ['#c99065', '#a06c45'] },
+  { n: 'ผิวคล้ำ',   c: ['#8f5d3d', '#6c412a'] },
+  { n: 'ผิวเข้ม',   c: ['#5e3c28', '#432a1a'] },
+  { n: 'ซีดแบบผี', c: ['#d4dbd3', '#a9b3ab'] },
+];
+const HAIRC = [
+  { n: 'ดำ',       c: ['#25212a', '#15121a', '#433b4a'] },
+  { n: 'น้ำตาล',   c: ['#5a3a28', '#3d2619', '#7d5639'] },
+  { n: 'แดงเข้ม',  c: ['#7a2a2c', '#541a1d', '#a04040'] },
+  { n: 'เทาเงิน',  c: ['#8d8f98', '#62646e', '#b5b8c0'] },
+  { n: 'ขาวผี',    c: ['#dfe2e0', '#aab0b0', '#ffffff'] },
+  { n: 'น้ำเงินหมึก', c: ['#2c3a5e', '#1c2640', '#46598a'] },
+  { n: 'เขียวตะไคร่', c: ['#3f5a44', '#2a3e2e', '#5c7d62'] },
+];
+const HAIRS = [
+  { n: 'เกรียน',   hl: 3, vol: 0, fr: 'none', side: 4,  back: 10 },
+  { n: 'รองทรง',   hl: 3, vol: 1, fr: 'side', side: 7,  back: 11 },
+  { n: 'ยุ่งชี้',    hl: 3, vol: 1, fr: 'jag',  side: 7,  back: 12, spikes: 1 },
+  { n: 'บ๊อบ',     hl: 3, vol: 1, fr: 'full', side: 13, back: 14 },
+  { n: 'ยาวสลวย',  hl: 2, vol: 1, fr: 'mid',  side: 14, back: 24, long: 1 },
+  { n: 'หางม้า',   hl: 3, vol: 1, fr: 'side', side: 8,  back: 12, tail: 1 },
+  { n: 'มวยจุก',   hl: 3, vol: 0, fr: 'none', side: 5,  back: 11, bun: 1 },
+];
+const HATS = [
+  { n: 'ไม่มี' }, { n: 'ผ้าคาดยันต์' }, { n: 'งอบ' }, { n: 'หมวกไหมพรม' }, { n: 'หมวกนักล่าผี' },
+];
+/* outfits: top/bot colors [base, shade]; male/female variants for the bottom */
+const OUTFITS = [
+  { n: 'ม่อฮ่อมชาวบ้าน', top: ['#34406a', '#252e4e'], bot: ['#34406a', '#252e4e'], fbot: ['#7a2f3a', '#5a1f2a'], b: 'pants', fb: 'sin', sleeve: 'long', shoe: '#4a3426', det: 'mohom' },
+  { n: 'ชุดนักเรียน',    top: ['#e9e6dc', '#bdb8aa'], bot: ['#2b3552', '#1c2238'], b: 'shorts', fb: 'skirt', sleeve: 'short', shoe: '#1b1b20', sock: '#f0f0ea', det: 'school' },
+  { n: 'ชุดหมอผี',      top: ['#ddd8cb', '#b2ac9c'], bot: ['#ddd8cb', '#b2ac9c'], b: 'robe', fb: 'robe', sleeve: 'long', shoe: '#3a2c22', det: 'shaman' },
+  { n: 'ชุดนักล่าผี',    top: ['#5d4130', '#432e21'], bot: ['#4b503b', '#363a2a'], b: 'pants', fb: 'pants', sleeve: 'long', shoe: '#231c19', det: 'hunter' },
+  { n: 'ฮู้ดดี้สายมู',     top: ['#5f6672', '#454b55'], bot: ['#35527c', '#263b5a'], b: 'pants', fb: 'shorts', sleeve: 'long', shoe: '#d9d9d4', sock: '#d9d9d4', det: 'hoodie' },
+  { n: 'ชุดไว้ทุกข์',     top: ['#26232b', '#18161c'], bot: ['#26232b', '#18161c'], b: 'pants', fb: 'skirtL', sleeve: 'long', shoe: '#101014', det: 'mourn' },
+];
+/* future fashion (overrides / extra layers) */
+const F_HATS = [{ n: 'ไม่ใส่' }, { n: 'หมวกขุนนางจีน', id: 'qing' }];
+const F_OUTS = [{ n: 'ไม่ใส่' }, { n: 'ชุดขุนนางจีน', id: 'qing', top: ['#2b3658', '#1d2540'], bot: ['#2b3658', '#1d2540'], b: 'robe', fb: 'robe', sleeve: 'wide', shoe: '#141418', det: 'qing' }];
+const F_BACK = [{ n: 'ไม่ใส่' }, { n: 'ย่ามยันต์', id: 'bag' }, { n: 'ไหสะพายหลัง', id: 'jar' }, { n: 'ปีกค้างคาว', id: 'wing' }];
+const F_ACC = [{ n: 'ไม่ใส่' }, { n: 'ประคำไม้', id: 'beads' }, { n: 'แว่นกลม', id: 'glass' }, { n: 'ยันต์แปะหน้า', id: 'yan' }];
+const MOUNTS = [{ n: 'ไม่ขี่' }, { n: 'โลงลอย', id: 'coffin' }];
+
+/* ---------- buffer helpers ---------- */
+function L() {
+  const b = new Array(W * H).fill(null);
+  b.p = (x, y, c) => { x = Math.round(x); y = Math.round(y); if (c && x >= 0 && y >= 0 && x < W && y < H) b[y * W + x] = c; };
+  b.r = (x, y, w, h, c) => { for (let j = 0; j < h; j++) for (let i = 0; i < w; i++) b.p(x + i, y + j, c); };
+  b.s = (y, x0, x1, c) => { for (let x = x0; x <= x1; x++) b.p(x, y, c); };
+  b.g = (x, y) => (x < 0 || y < 0 || x >= W || y >= H) ? null : b[y * W + x];
+  return b;
+}
+function dk(hex, f) { const n = parseInt(hex.slice(1), 16); const r = (n >> 16) * f, g = (n >> 8 & 255) * f, bl = (n & 255) * f; return '#' + [r, g, bl].map(v => Math.max(0, Math.min(255, v | 0)).toString(16).padStart(2, '0')).join(''); }
+/* paste layer onto main; draw a darker inner line where the layer meets existing pixels */
+function comp(main, lay, oc) {
+  if (oc) for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+    const i = y * W + x; if (lay[i] || !main[i]) continue;
+    if ((x > 0 && lay[i - 1]) || (x < W - 1 && lay[i + 1]) || (y > 0 && lay[i - W]) || (y < H - 1 && lay[i + W])) main[i] = oc;
+  }
+  for (let i = 0; i < W * H; i++) if (lay[i]) main[i] = lay[i];
+}
+function outline(m) {
+  const o = m.slice();
+  for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+    const i = y * W + x; if (m[i]) continue;
+    if ((x > 0 && m[i - 1]) || (x < W - 1 && m[i + 1]) || (y > 0 && m[i - W]) || (y < H - 1 && m[i + W])) o[i] = OUT;
+  }
+  return o;
+}
+function line(x0, y0, x1, y1) { const pts = []; let dx = Math.abs(x1 - x0), dy = -Math.abs(y1 - y0), sx = x0 < x1 ? 1 : -1, sy = y0 < y1 ? 1 : -1, e = dx + dy; for (;;) { pts.push([x0, y0]); if (x0 === x1 && y0 === y1) break; const e2 = 2 * e; if (e2 >= dy) { e += dy; x0 += sx; } if (e2 <= dx) { e += dx; y0 += sy; } } return pts; }
+
+/* ---------- geometry ---------- */
+const OFF = [4, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 4];
+const OFF_F = [4, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 5];
+const SIDE_F = [4, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3];
+const SIDE_B = [4, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 4, 6];
+function headSpan(dir, g, r) {
+  if (r < 0 || r > 14) return null;
+  if (dir === 'l') return [13 + SIDE_F[r], 27 - SIDE_B[r]];
+  const o = (g === 'f' ? OFF_F : OFF)[r]; return [12 + o, 27 - o];
+}
+const TORSO = {
+  m: { d: [[15, 24], [14, 25], [14, 25], [14, 25], [14, 25], [14, 25], [14, 25], [14, 25]],
+       l: [[17, 22], [16, 23], [16, 23], [16, 23], [16, 23], [16, 23], [16, 23], [16, 23]] },
+  f: { d: [[16, 23], [15, 24], [15, 24], [16, 23], [16, 23], [15, 24], [15, 24]],
+       l: [[17, 22], [16, 22], [16, 22], [17, 22], [17, 22], [17, 23], [17, 23]] },
+};
+
+/* ---------- poses ----------
+   arm vector [dx, dy] from shoulder. front/back: dx>0 = outward. side: dx>0 = forward */
+const PF = { down: [0, 6], f: [-1, 7], b: [1, 5], hold: [-5, 4], back: [2, -6], up: [1, -9], fwdD: [-3, 2], fwdU: [-2, -4], low: [-6, 7], reach: [3, 2] };
+const PS = { down: [0, 6], f: [3, 5], b: [-3, 5], hold: [4, 3], back: [-3, -5], up: [-1, -9], fwd: [7, -1], low: [5, 5], reach: [5, 2] };
+const WALK = [
+  { bob: 0, ll: 0, lr: 2, al: 'f', ar: 'b', st: 2 },
+  { bob: -1, ll: 0, lr: 0, al: 'down', ar: 'down', st: 0 },
+  { bob: 0, ll: 2, lr: 0, al: 'b', ar: 'f', st: -2 },
+  { bob: -1, ll: 0, lr: 0, al: 'down', ar: 'down', st: 0 },
+];
+const IDLE = [{ bob: 0, ll: 0, lr: 0, al: 'down', ar: 'down', st: 0 }, { bob: 0, ll: 0, lr: 0, al: 'down', ar: 'down', st: 0, breathe: 1 }];
+/* throw: t = throwing arm, o = other arm */
+const THROW = [
+  { bob: 0, t: 'hold', o: 'down', jar: 1, lean: 0, st: 0 },
+  { bob: 0, t: 'back', o: 'f', jar: 1, lean: 1, st: 1, lift: 1 },
+  { bob: -1, t: 'up', o: 'reach', jar: 1, lean: 1, st: 2, lift: 1 },
+  { bob: 0, t: 'fwd', o: 'low', jar: 0, lean: -1, st: -2 },
+  { bob: 0, t: 'low', o: 'down', jar: 0, lean: -1, st: -1 },
+  { bob: 0, t: 'down', o: 'down', jar: 0, lean: 0, st: 0 },
+];
+const ANIMS = { idle: IDLE, walk: WALK, throw: THROW };
+
+/* ---------- small sprites ---------- */
+function drawJar(b, cx, cy, sc) {
+  // 6x7 clay jar with red cloth lid, centered on (cx,cy)
+  const x = Math.round(cx - 3), y = Math.round(cy - 4);
+  const C = '#8b5a38', S = '#653e25', Hh = '#a8744a', R = '#a8302e', Y = '#e2c25a';
+  b.s(y, x + 1, x + 4, R); b.s(y + 1, x, x + 5, R); b.p(x + 5, y + 1, dk(R, .75));
+  b.s(y + 2, x + 1, x + 4, S);
+  b.s(y + 3, x, x + 5, C); b.s(y + 4, x, x + 5, C); b.s(y + 5, x, x + 5, C); b.s(y + 6, x + 1, x + 4, S);
+  b.p(x + 1, y + 3, Hh); b.p(x + 1, y + 4, Hh); b.p(x + 5, y + 4, S); b.p(x + 5, y + 5, S);
+  b.p(x + 3, y + 3, Y); b.p(x + 3, y + 4, Y); b.p(x + 3, y + 5, Y);
+}
+
+/* ---------- head ---------- */
+function drawHead(b, dir, g, HT, skin) {
+  const [K, D] = skin;
+  for (let r = 0; r < 15; r++) {
+    const sp = headSpan(dir, g, r); b.s(HT + r, sp[0], sp[1], K);
+    if (dir === 'l') { if (r > 1) b.p(sp[1], HT + r, D); }
+    else b.p(sp[1], HT + r, D);
+  }
+  if (dir === 'd') { b.r(11, HT + 7, 1, 3, K); b.r(28, HT + 7, 1, 3, D); }
+  if (dir === 'u') { b.r(11, HT + 7, 1, 3, D); b.r(28, HT + 7, 1, 3, D); b.s(HT + 14, 16, 23, D); }
+  if (dir === 'l') { b.p(12, HT + 9, K); b.p(12, HT + 8, K); /* nose */ b.r(21, HT + 7, 2, 3, D); b.p(22, HT + 8, dk(D, .8)); }
+}
+function drawFace(b, dir, g, HT, skin, blink) {
+  const E = '#1d1722', E2 = '#3c3346', W2 = '#e9e4ea';
+  const ey = HT + 7;
+  if (dir === 'd') {
+    if (blink) { b.s(ey + 1, 15, 16, E); b.s(ey + 1, 23, 24, E); }
+    else {
+      b.r(15, ey, 2, 2, E); b.r(23, ey, 2, 2, E);
+      b.p(16, ey, W2); b.p(24, ey, W2);
+      b.p(15, ey + 1, E2); b.p(23, ey + 1, E2);
+    }
+    if (g === 'm') { b.s(ey - 2, 14, 16, dk(skin[1], .7)); b.s(ey - 2, 23, 25, dk(skin[1], .7)); }
+    else { b.p(14, ey, E); b.p(25, ey, E); b.s(ey - 2, 15, 16, dk(skin[1], .8)); b.s(ey - 2, 23, 24, dk(skin[1], .8)); }
+    // under-eye tiredness (ghost theme)
+    b.s(ey + 2, 15, 16, skin[1]); b.s(ey + 2, 23, 24, skin[1]);
+    if (g === 'f') { b.s(HT + 11, 19, 20, '#b25d5a'); b.p(13, HT + 10, '#e3a196'); b.p(26, HT + 10, '#e3a196'); }
+    else b.s(HT + 11, 19, 20, dk(skin[1], .85));
+  } else if (dir === 'l') {
+    if (blink) b.s(ey + 1, 14, 15, E);
+    else { b.r(14, ey, 2, 2, E); b.p(14, ey, W2); b.p(15, ey + 1, E2); }
+    if (g === 'f') b.p(16, ey, E);
+    b.s(ey - 2, 13, 15, dk(skin[1], g === 'm' ? .7 : .8));
+    b.p(14, ey + 2, skin[1]);
+    b.p(13, HT + 11, g === 'f' ? '#b25d5a' : dk(skin[1], .85));
+  }
+}
+
+/* ---------- hair ---------- */
+function drawHair(front, back, dir, g, HT, st, hc) {
+  const [Hc, Hs, Hl] = hc; const hl = HT + st.hl, v = st.vol;
+  const sp = r => headSpan(dir, g, Math.max(0, Math.min(14, r)));
+  if (dir === 'd' || dir === 'u') {
+    // cap
+    for (let y = HT - v; y < (dir === 'u' ? HT + Math.min(st.back, 14) + 1 : hl); y++) {
+      const r = y - HT; let s = r < 0 ? [sp(0)[0] + 1, sp(0)[1] - 1] : sp(r);
+      const x0 = s[0] - (r >= 0 ? v : 0), x1 = s[1] + (r >= 0 ? v : 0);
+      front.s(y, x0, x1, Hc); front.p(x1, y, Hs);
+    }
+    if (dir === 'd') {
+      // sides
+      for (let y = hl; y <= HT + st.side; y++) {
+        const r = Math.min(14, y - HT), s = sp(r);
+        const x0 = (r > 11 ? 12 : s[0]) - v, x1 = (r > 11 ? 27 : s[1]) + v;
+        front.s(y, x0, x0 + 1 + (st.side > 10 ? 1 : 0), Hc); front.s(y, x1 - 1 - (st.side > 10 ? 1 : 0), x1, Hs);
+      }
+      // fringe
+      const F = st.fr;
+      if (F === 'side') { front.s(hl, 12, 26, Hc); front.s(hl + 1, 12, 23, Hc); front.s(hl + 2, 12, 19, Hc); front.s(hl + 3, 12, 15, Hc); front.p(23, hl + 1, Hs); front.p(19, hl + 2, Hs); }
+      if (F === 'full') { front.s(hl, 12, 27, Hc); front.s(hl + 1, 12, 27, Hc); for (let x = 12; x <= 27; x += 2) front.p(x, hl + 2, Hc); for (let x = 13; x <= 27; x += 2) front.p(x, hl + 1, x > 22 ? Hs : Hc); }
+      if (F === 'jag') { front.s(hl, 12, 27, Hc); for (let x = 12; x <= 27; x++) { if (x % 3) front.p(x, hl + 1, Hc); if (x % 3 === 1) front.p(x, hl + 2, x > 22 ? Hs : Hc); } }
+      if (F === 'mid') { front.s(hl, 12, 18, Hc); front.s(hl, 21, 27, Hc); front.s(hl + 1, 12, 16, Hc); front.s(hl + 1, 23, 27, Hs); front.s(hl + 2, 12, 14, Hc); front.s(hl + 2, 25, 27, Hs); }
+      // highlight
+      front.s(HT, 15, 17, Hl); front.p(14, HT + 1, Hl);
+      if (st.long) for (let y = HT + 10; y <= HT + st.back; y++) { back.s(y, 10, 13, Hc); back.s(y, 26, 29, Hs); }
+      if (st.tail) { back.r(28, HT + 3, 2, 9, Hs); back.p(30, HT + 6, Hs); }
+    } else {
+      // back view: nape under short hair
+      if (st.long) for (let y = HT + 12; y <= HT + st.back; y++) front.s(y, 12 + (y > HT + st.back - 2 ? 1 : 0), 27 - (y > HT + st.back - 2 ? 1 : 0), y % 2 ? Hc : Hc);
+      if (st.long) for (let y = HT + 12; y <= HT + st.back; y++) { front.p(27, y, Hs); front.p(19, y, Hs); }
+      if (st.side > 10) for (let y = HT + 10; y <= HT + st.side; y++) { front.s(y, 11, 28, Hc); front.p(28, y, Hs); }
+      front.s(HT, 15, 17, Hl);
+      for (let y = HT + 3; y < HT + 10; y += 2) front.p(19, y, Hs);
+      if (st.tail) { front.r(18, HT + 2, 4, 3, Hs); front.r(18, HT + 5, 4, 8, Hc); front.r(19, HT + 13, 2, 3, Hc); front.p(21, HT + 8, Hs); front.p(21, HT + 10, Hs); }
+    }
+  } else { // side (facing left)
+    const backEnd = HT + Math.min(st.back, 14);
+    for (let y = HT - v; y < hl; y++) { const r = y - HT; const s = r < 0 ? [sp(0)[0] + 1, sp(0)[1] - 1] : sp(r); front.s(y, s[0] - (r >= 0 ? v : 0), s[1] + (r >= 0 ? v : 0), Hc); }
+    for (let y = hl; y <= backEnd; y++) { const s = sp(y - HT); const x0 = st.side > 10 ? 19 : 21; front.s(y, x0 + (y > HT + 11 && st.side <= 10 ? 1 : 0), s[1] + v, Hc); front.p(s[1] + v, y, Hs); }
+    if (st.side > 6) for (let y = hl; y <= HT + Math.min(st.side, 14); y++) front.s(y, 19, 21, Hc);
+    if (st.side > 10) for (let y = HT + 7; y <= HT + 13; y++) front.s(y, 18, 22, Hc);
+    const F = st.fr;
+    if (F !== 'none') { front.s(hl, 13, 18, Hc); front.s(hl + 1, 13, 16 + (F === 'full' ? 2 : 0), Hc); if (F === 'full' || F === 'mid') front.s(hl + 2, 13, 14, Hc); if (F === 'jag') { front.p(13, hl + 2, Hc); front.p(16, hl + 2, Hc); } if (F === 'side') front.p(13, hl + 2, Hc); }
+    if (st.spikes) { front.p(27, HT + 2, Hc); front.p(29, HT + 3, Hs); }
+    front.s(HT, 15, 18, Hl);
+    if (st.long) for (let y = HT + 12; y <= HT + st.back; y++) { const tp = y > HT + st.back - 3 ? 1 : 0; front.s(y, 22 + tp, 26 - tp, Hc); front.p(26 - tp, y, Hs); if (y % 3 === 0) front.p(24, y, Hs); }
+    if (st.tail) { front.r(28, HT + 3, 2, 3, Hs); front.r(28, HT + 6, 3, 6, Hc); front.r(29, HT + 12, 2, 3, Hc); front.p(30, HT + 8, Hs); }
+  }
+  if (st.spikes && dir !== 'l') { const y = HT - v - 1; [14, 17, 21, 24].forEach((x, i) => { front.p(x, y, Hc); front.p(x + 1, y, Hc); if (i % 2) front.p(x + 1, y - 1, Hc); }); }
+  if (st.bun) { const cx = dir === 'l' ? 21 : 18; front.r(cx, HT - 4, 4, 4, Hc); front.s(HT - 5, cx + 1, cx + 2, Hc); front.p(cx + 3, HT - 3, Hs); front.p(cx + 1, HT - 4, Hl); front.s(HT - 1, cx, cx + 3, '#b0302e'); }
+}
+
+/* ---------- hats ---------- */
+function drawHat(b, dir, HT, id, t) {
+  if (!id) return;
+  if (id === 1) { // red headband + talisman
+    const R = '#a5302e', Rs = '#7a2020', Y = '#e2c25a', Ys = '#b8963a';
+    if (dir === 'l') { b.s(HT + 3, 13, 28, R); b.s(HT + 4, 13, 28, Rs); const w = (t / 3 | 0) % 2; b.p(29, HT + 4, R); b.p(30, HT + 5 + w, R); b.p(31, HT + 5, Rs); b.p(30, HT + 6 - w, Rs); }
+    else { b.s(HT + 3, 11, 28, R); b.s(HT + 4, 11, 28, Rs); if (dir === 'd') { b.r(18, HT + 2, 4, 5, Y); b.p(21, HT + 3, Ys); b.p(19, HT + 4, '#a5302e'); b.p(20, HT + 3, '#a5302e'); b.p(19, HT + 5, '#a5302e'); } else { b.p(19, HT + 5, R); b.p(20, HT + 6, Rs); b.p(18, HT + 6, R); b.p(21, HT + 7, Rs); } }
+  }
+  if (id === 2) { // ngob – conical straw hat
+    const C = '#c8a25a', S = '#9a7838', Hh = '#e0c27e';
+    const cx0 = dir === 'l' ? 19 : 19.5;
+    for (let r = 0; r < 8; r++) { const half = Math.round(1 + r * 1.75); const y = HT - 6 + r; b.s(y, Math.round(cx0 - half), Math.round(cx0 + half - (dir === 'l' ? 0 : 1)), C); if (r > 1) { b.p(Math.round(cx0 + half - 1), y, S); b.p(Math.round(cx0 - half + 1), y, Hh); } }
+    b.s(HT + 2, 5, 34, S); b.s(HT + 1, 6, 33, C);
+    if (dir === 'd') { b.p(13, HT + 3, '#5a3a2a'); b.p(26, HT + 3, '#5a3a2a'); }
+  }
+  if (id === 3) { // beanie
+    const C = '#5b2e3a', S = '#40202a', Hh = '#7a4252';
+    const sp = r => headSpan(dir, 'm', r);
+    for (let y = HT - 2; y <= HT + 3; y++) { const r = y - HT; const s = r < 0 ? [sp(0)[0] + 2 + (r === -2 ? 1 : 0), sp(0)[1] - 2 - (r === -2 ? 1 : 0)] : sp(r); b.s(y, s[0] - 1, s[1] + 1, C); b.p(s[1] + 1, y, S); }
+    const s4 = sp(4); b.s(HT + 4, s4[0] - 1, s4[1] + 1, S); b.s(HT + 5, s4[0] - 1, s4[1] + 1, S);
+    for (let x = s4[0]; x <= s4[1]; x += 2) b.p(x, HT + 5, dk(S, .8));
+    b.s(HT - 1, 16, 18, Hh);
+  }
+  if (id === 4) { // hunter wide-brim hat
+    const C = '#3d3029', S = '#2a201b', Bd = '#7a2a2a', Hh = '#56463c';
+    if (dir === 'l') { b.r(14, HT - 5, 13, 7, C); b.s(HT - 6, 16, 25, C); b.p(26, HT - 5, S); b.s(HT + 1, 14, 26, Bd); b.s(HT + 2, 8, 31, S); b.s(HT + 3, 7, 13, S); b.s(HT - 5, 16, 19, Hh); }
+    else { b.r(13, HT - 5, 14, 7, C); b.s(HT - 6, 15, 24, C); b.r(26, HT - 5, 1, 7, S); b.s(HT - 4, 19, 20, S); b.s(HT + 1, 13, 26, Bd); b.s(HT + 2, 8, 31, S); b.s(HT + 3, 7, 9, S); b.s(HT + 3, 30, 32, S); b.s(HT - 5, 15, 17, Hh); }
+  }
+  if (id === 'qing') { // jiangshi official hat
+    const C = '#1c1a22', S = '#121016', Rr = '#a5302e', G = '#c9a24a';
+    const x0 = dir === 'l' ? 13 : 12, x1 = dir === 'l' ? 28 : 27;
+    b.s(HT + 2, x0, x1, S); b.s(HT + 1, x0, x1, C); b.s(HT, x0 + 1, x1 - 1, C);
+    b.r(x0 + 2, HT - 4, x1 - x0 - 3, 4, C); b.s(HT - 5, x0 + 4, x1 - 4, C);
+    b.s(HT - 1, x0 + 2, x1 - 2, G);
+    b.r(18 + (dir === 'l' ? 1 : 0), HT - 7, 2, 2, Rr); b.p(19, HT - 8, Rr);
+    if (dir === 'l') { b.r(28, HT + 2, 2, 5, Rr); } if (dir === 'u') { b.r(19, HT + 3, 2, 4, Rr); }
+  }
+}
+
+/* ---------- torso / outfit ---------- */
+function drawTorso(b, dir, g, TT, o, skin) {
+  const rows = TORSO[g][dir === 'l' ? 'l' : 'd']; const [C, S] = o.top;
+  rows.forEach(([x0, x1], i) => { b.s(TT + i, x0, x1, C); b.p(x1, TT + i, S); if (dir === 'l') b.p(x1 - 1, TT + i, S); });
+  const last = TT + rows.length - 1, d = o.det;
+  if (dir === 'd') {
+    if (d === 'mohom') { b.p(19, TT, skin[0]); b.p(20, TT, skin[0]); b.p(19, TT + 1, skin[0]); b.p(20, TT + 1, skin[1]); for (let i = 2; i < rows.length - 2; i += 2) b.p(20, TT + i, '#cfd3dc'); [0, 1].forEach(k => b.s(last - k, rows[rows.length - 1 - k][0], rows[rows.length - 1 - k][1], null)); sash(b, last - 1, rows[rows.length - 2][0], rows[rows.length - 2][1]); }
+    if (d === 'school') { b.s(TT, 17, 18, '#ffffff'); b.s(TT, 21, 22, '#ffffff'); b.p(19, TT, skin[0]); b.p(20, TT, skin[0]); if (g === 'f') { b.s(TT + 1, 18, 21, '#2b4a8a'); b.p(19, TT + 2, '#2b4a8a'); b.p(20, TT + 2, '#20386a'); } else { b.p(16, TT + 2, '#3b5aa0'); b.p(17, TT + 2, '#3b5aa0'); } b.p(20, TT + 3, S); b.p(20, TT + 5, S); }
+    if (d === 'shaman') { line(17, TT, 21, TT + 4).forEach(([x, y]) => b.p(x, y, S)); line(22, TT, 20, TT + 2).forEach(([x, y]) => b.p(x, y, S)); b.s(TT + 5, rows[5][0], rows[5][1], '#9e2b2b'); b.p(16, TT + 6, '#9e2b2b'); b.p(16, TT + 7, '#7a1f1f'); b.p(23, TT + 2, '#9e2b2b'); b.p(23, TT + 3, '#e2c25a'); }
+    if (d === 'hunter') { b.r(19, TT, 2, rows.length - 1, '#2a2a30'); b.p(19, TT, skin[0]); b.p(20, TT, skin[1]); b.p(18, TT, '#7a5a40'); b.p(21, TT, '#7a5a40'); b.s(last, rows[rows.length - 1][0], rows[rows.length - 1][1], '#2a1f18'); b.p(19, last, '#c9a24a'); b.p(16, TT + 3, S); b.p(23, TT + 3, S); }
+    if (d === 'hoodie') { b.s(TT, rows[0][0], rows[0][1], S); b.p(19, TT, skin[0]); b.p(20, TT, skin[1]); b.p(18, TT + 1, '#e8e8e8'); b.p(18, TT + 2, '#e8e8e8'); b.p(21, TT + 1, '#e8e8e8'); b.p(21, TT + 2, '#e8e8e8'); b.s(TT + 4, 17, 22, S); b.s(TT + 5, 17, 22, S); }
+    if (d === 'mourn') { b.p(18, TT, '#d8d8d8'); b.p(21, TT, '#d8d8d8'); b.p(19, TT, skin[0]); b.p(20, TT, skin[1]); b.p(20, TT + 2, '#5a5a62'); b.p(20, TT + 4, '#5a5a62'); }
+    if (d === 'qing') { b.s(TT, 17, 22, '#c9a24a'); b.p(19, TT, skin[0]); b.p(20, TT, skin[1]); b.r(17, TT + 2, 6, 4, '#c9a24a'); b.r(18, TT + 3, 4, 2, '#7a2a2a'); b.p(19, TT + 3, '#e2c25a'); }
+  } else if (dir === 'u') {
+    if (d === 'mohom') sash(b, last - 1, rows[rows.length - 2][0], rows[rows.length - 2][1]);
+    if (d === 'shaman') { b.s(TT + 5, rows[5][0], rows[5][1], '#9e2b2b'); b.r(19, TT + 6, 2, 2, '#7a1f1f'); }
+    if (d === 'hunter') { b.s(last, rows[rows.length - 1][0], rows[rows.length - 1][1], '#2a1f18'); b.s(TT + 1, 16, 23, S); }
+    if (d === 'hoodie') { b.r(16, TT, 8, 3, S); b.r(17, TT + 3, 6, 1, S); }
+    if (d === 'school') { b.s(TT, 16, 23, '#ffffff'); if (g === 'f') b.s(TT + 1, 16, 23, '#2b4a8a'); }
+    if (d === 'qing') { b.r(17, TT + 2, 6, 4, '#c9a24a'); b.r(18, TT + 3, 4, 2, '#7a2a2a'); }
+  } else {
+    if (d === 'mohom') { b.p(17, TT, skin[0]); sash(b, last - 1, rows[rows.length - 2][0], rows[rows.length - 2][1]); }
+    if (d === 'school') { b.s(TT, 17, 19, '#ffffff'); if (g === 'f') { b.p(16, TT + 1, '#2b4a8a'); b.p(16, TT + 2, '#20386a'); } }
+    if (d === 'shaman') { b.s(TT + 5, rows[5][0], rows[5][1], '#9e2b2b'); b.p(23, TT + 6, '#7a1f1f'); b.p(17, TT + 1, S); b.p(18, TT + 2, S); }
+    if (d === 'hunter') { b.p(16, TT + 1, '#2a2a30'); b.p(16, TT + 2, '#2a2a30'); b.s(last, rows[rows.length - 1][0], rows[rows.length - 1][1], '#2a1f18'); }
+    if (d === 'hoodie') { b.r(21, TT, 3, 3, S); b.s(TT + 4, 16, 19, S); }
+    if (d === 'mourn') b.p(17, TT, '#d8d8d8');
+    if (d === 'qing') { b.s(TT, 16, 18, '#c9a24a'); b.r(16, TT + 2, 2, 4, '#c9a24a'); }
+  }
+}
+function sash(b, y, x0, x1) { for (let x = x0; x <= x1; x++) { b.p(x, y, (x % 2) ? '#c23b36' : '#ecdcd0'); b.p(x, y + 1, (x % 2) ? '#ecdcd0' : '#c23b36'); } }
+
+/* legs + bottom wear. returns nothing; draws into b */
+function drawLegs(b, dir, g, f, o, skin, BT) {
+  const bt = g === 'f' ? (o.fb || o.b) : o.b; const [C, S] = (g === 'f' && o.fbot) ? o.fbot : o.bot; const sh = o.shoe;
+  const sock = o.sock || skin[0];
+  const legRow = (x0, w, lift, near, col) => {
+    const top = BT - 1, bot = 42 - lift;
+    for (let y = top; y <= bot; y++) {
+      let c;
+      if (bt === 'pants') c = col || C;
+      else if (bt === 'shorts') c = y <= 39 ? (col || C) : (y >= 41 && o.sock ? sock : (near === false ? skin[1] : skin[0]));
+      else c = y >= 41 && o.sock ? sock : (near === false ? skin[1] : skin[0]);
+      b.s(y, x0, x0 + w - 1, c);
+      if (bt === 'pants' || (bt === 'shorts' && y <= 39)) b.p(x0 + w - 1, y, S);
+    }
+    b.s(43 - lift, x0, x0 + w - 1, sh); b.s(44 - lift, x0, x0 + w - 1, dk(sh, .7));
+    return bot;
+  };
+  if (dir === 'd' || dir === 'u') {
+    const wl = g === 'm' ? 4 : 3, xl = g === 'm' ? 15 : 16, xr = g === 'm' ? 21 : 21;
+    legRow(xl, wl, f.ll || 0, true); legRow(xr, wl, f.lr || 0, true);
+    if (dir === 'd' && sh) { b.p(xl, 43 - (f.ll || 0), dk(sh, 1.3)); b.p(xr, 43 - (f.lr || 0), dk(sh, 1.3)); }
+  } else {
+    const s = f.st || 0;
+    const far = 18 + s, near = 18 - s;
+    legRow(far, 3, 0, false, dk(C, .8));
+    legRow(near, 3, f.lift ? 1 : 0, true);
+    b.p(near - 1, 44 - (f.lift ? 1 : 0), dk(sh, .7)); b.p(near - 1, 43 - (f.lift ? 1 : 0), sh);
+    b.p(far - 1, 44, dk(sh, .55));
+  }
+  // skirts / robes
+  const side = dir === 'l';
+  const sw = (f.st || 0);
+  if (bt === 'skirt' || bt === 'skirtL') {
+    const end = bt === 'skirt' ? 39 : 41;
+    for (let y = BT; y <= end; y++) { const k = Math.min(2, (y - BT) >> 1); const x0 = side ? 16 - k : 15 - k, x1 = side ? 23 + k : 24 + k; b.s(y, x0, x1, C); b.p(x1, y, S); if (!side) for (let x = x0 + 2; x < x1; x += 3) b.p(x, y, S); }
+  }
+  if (bt === 'sin') {
+    for (let y = BT; y <= 42; y++) { const x0 = side ? 16 : 15, x1 = side ? 23 : 24; b.s(y, x0 + (y > 40 ? (side ? -Math.sign(sw) : 0) : 0), x1, C); b.p(x1, y, S); if ((y - BT) % 3 === 2) b.s(y, x0, x1, '#c9a24a'); }
+  }
+  if (bt === 'robe') {
+    for (let y = BT; y <= 42; y++) { const k = (y - BT) > 3 ? 1 : 0; const x0 = side ? 15 - k : 14 - k, x1 = side ? 24 + k : 25 + k; b.s(y, x0, x1, C); b.p(x1, y, S); b.p(x1 - 1, y, S); }
+    if (o.det === 'qing') { b.s(42, side ? 14 : 13, side ? 25 : 26, '#c9a24a'); }
+    if (!side && dir === 'd' && o.det === 'shaman') { b.s(42, 13, 26, '#9e2b2b'); }
+  }
+}
+
+function drawArm(b, sx, sy, vec, sleeve, skin, short, jar) {
+  const pts = line(sx, sy, sx + vec[0], sy + vec[1]);
+  const n = pts.length;
+  pts.forEach(([x, y], i) => {
+    const isHand = i >= n - 2;
+    const isSkin = isHand || (short && i >= 3);
+    const c = isSkin ? skin : sleeve;
+    b.p(x, y, c[0]); b.p(x + 1, y, c[1]); b.p(x, y + 1, c[0]); b.p(x + 1, y + 1, c[1]);
+  });
+  if (short === 'wide') { const [x, y] = pts[Math.max(0, n - 3)]; b.r(x - 1, y, 4, 2, sleeve[0]); b.p(x + 2, y + 1, sleeve[1]); }
+  return pts[n - 1];
+}
+
+/* ---------- accessories ---------- */
+function drawBackAcc(b, dir, TT, id, t, layerWhere) {
+  if (id === 'jar') {
+    const big = (x, y) => { // 10x11 jar
+      const C = '#8b5a38', S = '#653e25', Hh = '#a8744a', R = '#a8302e', Y = '#e2c25a';
+      b.s(y, x + 2, x + 7, R); b.s(y + 1, x + 1, x + 8, R); b.p(x + 8, y + 1, dk(R, .7)); b.s(y + 2, x + 3, x + 6, S);
+      for (let r = 3; r < 10; r++) { const k = r < 5 || r > 8 ? 1 : 0; b.s(y + r, x + k, x + 9 - k, C); b.p(x + 9 - k, y + r, S); b.p(x + k, y + r, r < 7 ? Hh : C); }
+      b.s(y + 10, x + 2, x + 7, S); b.r(x + 4, y + 4, 2, 4, Y); b.p(x + 4, y + 5, R);
+    };
+    if (dir === 'u') big(15, TT - 3);
+    else if (dir === 'd') { /* peeks above shoulders */ b.s(TT - 4, 23, 28, '#a8302e'); b.s(TT - 3, 22, 29, '#a8302e'); b.r(23, TT - 2, 6, 3, '#8b5a38'); b.p(28, TT - 2, '#653e25'); }
+    else big(21, TT - 2);
+  }
+  if (id === 'wing') {
+    const flap = [0, 1, 2, 1][(t / 2 | 0) % 4];
+    const M = '#2a2030', S = '#433248', B = '#5a4462';
+    const wing = (side) => {
+      const ox = side < 0 ? 14 : 25, dir2 = side;
+      for (let i = 0; i < 11; i++) {
+        const x = ox + dir2 * i; const top = TT - 4 - Math.round(i * (0.6 - flap * 0.15)) + flap; const len = 7 - Math.abs(i - 4) + (i % 3 === 2 ? -2 : 0);
+        for (let y = top; y < top + Math.max(2, len); y++) b.p(x, y, i % 3 === 0 ? S : M);
+        b.p(x, top, B);
+      }
+    };
+    if (dir === 'l') { const ox = 22; for (let i = 0; i < 11; i++) { const x = ox + i; const top = TT - 4 - Math.round(i * (0.6 - flap * 0.15)) + flap; const len = 7 - Math.abs(i - 4) + (i % 3 === 2 ? -2 : 0); for (let y = top; y < top + Math.max(2, len); y++) b.p(x, y, i % 3 === 0 ? S : M); b.p(x, top, B); } }
+    else { wing(-1); wing(1); }
+  }
+  if (id === 'bag' && layerWhere === 'back') {
+    // bag body behind, on hip
+    if (dir === 'd') { b.r(25, TT + 5, 5, 6, '#b8a07a'); b.s(TT + 7, 25, 29, '#a5302e'); b.p(27, TT + 8, '#e2c25a'); b.p(29, TT + 6, '#8a7558'); }
+    if (dir === 'u') { b.r(10, TT + 5, 5, 6, '#b8a07a'); b.s(TT + 7, 10, 14, '#a5302e'); }
+    if (dir === 'l') { b.r(22, TT + 4, 5, 6, '#b8a07a'); b.s(TT + 6, 22, 26, '#a5302e'); b.p(24, TT + 7, '#e2c25a'); }
+  }
+}
+function drawStrap(b, dir, TT, id) {
+  if (id === 'bag') {
+    if (dir === 'd') line(16, TT, 24, TT + 6).forEach(([x, y]) => b.p(x, y, '#8a7558'));
+    if (dir === 'u') line(23, TT, 15, TT + 6).forEach(([x, y]) => b.p(x, y, '#8a7558'));
+    if (dir === 'l') line(18, TT, 22, TT + 5).forEach(([x, y]) => b.p(x, y, '#8a7558'));
+  }
+  if (id === 'jar' && dir !== 'u') { if (dir === 'd') { line(16, TT, 24, TT + 7).forEach(([x, y]) => b.p(x, y, '#5a3a28')); } else line(19, TT, 21, TT + 6).forEach(([x, y]) => b.p(x, y, '#5a3a28')); }
+}
+function drawFaceAcc(b, dir, HT, TT, id, t) {
+  if (id === 'beads' && dir !== 'u') {
+    const pts = dir === 'd' ? [[16, TT], [17, TT + 1], [18, TT + 2], [19, TT + 3], [20, TT + 3], [21, TT + 2], [22, TT + 1], [23, TT]] : [[17, TT], [16, TT + 1], [16, TT + 2], [17, TT + 3]];
+    pts.forEach(([x, y], i) => b.p(x, y, i % 2 ? '#6a4529' : '#8d5f39'));
+    if (dir === 'd') { b.p(19, TT + 4, '#c9a24a'); b.p(20, TT + 4, '#c9a24a'); }
+  }
+  if (id === 'glass') {
+    const F = '#2a2430', G = '#9fb7c8';
+    const ey = HT + 7;
+    if (dir === 'd') { [[14, 17], [22, 25]].forEach(([a, z]) => { b.s(ey - 1, a, z, F); b.s(ey + 2, a, z, F); b.p(a, ey, F); b.p(a, ey + 1, F); b.p(z, ey, F); b.p(z, ey + 1, F); b.p(z - 1, ey, G); }); b.s(ey, 18, 21, F); }
+    if (dir === 'l') { b.s(ey - 1, 13, 16, F); b.s(ey + 2, 13, 16, F); b.p(16, ey, F); b.p(16, ey + 1, F); b.s(ey, 17, 21, F); }
+  }
+  if (id === 'yan' && dir !== 'u') {
+    const Y = '#e8cf6a', Ys = '#c0a548', R = '#b03030';
+    const sway = (t / 4 | 0) % 2;
+    if (dir === 'd') { b.r(17, HT + 2, 6, 10 + sway, Y); b.r(22, HT + 2, 1, 10 + sway, Ys); for (let y = HT + 3; y < HT + 11; y += 2) b.s(y, 18, 20 + (y % 4 === 1 ? 1 : 0), R); b.p(19, HT + 4, R); }
+    else { b.r(11, HT + 2, 2, 10 + sway, Y); b.p(11, HT + 5, R); b.p(11, HT + 7, R); b.p(11, HT + 9, R); }
+  }
+}
+function drawMount(b, dir, id, t, layer) {
+  if (id !== 'coffin') return;
+  const W1 = '#3d2a22', W2 = '#2a1c16', Lc = '#5a3e30', G = '#86d9a6', Y = '#e2c25a', R = '#a5302e';
+  const fy = 40;
+  if (layer === 'under') {
+    const gl = (t / 3 | 0) % 3;
+    if (dir === 'l') { for (let x = 10; x <= 30; x += 3) b.p(x + gl, 47, G); }
+    else for (let x = 13; x <= 26; x += 3) b.p(x + gl, 47, G);
+    return;
+  }
+  if (dir === 'l') {
+    b.s(fy, 7, 32, Lc); b.s(fy + 1, 5, 33, W1); b.s(fy + 2, 4, 34, W1); b.s(fy + 3, 5, 33, W2); b.s(fy + 4, 7, 32, W2);
+    b.p(10, fy + 2, Y); b.p(11, fy + 2, R); b.s(fy + 1, 26, 30, '#4a3428');
+  } else {
+    b.s(fy - 1, 13, 26, Lc); b.s(fy, 11, 28, Lc); b.s(fy + 1, 10, 29, W1); b.s(fy + 2, 10, 29, W1); b.s(fy + 3, 11, 28, W1); b.s(fy + 4, 12, 27, W2); b.s(fy + 5, 14, 25, W2);
+    b.r(17, fy + 1, 6, 4, '#4a3428'); b.r(19, fy + 1, 2, 4, Y); b.s(fy + 2, 18, 21, Y); b.p(19, fy + 3, R); b.p(20, fy + 2, R);
+  }
+}
+
+/* ---------- main render ----------
+   av = {g:'m'|'f', sk, hs, hc, hat, out, fx:{hat,out,back,acc}, mount}
+   returns array W*H of colors (with outline) */
+function render(av, dir, anim, frame, opt) {
+  opt = opt || {};
+  const flip = dir === 'r'; const D = flip ? 'l' : dir;
+  const fr = (ANIMS[anim] || IDLE)[frame % (ANIMS[anim] || IDLE).length];
+  const g = av.g, fy = g === 'f' ? 1 : 0;
+  const skin = SKIN[av.sk].c, hc = HAIRC[av.hc].c, st = HAIRS[av.hs];
+  const fout = av.fx && av.fx.out ? F_OUTS[av.fx.out] : null;
+  const o = fout || OUTFITS[av.out];
+  const hatId = av.fx && av.fx.hat ? F_HATS[av.fx.hat].id : av.hat;
+  const backId = av.fx && av.fx.back ? F_BACK[av.fx.back].id : null;
+  const accId = av.fx && av.fx.acc ? F_ACC[av.fx.acc].id : null;
+  const mountId = av.mount ? MOUNTS[av.mount].id : null;
+  const tick = opt.t || 0;
+  let f = fr;
+  if (mountId && anim === 'walk') f = IDLE[0];
+  const bob = (f.bob || 0) + (f.breathe ? 0 : 0);
+  const lean = D === 'l' ? -(f.lean || 0) : 0; // forward = -x for left
+  const leanY = D !== 'l' ? (f.lean > 0 ? -1 : f.lean < 0 ? 0 : 0) : 0;
+  const HT = 14 + fy + bob + leanY, TT = 29 + fy + bob + leanY;
+  const BT = TT + TORSO[g].d.length; // first row under torso
+
+  const main = L();
+  const shift = (lay, dx) => { if (!dx) return lay; const n = L(); for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) { const c = lay[y * W + x]; if (c) n.p(x + dx, y, c); } return n; };
+  const up = (fn, oc) => { const lay = L(); fn(lay); comp(main, shift(lay, lean), oc); };
+  const low = (fn, oc) => { const lay = L(); fn(lay); comp(main, lay, oc); };
+
+  const sleeveShort = o.sleeve === 'short' ? true : o.sleeve === 'wide' ? 'wide' : false;
+  const sleeve = o.top;
+  const hairBack = L(), hairFront = L();
+  drawHair(hairFront, hairBack, D, g, HT, st, hc);
+  const hatHidesHair = hatId === 2 || hatId === 4 || hatId === 'qing' || hatId === 3;
+
+  // arm resolution
+  const isThrow = anim === 'throw';
+  const armVec = (pose, sideSign) => {
+    if (D === 'l') { const v = PS[pose === 'fwdD' || pose === 'fwdU' ? 'fwd' : pose] || PS.down; return [-v[0], v[1]]; }
+    let p = pose; if (p === 'fwd') p = D === 'd' ? 'fwdD' : 'fwdU';
+    const v = PF[p] || PF.down; return [v[0] * sideSign, v[1]];
+  };
+  let poseL, poseR; // screen-left, screen-right (front/back) ; for side: near=poseR, far=poseL
+  if (isThrow) {
+    if (D === 'd') { poseL = f.t; poseR = f.o; }
+    else if (D === 'u') { poseR = f.t; poseL = f.o; }
+    else { poseR = f.t; poseL = f.o === 'reach' ? 'f' : f.o; }
+  } else { poseL = f.al; poseR = f.ar; }
+  const ax = g === 'm' ? [12, 26] : [13, 25];
+  let jarAt = null;
+
+  // mount glow under
+  if (mountId) low(b => drawMount(b, D, mountId, tick, 'under'));
+  // back accessory behind body (front & side views)
+  if (backId && D !== 'u') up(b => drawBackAcc(b, D, TT, backId, tick, 'back'));
+  if (backId === 'bag' && D === 'u') {}
+  // long hair back layer
+  up(b => { for (let i = 0; i < W * H; i++) if (hairBack[i]) b[i] = hairBack[i]; });
+  // far arm (side view)
+  if (D === 'l') up(b => { const sk2 = [skin[1], dk(skin[1], .85)], sl2 = [o.top[1], dk(o.top[1], .85)]; const v = armVec(poseL, 1); drawArm(b, 19, TT + 1, v, sl2, sk2, sleeveShort); });
+  // legs
+  low(b => drawLegs(b, D, g, f, o, skin, BT), dk(o.bot[1], .6));
+  // torso
+  up(b => drawTorso(b, D, g, TT, o, skin), dk(o.top[1], .6));
+  if (backId === 'bag' && D === 'u') up(b => drawBackAcc(b, D, TT, backId, tick, 'back'), '#3a2e22');
+  up(b => drawStrap(b, D, TT, backId));
+  // arms (front/back)
+  if (D !== 'l') {
+    up(b => { const p = drawArm(b, ax[0], TT + 1, armVec(poseL, -1), sleeve, skin, sleeveShort); if (isThrow && f.jar && D === 'd') jarAt = p; }, dk(o.top[1], .55));
+    up(b => { const p = drawArm(b, ax[1], TT + 1, armVec(poseR, 1), sleeve, skin, sleeveShort); if (isThrow && f.jar && D === 'u') jarAt = p; }, dk(o.top[1], .55));
+  }
+  // head + face
+  up(b => drawHead(b, D, g, HT, skin), dk(skin[1], .55));
+  up(b => drawFace(b, D, g, HT, skin, opt.blink));
+  // hair front
+  up(b => { for (let i = 0; i < W * H; i++) if (hairFront[i]) { if (hatHidesHair && Math.floor(i / W) < HT + 2) continue; b[i] = hairFront[i]; } }, dk(hc[1], .7));
+  // face acc
+  if (accId) up(b => drawFaceAcc(b, D, HT, TT, accId, tick), accId === 'yan' ? '#8a7a3a' : null);
+  // hat
+  if (hatId) up(b => drawHat(b, D, HT, hatId, tick), '#1a1418');
+  // back acc on top (back view)
+  if (backId && D === 'u' && backId !== 'bag') up(b => drawBackAcc(b, D, TT, backId, tick, 'front'), '#1a1418');
+  // near arm (side view) over body
+  if (D === 'l') up(b => { const p = drawArm(b, 19, TT + 1, armVec(poseR, 1), sleeve, skin, sleeveShort); if (isThrow && f.jar) jarAt = p; }, dk(o.top[1], .55));
+  // jar in hand
+  if (jarAt) up(b => drawJar(b, jarAt[0] + 1, jarAt[1] - (f.t === 'up' || f.t === 'back' ? 3 : 1)), '#2a1a12');
+  // mount (coffin) — character is lifted
+  let out = main;
+  if (mountId) {
+    const lifted = L(); const fl = Math.round(Math.sin(tick / 4) * 1);
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) { const c = main[y * W + x]; if (c) lifted.p(x, y - 4 + fl, c); }
+    const m2 = L(); drawMount(m2, D, mountId, tick, 'body');
+    const res = L(); for (let i = 0; i < W * H; i++) res[i] = lifted[i];
+    const m3 = L(); for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) { const c = m2[y * W + x]; if (c) m3.p(x, y + fl, c); }
+    comp(res, m3, '#140e0c'); out = res;
+  }
+  let fin = outline(out);
+  if (flip) { const fl = new Array(W * H); for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) fl[y * W + x] = fin[y * W + (W - 1 - x)]; fin = fl; }
+  return fin;
+}
+
+/* draw buffer onto 2d context */
+const cache = new Map();
+function toCanvas(buf) {
+  const c = document.createElement('canvas'); c.width = W; c.height = H; const x = c.getContext('2d');
+  const id = x.createImageData(W, H);
+  for (let i = 0; i < W * H; i++) { const v = buf[i]; if (!v) continue; const n = parseInt(v.slice(1), 16); id.data[i * 4] = n >> 16; id.data[i * 4 + 1] = n >> 8 & 255; id.data[i * 4 + 2] = n & 255; id.data[i * 4 + 3] = 255; }
+  x.putImageData(id, 0, 0); return c;
+}
+function frameCanvas(av, dir, anim, frame, opt) {
+  const k = JSON.stringify([av, dir, anim, frame, opt || 0]);
+  let c = cache.get(k); if (c) return c;
+  c = toCanvas(render(av, dir, anim, frame, opt)); if (cache.size > 3000) cache.clear(); cache.set(k, c); return c;
+}
+function jarCanvas() { const b = L(); drawJar(b, 20, 24); return toCanvas(outline(b)); }
+
+return { W, H, SKIN, HAIRC, HAIRS, HATS, OUTFITS, F_HATS, F_OUTS, F_BACK, F_ACC, MOUNTS, ANIMS, render, toCanvas, frameCanvas, jarCanvas };
+})();
+
+/* ---------- ต่อเข้ากับเกม ---------- */
+/* PSC = ขนาดตัวละครบนแมพ (1 = เท่าภาพต้นฉบับ 40x48) · PLH = ความสูงที่ใช้วางชื่อเหนือหัว */
+const PSC=.8,PLH=Math.round(33*PSC)+1;
+/* แปลงอวาตาร์แบบเก่า {sk,hc,hs,hat,sh,pt} → แบบใหม่ {g,sk,hs,hc,hat,out} (ใช้กับเซฟเก่า / NPC / ผู้เล่นออนไลน์ที่ยังเป็นเวอร์ชันเก่า) */
+const AVN_C=new WeakMap();
+function avN(a){if(!a||typeof a!='object')return{g:'m',sk:0,hs:0,hc:0,hat:0,out:0};let r=AVN_C.get(a);
+ const k=a.g+'|'+a.sk+'|'+a.hs+'|'+a.hc+'|'+a.hat+'|'+a.out+'|'+a.sh+'|'+a.pt+'|'+JSON.stringify(a.fx||0)+'|'+a.mount;if(r&&r._k===k)return r;
+ const cl=(v,n)=>Math.max(0,Math.min(n-1,v|0));
+ if(a.out!=null&&(a.g=='m'||a.g=='f'))r={g:a.g,sk:cl(a.sk,PAV.SKIN.length),hs:cl(a.hs,PAV.HAIRS.length),hc:cl(a.hc,PAV.HAIRC.length),hat:cl(a.hat,PAV.HATS.length),out:cl(a.out,PAV.OUTFITS.length)};
+ else r={g:'m',sk:cl(a.sk,5),hs:[1,4,5][a.hs|0]||0,hc:[0,1,2,3,2,5,4][a.hc|0]||0,hat:[0,3,4][a.hat|0]||0,out:[0,3,3,4,2,5,1][a.sh|0]||0};
+ const fx=a.fx&&typeof a.fx=='object'?a.fx:null;if(fx)r.fx={hat:cl(fx.hat,PAV.F_HATS.length),out:cl(fx.out,PAV.F_OUTS.length),back:cl(fx.back,PAV.F_BACK.length),acc:cl(fx.acc,PAV.F_ACC.length)};
+ if(a.mount)r.mount=cl(a.mount,PAV.MOUNTS.length);
+ r._k=k;AVN_C.set(a,r);return r}
+/* อวาตาร์ใหม่ล้วน (ไว้เซฟ) */
+const avClean=a=>{const n=avN(a),o={g:n.g,sk:n.sk,hs:n.hs,hc:n.hc,hat:n.hat,out:n.out};if(n.fx)o.fx={...n.fx};if(n.mount)o.mount=n.mount;return o};
+const ravN=()=>({g:Math.random()<.5?'m':'f',sk:RI(0,4),hs:RI(0,PAV.HAIRS.length-1),hc:RI(0,PAV.HAIRC.length-1),hat:RI(0,PAV.HATS.length-1),out:RI(0,PAV.OUTFITS.length-1)});
+/* วาดผู้เล่น/NPC: t=context, (x,y)=จุดเท้า, a=อวาตาร์, d=ทิศ, st=ตัวนับก้าว, mv=กำลังเดิน, sc=ขนาด (ไม่ใส่ = ขนาดบนแมพ) */
+function ppl(t,x,y,a,d,st,mv,sc,anim,fr){sc=sc||PSC;const A=avN(a),D={d:1,u:1,l:1,r:1}[d]?d:'d';
+ const an=anim||(mv?'walk':'idle'),f=fr!=null?fr:mv?((st||0)/8|0)%4:0;
+ const tk=(performance.now()/140|0);
+ const cv=PAV.frameCanvas(A,D,an,f,{t:(A.mount||(A.fx&&A.fx.back==3))?tk:0,blink:!mv&&an=='idle'&&(performance.now()+(x*37|0))%4200<120});
+ t.save();t.imageSmoothingEnabled=false;
+ if(!A.mount){t.fillStyle='rgba(0,0,0,.25)';t.fillRect(Math.round(x-6*sc),Math.round(y-1),Math.round(12*sc),2)}
+ t.drawImage(cv,Math.round(x-20*sc),Math.round(y-44*sc),Math.round(40*sc),Math.round(48*sc));t.restore()}
 /* ภาพไทล์พื้น (TC) */
 const tile=f=>{const k=document.createElement('canvas');k.width=k.height=16;f(k.getContext('2d'));return k};
 const sp=(g,col,n,o)=>{g.fillStyle=col;for(let i=0;i<n;i++)g.fillRect((i*7+o)%15,(i*11+o*3)%15,1,1)};
@@ -1073,11 +1655,11 @@ function draw25(tm){
  DECO.forEach(d=>add(d.y,d.x,d.y,()=>drawDeco(d,tm)));
  MS().filter(m=>!m.dead).forEach(m=>add(m.y,m.x,m.y,()=>{dg(c,m.x,m.y,m.g,2,tm,{pose:'walk',vx:m.vx,vy:m.vy,mem:m});label(nm(m.g).replace(/<[^>]*>/g,''),m.x,m.y-30,m.g.sp.t==2?'#c58cff':'#ff4040',0,-1.5);label(`HP ${m.g.hp}/${m.g.mx}`,m.x,m.y-30,'#ff9a9a',0,0)}));
  WL().forEach(w=>add(w.y,w.x,w.y,()=>{dg(c,w.x,w.y,w.g,1,tm,{pose:'walk',vx:w.vx,vy:w.vy,mem:w});if(w.g.shiny){c.fillStyle='#ffd84a';c.fillRect(w.x-1,w.y-17,2,2)}if(w.bz)label('⚔️',w.x,w.y-18,'#ff9a9a')}));
-(MAPID==1?bots:[]).forEach(b=>{add(b.y,b.x,b.y,()=>{ppl(c,b.x,b.y,b.a,b.d,b.st);label(b.n,b.x,b.y-22);if(b.bub&&tm<b.bub.until)label('💬 '+b.bub.txt,b.x,b.y-32,'#fff')});add(b.y+1,b.x,b.y,()=>dg(c,b.x-10,b.y,b.g,.7,tm,{pose:'walk',dir:b.d,mv:!!(b.vx||b.vy)}))});
+(MAPID==1?bots:[]).forEach(b=>{add(b.y,b.x,b.y,()=>{ppl(c,b.x,b.y,b.a,b.d,b.st,!!(b.vx||b.vy));label(b.n,b.x,b.y-PLH);if(b.bub&&tm<b.bub.until)label('💬 '+b.bub.txt,b.x,b.y-PLH-10,'#fff')});add(b.y+1,b.x,b.y,()=>dg(c,b.x-10,b.y,b.g,.7,tm,{pose:'walk',dir:b.d,mv:!!(b.vx||b.vy)}))});
  NET.draw(add,tm);   // ผู้เล่นคนอื่น (ออนไลน์)
  if(!PTY.meta())followers(add,tm,[...party.filter(g=>g.hp>0),...party.filter(g=>g.hp<=0)].map(g=>({g,ko:g.hp<=0})),trail,P,P.d,performance.now()-(P.mv||0)<160);   // ผีในทีมเดินตามครบทุกตัว (Ver.0.1.3) · Ver.0.1.5: อยู่ในปาร์ตี้ → ไม่มีผีเดินตาม (มีแต่ผู้เล่นเดินตามกัน)
- add(P.y,P.x,P.y,()=>{ppl(c,P.x,P.y,av,P.d,P.st);label(pname,P.x,P.y-22,'#ffe27a');if(P.bub&&tm<P.bub.until)label('💬 '+P.bub.txt,P.x,P.y-32,'#fff')});
- NPC.forEach(n=>add(n.y,n.x,n.y,()=>{drawN(n,tm);label(n.name,n.x,n.y-n.lh,'#ffe9a8')}));
+ add(P.y,P.x,P.y,()=>{ppl(c,P.x,P.y,av,P.d,P.st,performance.now()-(P.mv||0)<160);label(pname,P.x,P.y-PLH,'#ffe27a');if(P.bub&&tm<P.bub.until)label('💬 '+P.bub.txt,P.x,P.y-PLH-10,'#fff')});
+ NPC.forEach(n=>add(n.y,n.x,n.y,()=>{drawN(n,tm);label(n.name,n.x,n.y-nLH(n),'#ffe9a8')}));
  if(TG){const p=proj(TG.x,TG.y);if(p){c.setTransform(p.s,0,0,p.s,p.x-TG.x*p.s,p.y-TG.y*p.s);const r=3+Math.sin(tm/120)*1.5;c.fillStyle='#ffe27a';c.globalAlpha=.85;[[-1,-1],[1,-1],[-1,1],[1,1]].forEach(o=>c.fillRect(TG.x+o[0]*r-1,TG.y+o[1]*r*.6-1,2,2));c.globalAlpha=1}}
  E.sort((a,b)=>a[0]-b[0]).forEach(([k,x,y,fn,sh])=>{const p=proj(x,y);if(!p||p.y<-30||p.y>330||p.x<-70||p.x>550)return;
   const ox=p.x-x*p.s,oy=p.y-y*p.s;c.setTransform(p.s,0,0,p.s,ox,oy);
@@ -1095,7 +1677,7 @@ function flush25(){const l=document.getElementById('lb'),w=l.clientWidth,h=l.cli
 
 /* ---------- แปลงจุดคลิก/แตะบนจอ -> พิกัดโลก (ใช้ใน npcAt / คลิกเดิน / ปรับแต่งบ้าน) ---------- */
 function pt(e){const r=cv.getBoundingClientRect(),sx=(e.clientX-r.left)/r.width*480,sy=(e.clientY-r.top)/r.height*270;
- let w=null;for(const n of NPC){const p=proj(n.x,n.y);if(!p)continue;if(Math.abs(sx-p.x)<14*p.s&&sy>p.y-(n.lh||24)*p.s&&sy<p.y+6*p.s){w={x:n.x,y:n.y-2};break}}
+ let w=null;for(const n of NPC){const p=proj(n.x,n.y);if(!p)continue;if(Math.abs(sx-p.x)<14*p.s&&sy>p.y-nLH(n)*p.s&&sy<p.y+6*p.s){w={x:n.x,y:n.y-2};break}}
  if(!w)w=unproj(sx,sy);if(!w)return null;
  // ปัดเป็นพิกเซลจอเต็มหน่วยแบบเดียวกับเวอร์ชันก่อน เพื่อให้ตำแหน่งที่ได้ตรงกันทุกจุด
  const cx=Math.floor(r.left+(w.x-CAM.x)/480*r.width),cy=Math.floor(r.top+(w.y-CAM.y)/270*r.height);
@@ -1149,7 +1731,8 @@ function jarSpr(x,y,r,s,al,lid){jarDraw2(c,x,y+6*s,s*.4,{r,al,open:lid/3,glow:jg
 function jarSeq(tm,je,m,x,by,u,g,back,state){JSKO=isP(g)?null:(B&&B.fsk)||'normal';const s=Math.max(1.6,u/3),col=EC[g.sp.e],G=(uu,yy,al,dt)=>{if(uu<1)return;c.globalAlpha=al;dg(c,x,yy,g,uu,tm,{pose:'battle',back:back?1:0,state:state||'idle',dt});c.globalAlpha=1};
  if(m=='dx'){if(je<600){G(u,by,1,je);return true}je-=600;m='rc'}
  if(m=='rl'){const jy=by-5*s,my=jy-10*s;
-  if(je<350){const k=je/350;jarSpr(x,jy-(1-k*k)*by,0,s,1,0)}
+  const tr=back&&isP(g)&&trainerThrow(tm,je);   // ผู้เล่นโยนไหเอง (อวาตาร์หันหลัง มุมซ้ายล่าง)
+  if(je<350){if(tr){if(je>=180){const k=(je-180)/170,h=tr;jarSpr(h[0]+(x-h[0])*k,h[1]+(jy-h[1])*k-Math.sin(k*Math.PI)*40,k*Math.PI*3,s*(.75+.25*k),1,0)}}else{const k=je/350;jarSpr(x,jy-(1-k*k)*by,0,s,1,0)}}
   else if(je<800){const k=(je-350)/450;jarSpr(x,jy,Math.sin(k*Math.PI*5)*.15,s,1,Math.sin(k*Math.PI)*3);c.fillStyle=col;c.globalAlpha=.7*k;for(let i=0;i<6;i++)c.fillRect(Math.round(x+Math.cos(i*1.05+tm/90)*10*s*k),Math.round(my+Math.sin(i*1.05+tm/90)*3),3,3);c.globalAlpha=1}
   else if(je<1500){const k=(je-800)/700;jarSpr(x,jy,0,s,1,3);G(Math.max(1,Math.round(u*k)),by-(1-k)*11*s,Math.min(1,k*1.8));c.fillStyle=col;for(let i=0;i<10;i++){const z=(k*1.2+i/10)%1;c.globalAlpha=(1-z)*.9;c.fillRect(Math.round(x+Math.sin(i*2.3+z*4)*14*s*(.4+z)),Math.round(my-z*30*s),3,3)}c.globalAlpha=1}
   else if(je<1900){const k=(je-1500)/400;G(u,by,1);jarSpr(x,jy,0,s,1-k,3);c.fillStyle='#ffd84a';c.globalAlpha=1-k;[[-14,-4],[13,-8],[-9,-14],[10,-16]].forEach(o=>c.fillRect(Math.round(x+o[0]*s*.5),Math.round(jy+o[1]*s*(1+k)),3,3));c.globalAlpha=1}
@@ -1162,6 +1745,13 @@ function jarSeq(tm,je,m,x,by,u,g,back,state){JSKO=isP(g)?null:(B&&B.fsk)||'norma
  return true}
 function jarFx(key,tm,slot,x,by,u,g,back){const pa=B&&B[key];if(!pa||(pa.only!=null&&pa.only!=slot))return false;const je=tm-pa.t-(pa.only==null?slot*350:0);if(je<0)return true;return jarSeq(tm,je,pa.m,x,by,u,g,back)}
 const paFx=(tm,slot,x,by,u,g)=>jarFx('pa',tm,slot,x,by,u,g,1),faFx=(tm,slot,x,by,u,g)=>jarFx('fpa',tm,slot,x,by,u,g,0);
+
+/* ท่าโยนไหของผู้เล่นตอนปล่อยผีเข้าสนาม: วาดครั้งเดียวต่อเฟรม คืนตำแหน่งมือ (จุดที่ไหหลุดจากมือ) */
+let TRN_TM=-1;const TRN={x:44,y:206,s:2};
+function trainerThrow(tm,je){if(TRN_TM===tm||je>1500)return null;TRN_TM=tm;
+ const f=je<50?0:je<110?1:je<180?2:je<260?3:je<400?4:5,out=je>1100?(je-1100)/400:0;
+ c.save();c.globalAlpha=1-out;ppl(c,TRN.x-out*60,TRN.y,av,'u',0,0,TRN.s,'throw',f);c.restore();
+ return[TRN.x+5*TRN.s,TRN.y-18*TRN.s]}
 /* แผนที่ทุกแมพ (ผังแมพเวอร์ชัน 2: World Map + หมู่บ้าน + ป่า), NPC, ของประดับ, การชน, จุดวาร์ป, ย้ายแมพ
    แต่ละแมพสร้างด้วย seed ของตัวเอง (ผลเหมือนเดิมทุกครั้ง) — แก้ผังแมพแล้วให้เพิ่ม MAPV ใน js/data/maps.js */
 /* ---------- map ---------- */
@@ -1279,13 +1869,24 @@ function herbShop(m){openM('หมอยา 🌿',`<p>"ยาสมุนไพ�
 function herbBuy(k,n){if(!HERB.items[k])return;const t=npcP(HERB.items[k])*n;if(gc<t)return herbShop('GC ไม่พอ!');gc-=t;BANK.spend(0,t);inv[k]=(inv[k]||0)+n;hud();save();herbShop(`ซื้อ ${ALL[k][1]} ×${n} แล้ว (−${t} GC)`)}
 function khunTalk(){openM('ขุนอาร์ต 😠','<p style="font-size:1.3em"><b>"ข้าไม่คุยกับพวกไก่อ่อน ไปให้พ้น!!"</b></p>',0);setTimeout(()=>{closeM();if(MAPID==6){const h=VHOUSES.find(v=>v.map==6),[hx,hy]=TX(h.tx,h.ty);setMap(1,hx,hy+20);P.d='d';P.safe=performance.now()+800;toast('💨 ถูกขุนอาร์ตไล่ออกมานอกบ้าน!')}},1800)}
 /* chiefTalk() ย้ายไปอยู่ที่ js/systems/npcs.js (คุยครั้งแรกให้ผีคู่หู) */
-const NPCAV={roeng:{sk:2,hc:6,hs:2,hat:2,sh:2,pt:2},hunter:{sk:2,hc:0,hs:1,hat:2,sh:4,pt:2},herb:{sk:1,hc:6,hs:1,hat:0,sh:3,pt:4},khun:{sk:2,hc:0,hs:0,hat:1,sh:1,pt:0},chief:{sk:1,hc:6,hs:2,hat:0,sh:0,pt:3},breeder:{sk:3,hc:2,hs:1,hat:2,sh:4,pt:2}};
-function npcp(n){const q=n.t=='quest',a=NPCAV[n.t]||(n.t=='teacher'?{sk:1,hc:6,hs:0,hat:0,sh:1,pt:5}:q?{sk:1,hc:6,hs:0,hat:0,sh:0,pt:5}:{sk:3,hc:1,hs:2,hat:1,sh:2,pt:4});if(NPCAV[n.t]){ppl(c,n.x,n.y,a,'d',0);if(n.t=='herb'){c.fillStyle='#5cff7a';c.fillRect(n.x+5,n.y-9,3,4)}else if(n.t=='roeng'){c.fillStyle='#8a6a40';c.fillRect(n.x+6,n.y-14,1,14);c.fillStyle='#d8c090';c.fillRect(n.x+5,n.y-15,3,2)}else if(n.t=='hunter'){c.fillStyle='#6b4a2e';c.fillRect(n.x-8,n.y-13,1,11);c.strokeStyle='#caa24a';c.lineWidth=1;c.beginPath();c.arc(n.x-8,n.y-8,5,-1.2,1.2);c.stroke();dg(c,n.x+12,n.y,{sp:SP[gi('pop')],shiny:0},.7,performance.now())}else if(n.t=='khun'){c.fillStyle='#ffd84a';c.fillRect(n.x-4,n.y-11,8,1)}else if(n.t=='chief'){c.fillStyle='#8a6a40';c.fillRect(n.x+5,n.y-12,1,12)}else dg(c,n.x+12,n.y,{sp:SP[1],shiny:0},.7,performance.now());return}ppl(c,n.x,n.y,a,'d',0);if(n.t=='teacher'){c.fillStyle='#ffd84a';c.fillRect(n.x+5,n.y-14,1,14);c.fillStyle='#c22';c.fillRect(n.x+4,n.y-16,3,3)}else if(q){c.fillStyle='#c22';c.fillRect(n.x-1,n.y-10,2,5)}else dg(c,n.x+12,n.y,{sp:SP[0],shiny:0},.7,performance.now())}
+const NPCAV={roeng:{g:'m',sk:2,hc:4,hs:0,hat:2,out:0},hunter:{g:'m',sk:2,hc:0,hs:2,hat:4,out:3},herb:{g:'f',sk:1,hc:3,hs:6,hat:0,out:2},khun:{g:'m',sk:2,hc:0,hs:1,hat:1,out:5},chief:{g:'m',sk:1,hc:3,hs:0,hat:0,out:0},breeder:{g:'m',sk:3,hc:2,hs:2,hat:4,out:3}},
+ NPCAV2={teacher:{g:'m',sk:1,hc:4,hs:6,hat:0,out:2},quest:{g:'m',sk:1,hc:0,hs:1,hat:0,out:5},etc:{g:'m',sk:3,hc:1,hs:2,hat:3,out:4},shop:{g:'m',sk:2,hc:0,hs:0,hat:4,out:3,fx:{hat:0,out:0,back:1,acc:0}},banker:{g:'m',sk:1,hc:0,hs:1,hat:0,out:5,fx:{hat:0,out:0,back:0,acc:2}}};
+/* NPC ที่เป็นคน — ชื่อลอยเหนือหัวตามความสูงอวาตาร์ใหม่ */
+const PNPC=new Set(['quest','teacher','shop','banker','hunter','roeng','herb','khun','chief','breeder']),nLH=n=>PNPC.has(n.t)?Math.max(n.lh||24,PLH):(n.lh||24);
+function npcp(n){const q=n.t=='quest',a=NPCAV[n.t]||NPCAV2[n.t=='teacher'?'teacher':q?'quest':'etc'],r=(col,a,b,w,h)=>{c.fillStyle=col;c.fillRect(n.x+a,n.y+b,w,h)};ppl(c,n.x,n.y,a,'d',0);
+ if(n.t=='herb')r('#5cff7a',7,-11,3,4);
+ else if(n.t=='roeng'){r('#8a6a40',9,-22,1,22);r('#d8c090',8,-23,3,2)}
+ else if(n.t=='hunter'){r('#6b4a2e',-11,-19,1,15);c.strokeStyle='#caa24a';c.lineWidth=1;c.beginPath();c.arc(n.x-11,n.y-12,7,-1.2,1.2);c.stroke();dg(c,n.x+16,n.y,{sp:SP[gi('pop')],shiny:0},.7,performance.now())}
+ else if(n.t=='khun')r('#ffd84a',-4,-17,8,1);
+ else if(n.t=='chief')r('#8a6a40',9,-18,1,18);
+ else if(n.t=='teacher'){r('#ffd84a',9,-21,1,21);r('#c22',8,-23,3,3)}
+ else if(q)r('#c22',-1,-15,2,5);
+ else dg(c,n.x+16,n.y,{sp:SP[NPCAV[n.t]?1:0],shiny:0},.7,performance.now())}
 function shrine(x,y,tm){const r=(col,a,b,w,h)=>{c.fillStyle=col;c.fillRect(x+a,y+b,w,h)};
  r('rgba(0,0,0,.25)',-9,-2,18,4);r('#8a6a4a',-1,-8,2,8);r('#6b3b2a',-7,-10,14,3);r('#d8c090',-5,-18,10,8);r('#1b120c',-2,-16,4,6);
  r((tm/250|0)%2?'#ffb03a':'#ff8a2a',-1,-13,2,2);r('#b8332b',-7,-21,14,3);r('#b8332b',-5,-24,10,3);r('#ffd84a',-2,-26,4,2);
  r('#c22',8,-9,1,6);r('#c22',10,-9,1,5);r('#888',7,-3,5,2)}
-function merch(x,y){ppl(c,x,y,{sk:2,hc:0,hs:0,hat:2,sh:5,pt:5},'d',0);c.fillStyle='#3a2a55';c.fillRect(x-5,y-10,10,7);c.fillStyle='#ffd84a';c.fillRect(x+5,y-8,2,3);c.fillStyle='#6b4a2a';c.fillRect(x-10,y-5,5,5)}
+function merch(x,y){ppl(c,x,y,NPCAV2.shop,'d',0);c.fillStyle='#6b4a2a';c.fillRect(x-14,y-5,6,5);c.fillStyle='#8a6a3a';c.fillRect(x-14,y-5,6,1)}
 function mv(o,mx,my){if(!blk(o.x+mx,o.y))o.x+=mx;if(!blk(o.x,o.y+my))o.y+=my}
 function sos(){openM('🆘 กลับจุดเซฟ','<p>วาร์ปกลับจุดเซฟทันที (ไม่เสียของ/GC) ใช้เมื่อติดหรือเดินไม่ได้</p><button class="bn" onclick="goSave()">✅ กลับจุดเซฟ</button>')}
 /* Ver.0.1.5: จุดล่าสุดที่ออกจากเกม — เซฟแมพ+ตำแหน่งไว้ (อยู่ในบ้านพกพา = หน้าบ้านหลังนั้น) แล้วเข้าเกมครั้งหน้าเกิดที่เดิม
@@ -1301,7 +1902,7 @@ function drawN(n,tm){if(n.t=='house'||n.t=='rhouse')houseDraw(n.x,n.y);else if(n
 /* ---------- entities ---------- */
 let TG=null,stk=0;const JOY={x:0,y:0};
 const P={x:WARPS.save[1],y:WARPS.save[2],d:'d',st:0,safe:0},trail=[],keys={};
-const NAMES=['jokejokeking','xxxpkola','AINIOHAHA','Puiyin','Azwangxw','BobBalboa','Lovecial','ตานีสายฟ้า','แม่นากพระโขนง'],rav=()=>({sk:RI(0,4),hc:RI(0,6),hs:RI(0,2),hat:RI(0,2),sh:RI(0,6),pt:RI(0,6)});
+const NAMES=['jokejokeking','xxxpkola','AINIOHAHA','Puiyin','Azwangxw','BobBalboa','Lovecial','ตานีสายฟ้า','แม่นากพระโขนง'],rav=()=>ravN();
 const bots=NAMES.map(n=>{let x,y;do{x=RI(2,MW-3)*16+8;y=RI(2,MH-3)*16+12}while(blk(x,y));return{n,x,y,a:rav(),d:'d',tm:0,vx:0,vy:0,st:0,g:mk(RI(0,2),3,false)}});
 const wilds=[],wilds3=[],WAR={},WILDS={0:wilds,3:wilds3};for(const m of SPAWN_ORDER){WAR[m]=SPAWNS[m].area;WILDS[m]=WILDS[m]||[]}   // WILDS[แมพ] = ผีป่าของแมพนั้น (wilds = แมพ 0, wilds3 = แมพ 3 — ชื่อเดิมที่ไฟล์อื่น/เทสต์ใช้)
 function mkWild(m=0){const MM=MAPDEF[m].M,S=SPAWNS[m],ar=S.area;let x,y,k=0;do{x=RI(ar[0],ar[1])*16+8;y=RI(ar[2],ar[3])*16+12;k++}while(MM[y>>4][x>>4]!=(S.tile||SPAWN_TILE)&&k<SPAWN_TRIES);
@@ -2738,8 +3339,8 @@ const BANK=(()=>{
   dbgMin(n=1){if(SB.on())return toast('ใช้ได้เฉพาะโหมดออฟไลน์');LMk().skew+=60000*n;ltick();save();refresh();toast(`เลื่อนเวลาตลาด +${n} นาที`)},
   get S(){return S},get LM(){return LM}}})();
 function bankTalk(){BANK.open()}
-function bankerDraw(x,y,tm){ppl(c,x,y,{sk:1,hc:0,hs:0,hat:0,sh:6,pt:0},'d',0);const r=(col,a,b,w,h)=>{c.fillStyle=col;c.fillRect(x+a,y+b,w,h)};
- r('#2a2f4a',-3,-9,6,1);r('#ffd84a',-1,-10,2,1);   // เนคไท / เข็มกลัด
+function bankerDraw(x,y,tm){ppl(c,x,y,NPCAV2.banker,'d',0);const r=(col,a,b,w,h)=>{c.fillStyle=col;c.fillRect(x+a,y+b,w,h)};
+ r('#ffd84a',-1,-15,2,1);   // เข็มกลัด
  r('rgba(0,0,0,.25)',-13,3,26,3);r('#5a3820',-12,-3,24,7);r('#8a5a32',-12,-4,24,2);r('#a8743e',-12,-4,24,1);   // โต๊ะธนาคาร
  const f=(tm/300|0)%4==0;r(f?'#fff6c0':'#ffd84a',-9,-7,5,3);r('#caa24a',-9,-5,5,1);r('#ffd84a',-3,-7,5,3);r('#caa24a',-3,-5,5,1);r('#ffd84a',-6,-9,5,2);   // แท่งทอง
  r('#e8e0c8',5,-7,6,4);r('#3a7a3a',6,-6,4,1)}   // ใบเสร็จ
@@ -3161,7 +3762,7 @@ async function arSearch(){if(mode!='world'||!party.length)return;let o=null,why=
  openM(ARO.real?'🔍 พบคู่ประลอง (ผู้เล่นจริง)!':'🔍 พบนักสู้!',`<div style="display:flex;gap:1.5cqw;align-items:center"><canvas id="aro" width="30" height="34" style="width:9cqw;image-rendering:pixelated;background:#2a3a3a;border-radius:6px"></canvas>
  <div style="flex:1"><div style="font-size:1.4em;font-weight:800">${NET.esc(ARO.n)}${ARO.real?' <small style="color:#8fe3ff">👤 ผู้เล่น</small>':' <small style="opacity:.7">NPC</small>'}</div><div>${ARO.real?`ขั้น ${arTag(ARO.pts)} · ${ARO.pts} แต้ม`:'NPC (ไม่มีอันดับ)'} · ผีเลเวล ${Math.min(...T.map(g=>g.lv))}–${Math.max(...T.map(g=>g.lv))}</div><div style="margin:.4cqh 0">ผี ${T.length} ตัว ${tmI(T)}</div><small style="opacity:.8">${ARM=='auto'?'🔮 ผีสู้เองอัตโนมัติ':'🧙 สั่งผีเองทุกเทิร์น'}${ARO.real?' · ถ้าเราชนะ เขาเสียแต้มจริง / ถ้าเราแพ้ เขาได้แต้ม':''} · ทีมเรา HP/SP เต็มระหว่างสู้ และกลับเป็นเหมือนเดิมหลังสู้</small></div></div>
  ${why?`<div class="cd" style="margin:.5cqh 0"><small>${why}</small></div>`:''}<button class="bn" onclick="arGo()">⚔️ เริ่มประลอง</button><button class="bn" onclick="arSearch()">🔄 ค้นหาใหม่</button><button class="bn" onclick="arMedium()">↩ กลับ</button>`);
- const k=$('#aro').getContext('2d');k.clearRect(0,0,30,34);ppl(k,15,31,ARO.av,'d',0)}
+ const k=$('#aro').getContext('2d');k.clearRect(0,0,30,34);ppl(k,15,33,ARO.av,'d',0,0,.7)}
 function arGo(){if(!ARO||mode!='world'||!party.length)return;closeM();ARS=party.map(g=>[g,g.hp,g.sp2]);party.forEach(g=>{g.hp=g.mx;g.sp2=g.mxsp});
  const t=ARO.team;t.unshift(t.splice(bestFoeIdx(t,lead()),1)[0]);const au=ARM=='auto';startBattle({g:t[0],trainer:1,arena:1,tn:ARO.n,auto:au?1:0},t);B.areal=ARO.real?1:0;B.afid=ARO.fid||null;blog(au?'🔮 การประลองร่างทรง — ผีจะต่อสู้เองอัตโนมัติ':'🧙 การประลองของหมอผี — สั่งผีของคุณเองทุกเทิร์น');ARO=null}
 /* ---------- ร่างทรง: ผีฝั่งเราเลือกคำสั่งเอง (ใช้สมองเดียวกับ AI ฝั่งศัตรู) ---------- */
@@ -3292,9 +3893,22 @@ function det(i){const g=party[i],nd=g.lv*20,f=(l,v)=>`<div class="fl"><span clas
  <div class="ss">${party.map((_,j)=>`<canvas data-j="${j}" width="32" height="32" class="${j==i?'on':''}"></canvas>`).join('')}</div><button class="bn" onclick="team()">← กลับ</button>`);
  spr($('#sc'),g,3);document.querySelectorAll('#mb .ss canvas').forEach(k=>{spr(k,party[+k.dataset.j],2);k.onclick=()=>det(+k.dataset.j)})}
 let AV;
-function avUI(first){AV={...av};openM(first?'สร้างตัวละคร':'ปรับอวาตาร์',`<div class="af" style="margin-bottom:1cqh"><b>ชื่อตัวละคร</b><input id="pn" maxlength="12" ${!first&&SB.on()?'disabled title="เปลี่ยนชื่อได้ด้วยบัตรเปลี่ยนชื่อ (เร็วๆ นี้)"':''} value="${first?'':pname}" placeholder="ตั้งชื่อ (สูงสุด 12 ตัวอักษร)"></div><div style="display:flex;gap:2cqw;align-items:center"><div class="af" style="flex:1">${AVO.map(o=>`<b>${o[0]}</b><select onchange="AV.${o[1]}=+this.value;avp()">${o[2].map((n,i)=>`<option value="${i}" ${AV[o[1]]==i?'selected':''}>${n}</option>`).join('')}</select>`).join('')}</div><canvas id="ap" width="90" height="30" style="flex:1;min-width:0;background:#2a3a3a;border-radius:4px;image-rendering:pixelated"></canvas></div><button class="bn" onclick="avOk(${first?1:0})">${first?'✅ สร้างตัวละคร':'บันทึก'}</button>`,!first);avp()}
-function avp(){const t=$('#ap').getContext('2d');t.clearRect(0,0,90,30);[['d',15],['u',45],['r',75]].forEach(o=>ppl(t,o[1],27,AV,o[0],0))}
-function avOk(f){if(!f&&SB.on()){av=AV;closeM();save();return}const n=$('#pn').value.trim();if(!n){$('#pn').style.borderColor='#f55';return}if(f&&SB.on())return accName(n);pname=n;av=AV;if(f)newChar();else{closeM();save()}}
+/* หน้าสร้างตัวละคร / ปรับอวาตาร์ (อวาตาร์แบบใหม่: js/render/avatar.js) */
+const AVG=[['เพศ','g',[['m','ชาย'],['f','หญิง']]],['ทรงผม','hs'],['สีผม','hc','sw'],['สีผิว','sk','sw'],['หมวก','hat'],['ชุด','out']];
+const avList=k=>({hs:PAV.HAIRS,hc:PAV.HAIRC,sk:PAV.SKIN,hat:PAV.HATS,out:PAV.OUTFITS})[k];
+function avUI(first){AV=avClean(av);openM(first?'สร้างตัวละคร':'ปรับอวาตาร์',`<div class="avc"><div class="avl"><div class="af1"><b>ชื่อตัวละคร</b><input id="pn" maxlength="12" ${!first&&SB.on()?'disabled title="เปลี่ยนชื่อได้ด้วยบัตรเปลี่ยนชื่อ (เร็วๆ นี้)"':''} value="${first?'':pname}" placeholder="ตั้งชื่อ (สูงสุด 12 ตัวอักษร)"></div><canvas id="ap" width="132" height="62"></canvas><div class="avb"><button class="bn" onclick="avRnd()">🎲 สุ่ม</button><button class="bn" onclick="avThrow()">🏺 ลองโยนไห</button></div></div>
+ <div class="avr">${AVG.map(([t,k,ty])=>`<div class="avrow"><b>${t}</b><div class="avo">${k=='g'?ty.map(o=>`<button data-k="g" data-v="${o[0]}">${o[1]}</button>`).join(''):avList(k).map((o,i)=>ty=='sw'?`<button class="sw" data-k="${k}" data-v="${i}" title="${o.n}" style="background:${o.c[0]}"></button>`:`<button data-k="${k}" data-v="${i}">${o.n}</button>`).join('')}</div></div>`).join('')}</div></div>
+ <button class="bn" onclick="avOk(${first?1:0})">${first?'✅ สร้างตัวละคร':'บันทึก'}</button>`,!first);
+ document.querySelectorAll('#mb .avo button').forEach(b=>b.onclick=()=>{const k=b.dataset.k;AV[k]=k=='g'?b.dataset.v:+b.dataset.v;avSel()});avSel();AVP.t=0;if(!AVP.on){AVP.on=1;requestAnimationFrame(avp)}}
+function avSel(){document.querySelectorAll('#mb .avo button').forEach(b=>b.classList.toggle('on',String(AV[b.dataset.k])===b.dataset.v))}
+function avRnd(){AV=ravN();avSel()}
+const AVP={on:0,t:0,th:0};
+function avThrow(){AVP.th=performance.now()}
+function avp(){const k=$('#ap');if(!k||$('#md').style.display!='flex'){AVP.on=0;return}const t=k.getContext('2d'),now=performance.now();t.clearRect(0,0,132,62);t.fillStyle='#22302a';t.fillRect(0,54,132,8);
+ const f=(now/140|0)%4,th=now-AVP.th<1400?Math.min(5,(now-AVP.th)/110|0):-1;
+ [['d',22],['l',66],['u',110]].forEach(([d,x])=>th>=0?ppl(t,x,57,AV,d,0,0,1,'throw',th):ppl(t,x,57,AV,d,f*8,1,1));
+ requestAnimationFrame(avp)}
+function avOk(f){AV=avClean(AV);if(!f&&SB.on()){av=AV;closeM();save();return}const n=$('#pn').value.trim();if(!n){$('#pn').style.borderColor='#f55';return}if(f&&SB.on())return accName(n);pname=n;av=AV;if(f)newChar();else{closeM();save()}}
 function rst(){openM('รีเซ็ตเกม','<p>เริ่มเกมใหม่ตั้งแต่ต้น? ตัวละคร ผี และไอเทมทั้งหมดจะถูกลบ</p><button class="bn" onclick="doRst()">ยืนยันรีเซ็ต</button>')}
 function doRst(){if(SB.on())return accReset();try{localStorage.removeItem('gho1')}catch(e){}try{window.name=''}catch(e){}location.reload()}
 function talk(n){if(HE.on||mode!='world'||$('#md').style.display=='flex')return;n=n||nearNpc();if(!n)return toast('ไม่มีใครให้คุยอยู่ใกล้ๆ');if(newbLock()&&!NEWB_OK.includes(n.t))return newbBlock();if(hLocked(n))return;({sbox:()=>sboxUI(),banker:bankTalk,roeng:roengTalk,hunter:hunterTalk,altar:altarOpen,tghost:()=>hgInfo(n),pillar:pillarOpen,hghost:()=>hgInfo(n),hshrine:hwh,house:houseMenu,rhouse:()=>NET.houseMenu(n),quest:quest,shrine:pray,shop:undTalk,teacher:sensei,breeder:breeder,herb:herbTalk,ptable:ptableUI,stall:stallOpen,khun:khunTalk,chief:chiefTalk,portal:()=>n.go()}[n.t]||(()=>{}))()}
@@ -3565,7 +4179,7 @@ const NET=(()=>{
   openM('👤 '+esc(r.n),`<p>${r.b?'⚔️ กำลังต่อสู้อยู่':'🟢 อยู่ในแมพเดียวกับคุณ'}${r.g?' · ผีตัวนำ: '+esc(r.g.sp.n):''}</p><button class="bn" onclick="closeM();${act(()=>whisper(r.n))}">💌 กระซิบ</button>${h&&h.m==MAPID&&MAPID!=2?`<button class="bn" onclick="${act(()=>visit(u))}">🏠 เยี่ยมบ้าน</button>`:''}${r.b?`<button class="bn" onclick="closeM();${act(()=>BV.view(u))}">👁️ ดูการต่อสู้</button>`:''}${PTY.btn(u)}${r.b?'':PVP.btn(u,act)}`)}   // Ver.0.1.5: ดูการต่อสู้ (เฉพาะตอนเขากำลังสู้) · ท้าประลอง (js/online/spectate.js)
  /* ---------- วาดคนอื่น (เรียกจาก render/r25.js) ---------- */
  function draw(add,tm){if(!S.st)return;for(const u in S.ppl){const r=S.ppl[u];
-  add(r.y,r.x,r.y,()=>{ppl(c,r.x,r.y,r.a,r.d,r.st);label((PTY.mate(r.u)?'🤝 ':'')+r.n,r.x,r.y-22,PTY.mate(r.u)?'#ffd84a':'#8fe3ff');if(r.b)label('⚔️ กำลังต่อสู้',r.x,r.y-32,'#ff9a9a');else if(r.bub&&tm<r.bub.until)label('💬 '+r.bub.txt,r.x,r.y-32,'#fff')});
+  add(r.y,r.x,r.y,()=>{ppl(c,r.x,r.y,r.a,r.d,r.st,!!r.mv);label((PTY.mate(r.u)?'🤝 ':'')+r.n,r.x,r.y-PLH,PTY.mate(r.u)?'#ffd84a':'#8fe3ff');if(r.b)label('⚔️ กำลังต่อสู้',r.x,r.y-PLH-10,'#ff9a9a');else if(r.bub&&tm<r.bub.until)label('💬 '+r.bub.txt,r.x,r.y-PLH-10,'#fff')});
   if(!(S.on[u]&&S.on[u].pt))followers(add,tm,r.gs||[],r.tr,r,r.d,r.mv)}}   // Ver.0.1.5: คนที่อยู่ในปาร์ตี้ ไม่แสดงผีเดินตาม
  return{act:i=>{const f=PK[i];if(f)f()},nameOf,esc,sys,tick,draw,click,chat:chatSend,visit,houseMenu,who,whisper,stop,get live(){return !!(S.st&&RT.live)},get S(){return S}}})();
 /* ออนไลน์: โลกที่ใช้ร่วมกัน — ผีป่าและบอสตัวเดียวกันทุกจอ (ผ่านห้องแมพของ js/online/net.js)
@@ -3989,7 +4603,7 @@ const PVP=(()=>{
 /* ---------- input / init ---------- */
 addEventListener('keydown',e=>{if(e.target.tagName=='INPUT'){if(e.key=='Enter')send();return}if(e.key=='Enter'){$('#ci').focus();return}
  keys[e.key.toLowerCase()]=1;if(/^[1-9]$/.test(e.key)&&$('#md').style.display!='flex')useSlot(+e.key-1);if(e.key.startsWith('Arrow'))e.preventDefault()});
-function npcAt(e){const q=R25.pt(e);if(!q)return null;const wx=q.x,wy=q.y;return NPC.find(n=>Math.abs(wx-n.x)<14&&wy>n.y-(n.lh-2)&&wy<n.y+6)}
+function npcAt(e){const q=R25.pt(e);if(!q)return null;const wx=q.x,wy=q.y;return NPC.find(n=>Math.abs(wx-n.x)<14&&wy>n.y-(nLH(n)-2)&&wy<n.y+6)}
 cv.addEventListener('click',e=>{if(mode!='world'||$('#md').style.display=='flex')return;if(NME.on)return nmeClick(e);if(HE.on)return heClick(e);if(NET.click(e))return;const n=npcAt(e);
  if(n){if(Math.hypot(P.x-n.x,P.y-n.y)<26)return talk(n);TG={x:n.x,y:n.y+14};stk=0;return toast('เดินไปหา '+n.name+'... (คลิกอีกครั้งเมื่ออยู่ใกล้)')}
  const q=R25.pt(e);if(!q)return;TG={x:q.x,y:q.y};stk=0});
