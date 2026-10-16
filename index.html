@@ -6,14 +6,17 @@
 /* พื้นฐาน: ตัวแปรสี, กรอบเกม 16:9, ฟอนต์, canvas, ป้ายชื่อ, แจ้งหมุนจอ */
 :root{color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--pn:rgba(18,22,20,.9);--ln:#4a5a52;--tx:#f2e6b0;--gd:#ffd84a}
 html.fs{padding:0}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 html,body{height:100%;margin:0;background:#0b100e;font-family:"Sarabun","Noto Sans Thai",system-ui,sans-serif;color:#fff;overflow:hidden}
 body{display:flex;align-items:center;justify-content:center}
-#g{position:relative;width:min(100vw,calc(100dvh*16/9));aspect-ratio:16/9;container-type:size;font-size:max(10px,1.1cqw);user-select:none;overflow:hidden}
+#g{position:relative;width:min(100vw,calc(100dvh*16/9));aspect-ratio:16/9;container-type:size;font-size:1.1cqw;user-select:none;overflow:hidden}
 canvas#cv{position:absolute;inset:0;width:100%;height:100%;image-rendering:pixelated}
 .a{position:absolute}.sh{text-shadow:1px 1px 0 #000,-1px 0 0 #000,0 -1px 0 #000}
 #lb{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
-#rt{display:none;position:fixed;left:0;right:0;top:0;z-index:99;background:#ffd84a;color:#222;text-align:center;padding:8px 10px;font-weight:700;font-size:15px}
-@media(orientation:portrait) and (pointer:coarse){#rt{display:block}}
+#rt{display:none;position:fixed;inset:0;z-index:999;background:#0b100e;color:#f2e6b0;text-align:center;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:24px;font-size:18px}
+#rt .ri{font-size:64px;animation:rtr 1.6s ease-in-out infinite}#rt small{color:#bbb;font-size:14px;line-height:1.6}
+@keyframes rtr{0%,20%{transform:rotate(0)}50%,70%{transform:rotate(-90deg)}100%{transform:rotate(0)}}
+@media(orientation:portrait) and (pointer:coarse){#rt{display:flex}#g{visibility:hidden}}
 button,.sl,.ws,.bk{touch-action:manipulation}
 /* HUD, hotbar, ช่องทีม, เมนูล่าง, แชท, ปุ่มทิศ/จอย, ปุ่มมุมจอ, ป้ายเควส, ป้าย Auto */
 #hud{left:1.2cqw;top:1.2cqh;line-height:1.7}
@@ -67,7 +70,9 @@ button,.sl,.ws,.bk{touch-action:manipulation}
 #bl{left:1cqw;right:36cqw;bottom:1.5cqh;height:20cqh;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;line-height:1.5}
 #bc{right:1cqw;bottom:1.5cqh;width:33cqw;display:grid;grid-template-columns:1fr 1fr;gap:.6cqh .5cqw}
 #bc button{background:#26322d;border:2px solid var(--ln);color:var(--tx);border-radius:4px;padding:1.2cqh 0;font-size:1.25em;cursor:pointer;font-family:inherit}
-#bc button:disabled{opacity:.35}
+#bc button:disabled{opacity:.35;pointer-events:none}
+#bc button{-webkit-touch-callout:none;-webkit-user-select:none;touch-action:manipulation}
+#sktip{position:absolute;right:1cqw;width:33cqw;box-sizing:border-box;display:none;background:#f3ead2;color:#222;border:2px solid #5a4a2a;border-radius:5px;padding:.8cqh .9cqw;font-size:1.05em;line-height:1.4;z-index:6;pointer-events:none;box-shadow:0 2px 8px #0009;--g0:#111}
 #trn{left:50%;top:17cqh;transform:translateX(-50%);font-size:1.6em;font-weight:700;color:#fff;text-shadow:2px 2px 0 #000,-1px 0 0 #000,0 -1px 0 #000;pointer-events:none;z-index:3;display:none;letter-spacing:.05em}
 #tmr{left:50%;top:24cqh;transform:translateX(-50%);font-size:5.5em;font-weight:800;line-height:1;color:#ffe27a;text-shadow:2px 2px 0 #000,-2px 0 0 #000,0 -2px 0 #000,0 2px 0 #000;pointer-events:none;z-index:3;display:none;font-variant-numeric:tabular-nums}
 #tmr.lo{color:#ff6a6a;animation:tmp .5s infinite}@keyframes tmp{50%{transform:translateX(-50%) scale(1.18)}}
@@ -108,7 +113,7 @@ button,.sl,.ws,.bk{touch-action:manipulation}
 .sk4{display:grid;grid-template-columns:1fr 1fr;gap:.5cqh .5cqw;margin-bottom:.6cqh}.sk4 div{background:#eee;color:#222;border-radius:3px;padding:.4cqh .6cqw;cursor:pointer}.sk4 .em{background:#0003;color:#fff8;cursor:default}
 .hk{display:grid;grid-template-columns:auto 1fr;gap:.6cqh 1cqw;align-items:center;margin-bottom:1cqh}
 kbd{background:#2b3a34;border:1px solid #6a7a70;border-bottom-width:3px;border-radius:4px;padding:.2cqh .8cqw;font:inherit;color:var(--tx);text-align:center}
-#vp{position:absolute;inset:0;z-index:50;background:rgba(0,0,0,.78);display:flex;align-items:center;justify-content:center}#vp .bx{background:#141a17;border:2px solid var(--gd);border-radius:6px;padding:2cqh 2.2cqw;width:46cqw;font-size:1.25em;line-height:1.6}#vp h3{margin:0 0 .8cqh;color:var(--gd);font-size:1.25em}
+
 .gr2{display:grid;grid-template-columns:1fr 1fr;gap:.6cqw}
 .ig{display:grid;grid-template-columns:repeat(12,1fr);gap:.4cqw}.sl{aspect-ratio:1;background:#0d1210;border:1px solid var(--ln);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:1.5em;position:relative;cursor:pointer}.sl.on{border-color:var(--gd);background:#2a2a14}.sl b{position:absolute;right:3px;bottom:1px;font-size:.38em}
 .bh{margin:1cqh 0 .5cqh;color:var(--gd);font-size:1.1em}
@@ -187,9 +192,13 @@ kbd{background:#2b3a34;border:1px solid #6a7a70;border-bottom-width:3px;border-r
 .avo button.on{background:#5a4a1a;border-color:#ffd84a;color:#ffe9a8}
 .avo button.sw{width:1.7em;height:1.7em;padding:0;border-radius:50%;border:2px solid #0008}
 .avo button.sw.on{border-color:#ffd84a;box-shadow:0 0 0 1px #000}
+
+/* Ver.0.1.6: เกรด "ทั่วไป" ใช้ตัวอักษรสีดำบนพื้นสว่าง (ข้อมูลผี / รายละเอียดสกิล) */
+.fv,.sk4 div,#sktip{--g0:#111}
+.rnb{margin:0 0 0 .4cqw;padding:.1cqh .5cqw;font-size:.85em;vertical-align:middle}
 </style>
 </head><body>
-<div id="rt" onclick="this.remove()">📱 หมุนเครื่องเป็นแนวนอน แล้วกดปุ่ม ⛶ มุมขวาบนเพื่อเล่นเต็มจอ (แตะเพื่อปิด)</div>
+<div id="rt" onclick="autoLand()"><div class="ri">📱</div><b>หมุนโทรศัพท์เป็นแนวนอน</b><small>เกมนี้เล่นในแนวนอนเท่านั้น<br>(แตะหน้าจอเพื่อเข้าโหมดเต็มจอแนวนอน)</small></div>
 <div id="g">
 <canvas id="cv" width="480" height="270"></canvas><canvas id="lb"></canvas>
 <div id="hud" class="a sh"><div style="font-size:.75em;opacity:.85">Ghost Keeper v0.1.5</div><div>🗺️ <span id="mapn">หมู่บ้านแห่งการเริ่มต้น</span></div><div>🌤️ <span id="ck"></span></div><div>📍 <span id="loc">ลานต้นไม้ศักดิ์สิทธิ์</span></div><div id="qp"></div><div class="cur"><div>🪙 <span id="gc">0</span> GC</div><div>🥇 <span id="gd">0</span> ทอง</div></div><div id="bfs"></div></div>
@@ -206,7 +215,6 @@ kbd{background:#2b3a34;border:1px solid #6a7a70;border-bottom-width:3px;border-r
  <div id="bl" class="bx a"></div>
  <div id="bc" class="a"></div>
 </div>
-<div id="vp"><div class="bx"><h3>Ghost Keeper Ver 0.1.5 ทำการทดสอบเกม</h3><p style="margin:.6cqh 0"><b>เป้าหมายของการทดสอบรอบนี้</b></p><div>1. ทำเควสที่มีในเกมให้หมด และส่งหมายจับผีให้พรานเอ๋ง</div><div>2. ผ่านการทดสอบของลุงเริงที่สะพาน</div><div>3. บุกแดนผีดุ (ทางขวาของป่าดงดิบ) และล้มขาใหญ่ผีสาวปากฉีก Lv.30</div><div>4. ลองการประลองร่างทรงในอารีน่า และไต่อันดับ</div><div>5. ท้าประลองผู้เล่นอื่น และกดดูการต่อสู้ของเพื่อน</div><div style="text-align:center;margin-top:1.2cqh"><button class="bn" onclick="$('#vp').style.display='none'">✖ ปิด</button></div></div></div>
 <div id="ev"><div id="evt" class="sh"></div><canvas id="evc" width="48" height="48"></canvas></div>
 <button id="fs" class="a" title="เต็มจอ" onclick="toggleFS()">⛶</button><button id="hdec" class="a bn" onclick="hdecor()">🛠️ ปรับแต่งบ้าน</button><div id="hed" class="a"></div><div id="nme" class="a"></div><button id="onl" class="a" title="ผู้เล่นออนไลน์" onclick="onlClick()">👥 —</button><button id="dbg" class="a" title="เสกไอเทม (โหมดทดสอบ)" onclick="dbgUI()">🛠️</button>
 <div id="aub" onclick="autoStop()"></div><div id="md"><div class="bx"><div class="mh"><h3 id="mt"></h3><button class="bn" id="mx" onclick="closeM()">✖ ปิด</button></div><div id="mb"></div></div></div>
@@ -511,7 +519,7 @@ const SKX=[{id:'x_diamond',n:'นิ้วเพชร',e:0,p:999999,a:100,c:1,r
 const U=XL.uniques,UI={};U.forEach(u=>UI[u.id]=u);
 const ST={};XL.status.forEach(s=>ST[s.n]=s);const FLD={};XL.fields.forEach(f=>FLD[f.n]=f);
 /* อัตราสุ่มเกรด ทั่วไป / หายาก / ตำนาน — ใช้ตอนเลเวลอัพเรียนสกิล, แปลงร่างสุ่มสกิลประจำตัว, ยันต์ 100 คาถา */
-const GRADE=[.70,.25,.05],GRADE_N=['ทั่วไป','หายาก','ตำนาน','เทพเจ้า'],GRADE_C=['#e8e8e8','#6fb8ff','#ffb340','#ff5af0'];   // เกรดที่ 4 (เทพเจ้า) ไม่มีในการสุ่ม — ใช้กับสกิลพิเศษเท่านั้น
+const GRADE=[.70,.25,.05],GRADE_N=['ทั่วไป','หายาก','ตำนาน','เทพเจ้า'],GRADE_C=['var(--g0,#e8e8e8)','#6fb8ff','#ffb340','#ff5af0'];   // เกรดที่ 4 (เทพเจ้า) ไม่มีในการสุ่ม — ใช้กับสกิลพิเศษเท่านั้น
 const rollGrade=()=>{let r=Math.random();for(let i=0;i<GRADE.length;i++){if(r<GRADE[i])return i;r-=GRADE[i]}return 0};
 const pickGrade=(pool,g)=>{if(!pool.length)return null;g=g??rollGrade();for(const k of[g,0,1,2]){const p=pool.filter(s=>s.r==k);if(p.length)return PK(p)}return PK(pool)};
 const rollU=()=>pickGrade(U).id;
@@ -774,7 +782,7 @@ const sideOf=g=>isP(g)?'p':'f';
 function stMul(g,k){let up=0,dn=0;for(const x of g.st||[]){if(!(x.t>0))continue;const m=ST[x.n]&&ST[x.n].mods;if(!m||m[k]==null)continue;if(m[k]>0)up=Math.max(up,m[k]);else dn=Math.min(dn,m[k])}
  if(k=='spd'&&fldIs('บ่อโคลน')&&g.sp.e!='ดิน')return(1+dn)*(1-fNum('บ่อโคลน',0,50)/100);
  let f=1;if(k=='spd'&&fldIs('พายุหมุน')&&B.field.side==sideOf(g))f=1+fNum('พายุหมุน',1,50)/100;return(1+up)*(1+dn)*f}
-const atk=g=>g.atk*stMul(g,'atk'),dfn=g=>g.def*stMul(g,'def'),spd=g=>g.spd*stMul(g,'spd'),SN=sp=>sp.t==2?`<span style="color:#c58cff">${sp.n}</span>`:sp.n,nm=g=>{const t=(g.boss?'[ขาใหญ่] ':'')+(g.shiny?'✨':'')+g.sp.n;return g.sp.t==2?`<span style="color:#c58cff">${t}</span>`:t};
+const atk=g=>g.atk*stMul(g,'atk'),dfn=g=>g.def*stMul(g,'def'),spd=g=>g.spd*stMul(g,'spd'),SN=sp=>sp.t==2?`<span style="color:#c58cff">${sp.n}</span>`:sp.n,nm=g=>{const t=(g.boss?'[ขาใหญ่] ':'')+(g.shiny?'✨':'')+(g.nick||g.sp.n);return g.sp.t==2?`<span style="color:#c58cff">${t}</span>`:t};
 const cn=g=>`<b style="color:${isP(g)?'#5cff7a':'#ff6060'}">${nm(g)}</b>`;
 /* สกิลประจำตัว */
 const uOf=g=>g&&g.u&&UI[g.u]||null,uN=g=>{const u=uOf(g);return u?u.n:''},hasU=(g,n)=>uN(g)==n,uNum=(g,i,d)=>{const u=uOf(g);return u&&u.nums[i]!=null?u.nums[i]:d};
@@ -1642,6 +1650,15 @@ function fog(tm){
  const v=c.createRadialGradient(240,175,140,240,170,320);v.addColorStop(0,'rgba(0,0,0,0)');v.addColorStop(1,'rgba(0,0,0,.42)');c.fillStyle=v;c.fillRect(0,0,480,270)}
 
 /* ---------- วาดแผนที่โลกแบบ 2.5D (ตัวละคร = ป้ายตั้งตรง) ---------- */
+/* Ver.0.1.6: ลูกศรนำทางผู้เล่นใหม่ (เป้าหมายจาก newbTgt() ใน js/systems/npcs.js) */
+function nArrow(x,y,s,a,col){c.save();c.translate(x,y);c.rotate(a);c.scale(s,s);c.beginPath();c.moveTo(0,6);c.lineTo(-6,-1);c.lineTo(-2.5,-1);c.lineTo(-2.5,-7);c.lineTo(2.5,-7);c.lineTo(2.5,-1);c.lineTo(6,-1);c.closePath();
+ c.lineJoin='round';c.lineWidth=2.2;c.strokeStyle='#000';c.stroke();c.fillStyle=col||'#ffd84a';c.fill();c.fillStyle='#fff7c8';c.fillRect(-1.5,-6,1.2,5);c.restore()}
+function newbArrow(tm){const T=newbTgt();if(!T)return;c.setTransform(1,0,0,1,0,0);
+ const p=proj(T.x,T.y),pp=proj(P.x,P.y),bob=Math.sin(tm/170)*3;let on=false;
+ if(p){const sx=p.x,sy=p.y-T.h*p.s+bob;on=sx>-10&&sx<490&&sy>8&&sy<270;if(on){nArrow(sx,sy,Math.max(1.1,p.s*1.25),0);if(T.lb)LB.push(['⬇ '+T.lb,sx,sy-12*Math.max(1,p.s),'#ffd84a',1,0])}}
+ const d=Math.hypot(T.x-P.x,T.y-P.y);if(!pp||d<56)return;
+ let a;if(p&&on)a=Math.atan2(p.y-T.h*p.s-(pp.y-16*pp.s),p.x-pp.x);else a=Math.atan2(T.y-P.y,T.x-P.x);   // ทิศจากตัวผู้เล่น → เป้าหมาย (บนจอ)
+ const r=(22+Math.sin(tm/200)*2)*pp.s,cx=pp.x+Math.cos(a)*r,cy=pp.y-16*pp.s+Math.sin(a)*r;c.globalAlpha=.92;nArrow(cx,cy,pp.s*.9,a-Math.PI/2);c.globalAlpha=1}
 function draw25(tm){
  mkSprites();c.setTransform(1,0,0,1,0,0);c.fillStyle='#07050f';c.fillRect(0,0,480,270);LB=[];
  const mw=MW*16,mh=MH*16;
@@ -1667,7 +1684,7 @@ function draw25(tm){
   if(sh){c.fillStyle='rgba(0,0,0,.28)';c.beginPath();c.ellipse(x,y-1,7,2.2,0,0,7);c.fill()}
   const n0=LB.length;try{fn()}catch(e){}
   for(let i=n0;i<LB.length;i++){LB[i][1]=LB[i][1]*p.s+ox;LB[i][2]=LB[i][2]*p.s+oy}});
- c.setTransform(1,0,0,1,0,0);fog(tm);if(MAPID==8)gfog(tm);flush25()}   // แดนผีดุ: หมอกหนา
+ c.setTransform(1,0,0,1,0,0);fog(tm);if(MAPID==8)gfog(tm);try{newbArrow(tm)}catch(e){}flush25()}   // แดนผีดุ: หมอกหนา
 /* ความกว้างข้อความวัดจาก DOM (แคชไว้) — Safari บนมือถือ/ไอแพดคำนวณความกว้างภาษาไทยใน canvas ผิด ทำให้ textAlign:center เยื้องจากหัวตัวละคร */
 const TWC=new Map();let TWS=null;
 function twid(t,font){const key=font+'|'+t;let w=TWC.get(key);if(w!=null)return w;if(!TWS){TWS=document.createElement('span');TWS.style.cssText='position:absolute;left:-9999px;top:0;visibility:hidden;white-space:pre;pointer-events:none';document.body.appendChild(TWS)}
@@ -2002,7 +2019,7 @@ function hgMove(n,dt){n.tm-=dt;if(n.tm<=0){n.tm=R(.8,2.4);const a=Math.random()<
 function pillar(x,y,tm){const r=(col,a,b,w,h)=>{c.fillStyle=col;c.fillRect(x+a,y+b,w,h)};r('rgba(0,0,0,.25)',-8,-2,16,4);r('#6b4a2e',-6,-4,12,4);r('#8a6240',-4,-24,8,21);r('#a67c52',-4,-24,3,21);r('#5a3c24',2,-24,2,21);r('#caa24a',-7,-27,14,3);r('#8a6a20',-7,-25,14,1);r('#3a2a14',-5,-29,10,2);
  const f=Math.sin(tm/110+x)>0?1:0;r('#ff9a2f',-2,-35-f,4,6+f);r('#ffe27a',-1,-33-f,2,4+f);r('#fff',0,-31,1,2);c.globalAlpha=.12+.04*Math.sin(tm/150);c.fillStyle='#ffb347';c.beginPath();c.arc(x,y-30,14,0,7);c.fill();c.globalAlpha=1}
 function hgInfo(n){const g=n.g,f=(l,v)=>`<div class="fl"><span class="sh">${l}</span><div class="fv">${v}</div></div>`;
- openM('ข้อมูลผี',`<div class="sm"><div>${f('สมุดผี',String(g.si+1).padStart(3,'0'))}${f('ชื่อ',SN(g.sp)+(g.shiny?' ✨':''))}${f('สกิลประจำตัว',uTxt(g))}${f('HP / SP',g.hp+'/'+g.mx+' · '+g.sp2+'/'+g.mxsp)}${f('ATK/DEF/SPD',g.atk+' / '+g.def+' / '+g.spd)}<div class="sh" style="font-weight:700;margin:.4cqh 0">สกิล (${g.sk.length}/4)</div><div class="sk4">${g.sk.map(s=>`<div><span style="color:${s.e?EC[s.e]:'#888'}">●</span> ${s.n}<br><small>พลัง ${s.p} · SP ${s.c}</small></div>`).join('')}</div></div><div class="sr"><div class="sh"><b>${nm(g)}</b> &nbsp; ${LV(g)}</div><canvas id="sc" width="48" height="48"></canvas><br><span class="et" style="background:${EC[g.sp.e]}">${g.sp.e}</span>${f('ไอเทมที่ถือ',g.held?ALL[g.held][0]+' '+ALL[g.held][1]:'ไม่มี')}</div></div>`);spr($('#sc'),g,3)}
+ openM('ข้อมูลผี',`<div class="sm"><div>${f('สมุดผี',String(g.si+1).padStart(3,'0'))}${f(g.nick?'ชนิดผี':'ชื่อ',SN(g.sp)+(g.shiny?' ✨':''))}${f('สกิลประจำตัว',uTxt(g))}${f('HP / SP',g.hp+'/'+g.mx+' · '+g.sp2+'/'+g.mxsp)}${f('ATK/DEF/SPD',g.atk+' / '+g.def+' / '+g.spd)}<div class="sh" style="font-weight:700;margin:.4cqh 0">สกิล (${g.sk.length}/4)</div><div class="sk4">${g.sk.map(s=>`<div><span style="color:${s.e?EC[s.e]:'#888'}">●</span> ${s.n}<br><small>พลัง ${s.p} · SP ${s.c}</small></div>`).join('')}</div></div><div class="sr"><div class="sh"><b>${nm(g)}</b> &nbsp; ${LV(g)}</div><canvas id="sc" width="48" height="48"></canvas><br><span class="et" style="background:${EC[g.sp.e]}">${g.sp.e}</span>${f('ไอเทมที่ถือ',g.held?ALL[g.held][0]+' '+ALL[g.held][1]:'ไม่มี')}</div></div>`);sprA($('#sc'),g,3)}
 let PS=[];
 let PP=0;const pcap=()=>(HC.sz||0)>=1?3:2,PGN=10;
 const pager=(n,cur,fn)=>n>1?`<div class="wt" style="margin:.5cqh 0">${Array.from({length:n},(_,i)=>`<button class="bn" style="${i==cur?'border-color:#ffd84a':''}" onclick="${fn}(${i})">หน้า ${i+1}</button>`).join('')}</div>`:'';
@@ -2709,7 +2726,7 @@ function bm(k){const L=lead(),bc=$('#bc');const b=(t,f,d,st)=>`<button ${d?'disa
  if(k=='none')bc.innerHTML='';
  else if(k=='main'&&B&&B.auto){bc.innerHTML=`<div style="grid-column:1/3;text-align:center;color:#d8b8ff;padding:1cqh 0">🔮 ร่างทรง — ${nm(L)} กำลังต่อสู้เองอัตโนมัติ...</div>`;const BB=B;setTimeout(()=>arAuto(BB),650)}   // Ver.0.1.5: การประลองร่างทรง
  else if(k=='main'){const fl=floating(L),rt=B&&B.rt;if(rt)B.rtOpen=B.turn;bc.innerHTML=b('โจมตี <small>+6 SP</small>',"act('attack',BASIC)",fl)+b('ป้องกัน <small>+3 SP</small>',"act('defend')")+b(silenced()?'ทักษะ <small>🔇</small>':'ทักษะ',"bm('sk')",fl||silenced())+b('ไอเทม',"bm('it')",fl||rt)+b('สลับตัว',"swp()",fl)+(rt?b('🏳️ ยอมแพ้',"rtFF()"):b('หลบหนี',"act('run')",fl))}   // rt = ท้าประลองแบบเรียลไทม์ (ไม่มีไอเทม · หลบหนี → ยอมแพ้)
- else if(k=='sk')bc.innerHTML=L.sk.map((s,i)=>b(s.n,`act('skill',lead().sk[${i}])`,!canSk(L,s),sst(s))).join('')+b('กลับ',"bm('main')");
+ else if(k=='sk'){bc.innerHTML=L.sk.map((s,i)=>b(s.n,`act('skill',lead().sk[${i}])`,!canSk(L,s),sst(s))).join('')+b('กลับ',"bm('main')");skTip(L.sk)}
  else{const gp=Math.abs(B.foe.lv-L.lv),why=B.team?'ผีของอาจารย์':B.foe.boss?'จับไม่ได้':gp>5?'เลเวลห่าง '+gp+' (เกิน 5)':'',mo=inv.master<1||!!why;bc.innerHTML=b(`ยา HP ×${inv.heal}`,"pickBT('heal')")+b(`ยา SP ×${inv.sp}`,"pickBT('sp')")+b(`หม้ออาจารย์คง ×${inv.master}${inv.master>0&&why?' <small>ใช้ไม่ได้ · '+why+'</small>':''}`,"act('master')",mo)+b('กลับ',"bm('main')")}}
 function blog(t){PTY.ev('l',{t});BV.ev('l',{t});const l=$('#bl');l.innerHTML+=`<div>${t}</div>`;while(l.children.length>5)l.firstChild.remove();say2('Battle','ระบบ',t)}
 const bsay=async(t,ms=750)=>{blog(t);await sleep(ms)};
@@ -2721,6 +2738,22 @@ async function newSkill(L,say=bsay){const pool=skPool(L);if(!pool.length)return;
  const j=await ask('เลือกทักษะที่ต้องการลืม',L.sk.map((s,j)=>`<div class="cd tr"><div style="flex:1"><b style="color:${skc(s)}">● ${s.n}</b><br><small>${skd2(s)}</small></div><button class="bn" onclick="ans(${j})">ลืมทักษะนี้</button></div>`).join('')+'<button class="bn" onclick="ans(-1)">↩ ยกเลิก (ไม่เรียนทักษะใหม่)</button>');
  if(j<0)return say('ไม่เรียนทักษะใหม่');
  const old=L.sk[j];L.sk[j]=n;await say(`ลืม ${old.n} แล้วเรียนรู้ <b style="color:${skc(n)}">${n.n}</b>!`)}
+
+/* Ver.0.1.6: รายละเอียดสกิลในการต่อสู้ — PC: ชี้เมาส์ที่ปุ่มสกิล · มือถือ: กดค้างที่ปุ่มสกิล (ปล่อยนิ้วแล้วไม่ใช้สกิล) */
+let BSKT=[],SKTI=0;
+function skTip(list){BSKT=list||[];skTipH();skTipInit()}
+function skTipH(){const e=$('#sktip');if(e)e.style.display='none'}
+function skTipAt(bc,cx,cy){const bs=bc.querySelectorAll('button');for(let i=0;i<bs.length&&i<BSKT.length;i++){const r=bs[i].getBoundingClientRect();if(cx>=r.left&&cx<=r.right&&cy>=r.top&&cy<=r.bottom)return BSKT[i]&&bs[i].textContent==BSKT[i].n?i:-1}return -1}
+function skTipS(i){const s=BSKT[i],bt=$('#bt'),bc=$('#bc');if(!s||!bt||!bc)return skTipH();let e=$('#sktip');if(!e){e=document.createElement('div');e.id='sktip';bt.appendChild(e)}
+ e.innerHTML=`<span style="color:${s.e?EC[s.e]:'#666'}">●</span> `+skd(s);e.style.bottom=(bt.clientHeight-bc.offsetTop+6)+'px';e.style.display='block'}
+function skTipInit(){const bc=$('#bc');if(!bc||SKTI)return;SKTI=1;let tmr=0,lp=0;
+ new MutationObserver(skTipH).observe(bc,{childList:true});
+ bc.addEventListener('pointermove',e=>{if(e.pointerType!='mouse')return;const i=skTipAt(bc,e.clientX,e.clientY);if(i>=0)skTipS(i);else skTipH()});
+ bc.addEventListener('pointerleave',e=>{if(e.pointerType=='mouse')skTipH()});
+ bc.addEventListener('pointerdown',e=>{lp=0;clearTimeout(tmr);if(e.pointerType=='mouse')return;const i=skTipAt(bc,e.clientX,e.clientY);if(i<0)return;tmr=setTimeout(()=>{lp=1;skTipS(i)},380)});
+ const up=()=>{clearTimeout(tmr);if(lp)skTipH()};bc.addEventListener('pointerup',up);bc.addEventListener('pointercancel',up);
+ bc.addEventListener('click',e=>{if(lp){lp=0;e.stopPropagation();e.preventDefault()}},true);   // กดค้างดูรายละเอียด → ไม่นับเป็นการกดใช้สกิล
+ bc.addEventListener('contextmenu',e=>e.preventDefault())}
 /* ระบบต่อสู้ 1v1 + แกนกลางผลของสกิล / สถานะ / สภาพสนาม / สกิลประจำตัว (2v2 ใช้ hit, addSt, endTurn, onEnter ร่วมกัน) */
 /* ---------- ตัวช่วย ---------- */
 const TN=()=>B&&B.tn||'อาจารย์ยอด';
@@ -2963,7 +2996,7 @@ function bi2(){const bar=g=>`<div class="hb"><u style="width:${g.hp/g.mx*100}%;b
 function bm2(k){const bc=$('#bc'),PAs=PA(),A=PAs[B.si],FAs=FA(),b=(t,f,d,x)=>`<button ${d?'disabled':''} style="${x||''}" onclick="${f}">${t}</button>`,bk=b('กลับ',"bm2('main')");
  if(k=='none')return bc.innerHTML='';
  if(k=='main')bc.innerHTML=`<div style="grid-column:1/3;font-size:.85em;color:#ffe9a8">▶ คำสั่งของ ${nm(A)} ${B.coop?'(ผีของคุณ)':`(${B.si+1}/${PAs.length})`}</div>`+b('โจมตี <small>+6 SP</small>',"pick2('attack',BASIC)",floating(A))+b('ป้องกัน <small>+3 SP</small>',"pick2('defend')")+b(silenced()?'ทักษะ <small>🔇</small>':'ทักษะ',"bm2('sk')",floating(A)||silenced())+b('ไอเทม',"bm2('it')",floating(A))+b('สลับตัว',"sw2()",!BN2().length||floating(A)||lockedIn(A),B.coop&&B.coop.role=='h'&&B.coop.wild||B.bs?'':'grid-column:1/3')+(B.coop&&B.coop.role=='h'&&B.coop.wild?b('หลบหนี <small>(ทั้งปาร์ตี้)</small>',"com2('run',null,0)",floating(A)):B.bs?b('หลบหนี',"com2('run',null,0)",floating(A)):'');
- else if(k=='sk')bc.innerHTML=A.sk.map((s,i)=>b(s.n,`pick2('skill',PA()[B.si].sk[${i}])`,!canSk(A,s),sst(s))).join('')+bk;
+ else if(k=='sk'){bc.innerHTML=A.sk.map((s,i)=>b(s.n,`pick2('skill',PA()[B.si].sk[${i}])`,!canSk(A,s),sst(s))).join('')+bk;skTip(A.sk)}
  else if(k=='it')bc.innerHTML=b(`ยา HP ×${IV().heal}`,"itm2('heal')",IV().heal<1)+b(`ยา SP ×${IV().sp}`,"itm2('sp')",IV().sp<1)+bk;
  else if(k=='tgt')bc.innerHTML=`<div style="grid-column:1/3;font-size:.85em;color:#ffe9a8">🎯 เลือกเป้าหมาย</div>`+FAs.map((f,i)=>b(`${nm(f)} <small>HP ${f.hp}/${f.mx}</small>`,`tgt2(${i})`,0,`border-color:${EC[f.sp.e]}`)).join('')+bk}
 const BN2=()=>OT().filter(g=>g.hp>0&&!PA().includes(g)&&!B.acts.some(o=>o.type=='switch'&&o.tg.g==g));
@@ -3120,6 +3153,14 @@ function chief3(){if(!newbLock())return closeM();const L=CHIEF_SP.map(id=>gi(id)
 function pick(si){if(party.length||!CHIEF_SP.includes(SP[si]&&SP[si].id))return;const g=starterG(si);party=[g];dx[si]=1;NEWB=0;
  for(const k in CHIEF_GIFT)inv[k]=(inv[k]||0)+CHIEF_GIFT[k];hud();save();
  openM(CHIEF_T,`<div style="display:flex;gap:2cqw;align-items:center"><div style="text-align:center"><canvas id="cpk" width="48" height="48" style="width:12cqw;image-rendering:pixelated"></canvas><br><b>${nm(g)}</b> Lv.${g.lv}<br><span class="et" style="background:${EC[g.sp.e]}">ธาตุ${g.sp.e}</span></div><div style="flex:1"><p style="font-size:1.2em;margin:0 0 .8cqh">"เป็นตัวเลือกที่ดีนะ ข้าจะให้ของเล็กๆ น้อยๆ ติดตัวไว้"</p><div class="cd">🎁 ได้รับ<br>${Object.keys(CHIEF_GIFT).map(k=>`${ALL[k][0]} ${ALL[k][1]} ×${CHIEF_GIFT[k]}`).join('<br>')}</div></div></div><div style="text-align:right"><button class="bn" onclick="closeM();help()">🙏 ขอบคุณครับ</button></div>`,0);spr($('#cpk'),g,3)}
+
+/* Ver.0.1.6: ลูกศรนำทางผู้เล่นใหม่ → "ผู้ใหญ่บ้าน" ที่ "บ้านผู้ใหญ่บ้าน" (แสดงจนกว่าจะคุยรับผีคู่หูเสร็จ = newbLock() เป็นเท็จ)
+   - ในหมู่บ้าน: ลูกศรเด้งเหนือประตูบ้านผู้ใหญ่บ้าน · ในบ้านผู้ใหญ่บ้าน: เหนือหัวผู้ใหญ่บ้าน · ในบ้านหลังอื่น: ชี้ประตูออก
+   - ถ้าเป้าหมายอยู่ไกล: มีลูกศรเล็กวนรอบตัวผู้เล่นชี้ทิศทางให้ด้วย */
+function newbTgt(){if(!newbLock()||mode!='world')return null;
+ if(MAPID==7){const n=NPC.find(n=>n.t=='chief');return n?{x:n.x,y:n.y,h:nLH(n)+12,lb:''}:null}
+ if(MAPID==1){const h=VHOUSES.find(v=>v.map==7);if(!h)return null;const [x,y]=TX(h.tx,h.ty);return{x,y,h:50,lb:'บ้านผู้ใหญ่บ้าน'}}
+ if(MAPID==5||MAPID==6)return{x:5*16+8,y:7*16+8,h:22,lb:'ทางออก'};return null}
 /* สายอาชีพ (Ver.0.1.2): หมอยา / พ่อค้าเถื่อน — เลือกได้อาชีพเดียว เลือกแล้วเปลี่ยนไม่ได้
    - คุย NPC (หมอยา / พ่อค้าใต้ดิน) → "สอบถามเรื่องอาชีพ" → สนใจ = รับเควส → นำเงินค่าครูมามอบ → ได้อาชีพ + โต๊ะในบ้านพกพา
    - โต๊ะปรุงยา: ผลิตยา (ใช้ขวดเปล่า + เศษวิญญาณ) · โต๊ะขายของ: วางไอเทมขาย 5 ช่อง ผู้เล่นอื่นที่มาเยี่ยมบ้านกดซื้อได้ (ออนไลน์) */
@@ -3957,6 +3998,16 @@ function dex(){openM('สมุดผี ('+Object.keys(dx).length+'/'+SP.length
  SP.forEach((s,i)=>{const d=document.createElement('div'),k=document.createElement('canvas'),no=document.createElement('small');no.className='dno';no.textContent='No.'+String(i+1).padStart(2,'0');d.append(no);k.width=k.height=32;const t=k.getContext('2d');dg(t,16,30,{sp:s,shiny:0},2,0);
   if(!dx[i]){t.globalCompositeOperation='source-atop';t.fillStyle='#000';t.fillRect(0,0,32,32)}if(dx[i]&&s.t==2){const sp=document.createElement('span');sp.style.color='#c58cff';sp.textContent=s.n;d.append(k,sp)}else d.append(k,dx[i]?s.n:'???');gr.append(d)})}
 function spr(k,g,u){const t=k.getContext('2d');t.clearRect(0,0,k.width,k.height);dg(t,k.width/2,k.height-4,g,u,0)}
+/* Ver.0.1.6: รูปผีในหน้าข้อมูลผีขยับ (ท่า Idle) — วาดซ้ำทุกเฟรมจนกว่าหน้าต่างจะปิด/เปลี่ยน */
+function sprA(k,g,u){if(!k||!g)return;const id=k._a=(k._a||0)+1,t=k.getContext('2d');const f=()=>{if(!k.isConnected||k._a!==id)return;t.clearRect(0,0,k.width,k.height);try{dg(t,k.width/2,k.height-4,g,u,performance.now(),{pose:'front',state:'idle'})}catch(e){}requestAnimationFrame(f)};f()}
+/* Ver.0.1.6: เปลี่ยนชื่อผี (ครั้งแรกฟรี · ครั้งต่อไป 1 ทอง) — g.nick = ชื่อที่ตั้ง (แสดงแทนชื่อชนิดผีทุกที่ผ่าน nm()) · g.rn = จำนวนครั้งที่เปลี่ยนแล้ว */
+const RENAME_GOLD=1,nickClean=s=>String(s||'').replace(/[<>&"'`\\]/g,'').replace(/\s+/g,' ').trim().slice(0,12);
+function gRen(i,msg){const g=party[i];if(!g)return;const c=g.rn?RENAME_GOLD:0;
+ openM('✏️ เปลี่ยนชื่อผี',`${msg?`<p style="color:#ff8a8a">${msg}</p>`:''}<p>ตั้งชื่อใหม่ให้ <b>${nm(g)}</b> <small>(ชนิด: ${SN(g.sp)})</small></p><input id="gnk" maxlength="12" value="${g.nick||''}" placeholder="ชื่อใหม่ (สูงสุด 12 ตัวอักษร) · เว้นว่าง = ใช้ชื่อชนิดผี" onkeydown="if(event.key=='Enter'){event.stopPropagation();gRenOk(${i})}" style="width:100%;box-sizing:border-box;background:#333;color:#fff;border:1px solid #777;border-radius:3px;font:inherit;padding:.6cqh .6cqw"><p><small>${c?`ค่าเปลี่ยนชื่อ <b style="color:#ffd84a">${c} ทอง</b> (มีอยู่ ${gold} ทอง)`:'🎁 เปลี่ยนชื่อครั้งแรก <b style="color:#7dff9a">ฟรี!</b> (ครั้งต่อไป '+RENAME_GOLD+' ทอง)'}</small></p><button class="bn" onclick="gRenOk(${i})">✅ ยืนยัน${c?` (−${c} ทอง)`:' (ฟรี)'}</button><button class="bn" onclick="det(${i})">← กลับ</button>`);
+ setTimeout(()=>{const e=$('#gnk');if(e){e.focus();e.select()}},30)}
+function gRenOk(i){const g=party[i],e=$('#gnk');if(!g||!e)return;let n=nickClean(e.value);if(n==g.sp.n)n='';if(n==(g.nick||''))return det(i);
+ const c=g.rn?RENAME_GOLD:0;if(gold<c)return gRen(i,'ทองไม่พอ!');if(c){gold-=c;try{BANK.spend(c,0)}catch(x){}}
+ if(n)g.nick=n;else delete g.nick;g.rn=(g.rn|0)+1;hud();save();det(i);toast(n?`เปลี่ยนชื่อเป็น "${n}" แล้ว${c?` (−${c} ทอง)`:''}`:`ใช้ชื่อชนิดผีตามเดิมแล้ว${c?` (−${c} ทอง)`:''}`)}
 function team(){if(B&&B.view)return toast('👁️ กำลังดูการต่อสู้อยู่');const dr=mode=='world'&&party.length>1;openM('ทีมผี — เลือกผี',(dr?'<p style="margin:.2cqh 0 .5cqh"><small>☰ กดค้างที่ ☰ แล้วลากขึ้น/ลงเพื่อจัดลำดับผี (ตัวบนสุด = ตัวนำ · 2vs2 ลงสนาม 2 ตัวแรก)</small></p>':'')+party.map((g,i)=>`<div class="cd tr tmr">${dr?`<span class="tdh" title="ลากเพื่อเลื่อนลำดับ" onpointerdown="teamDrag(event,${i})">☰</span>`:''}<canvas data-i="${i}" width="32" height="32"></canvas><div style="flex:1"><b>${nm(g)}</b> ${i?'':'⭐ตัวนำ '}${g.held?ALL[g.held][0]+' ':''}${LV(g)} · ธาตุ${g.sp.e}${hpr(g,1)}${spx(g,1)}${exb(g,1)}</div><button class="bn" onclick="det(${i})">ดูรายละเอียด</button>${i?`<button class="bn" onclick="lead0(${i})">ตั้งเป็นตัวนำ</button>`:''}</div>`).join(''));
  document.querySelectorAll('#mb canvas[data-i]').forEach(k=>spr(k,party[+k.dataset.i],2))}
 /* Ver.0.1.5: ลากเพื่อจัดลำดับผีในทีม (เมาส์ / นิ้วบนมือถือ) — ใช้ Pointer Events จึงใช้ได้ทั้งสองแบบ */
@@ -3970,10 +4021,10 @@ function teamDrag(e,i){if(mode!='world'||party.length<2)return;e.preventDefault(
  document.addEventListener('pointermove',mv,{passive:false});document.addEventListener('pointerup',up);document.addEventListener('pointercancel',up)}
 function lead0(i){party.unshift(party.splice(i,1)[0]);hud();save();team()}
 function det(i){const g=party[i],nd=g.lv*20,f=(l,v)=>`<div class="fl"><span class="sh">${l}</span><div class="fv">${v}</div></div>`;
- openM('สรุปข้อมูลผี',`<div class="sm"><div>${f('สมุดผี',String(g.si+1).padStart(3,'0'))}${f('ชื่อ',SN(g.sp)+(g.shiny?' ✨':''))}${f('สกิลประจำตัว',uTxt(g))}${f('XP',g.lv>=LV_MAX?'MAX':g.lv>=lvMax()?'ติดเลเวลแคป':g.exp+' / '+nd)}${f('ถึงเลเวลถัดไป',g.lv>=LV_MAX?'— (เลเวลสูงสุด '+LV_MAX+')':g.lv>=lvMax()?'— (แมพนี้จำกัด Lv.'+lvMax()+')':nd-g.exp)}<div class="hb" style="margin-bottom:.8cqh"><u style="width:${g.exp/nd*100}%;background:#3a9bff"></u></div>${f('HP / SP',g.hp+'/'+g.mx+' · '+g.sp2+'/'+g.mxsp)}${f('ATK/DEF/SPD',g.atk+' / '+g.def+' / '+g.spd)}<div class="sh" style="font-weight:700;margin:.4cqh 0">สกิล (${g.sk.length}/4)</div><div class="sk4">${[0,1,2,3].map(j=>{const s=g.sk[j];return s?`<div title="${s.n}: พลัง ${s.p} · SP ${s.c} · ธาตุ${s.e||'-'}" onmouseenter="sk(${i},${j})" onclick="sk(${i},${j})"><span style="color:${s.e?EC[s.e]:'#888'}">●</span> ${s.n}</div>`:'<div class="em">— ว่าง —</div>'}).join('')}</div><div class="fv" id="sd">ชี้หรือกดที่สกิลเพื่อดูรายละเอียด</div></div>
- <div class="sr"><div class="sh"><b>${nm(g)}</b> &nbsp; ${LV(g)}</div><canvas id="sc" width="48" height="48"></canvas><br><span class="et" style="background:${EC[g.sp.e]}">${g.sp.e}</span>${f('ไอเทมที่ถือ',g.held?ALL[g.held][0]+' '+ALL[g.held][1]:'ไม่มี')}</div></div>
+ openM('สรุปข้อมูลผี',`<div class="sm"><div>${f('สมุดผี',String(g.si+1).padStart(3,'0'))}${f(g.nick?'ชนิดผี':'ชื่อ',SN(g.sp)+(g.shiny?' ✨':''))}${f('สกิลประจำตัว',uTxt(g))}${f('XP',g.lv>=LV_MAX?'MAX':g.lv>=lvMax()?'ติดเลเวลแคป':g.exp+' / '+nd)}${f('ถึงเลเวลถัดไป',g.lv>=LV_MAX?'— (เลเวลสูงสุด '+LV_MAX+')':g.lv>=lvMax()?'— (แมพนี้จำกัด Lv.'+lvMax()+')':nd-g.exp)}<div class="hb" style="margin-bottom:.8cqh"><u style="width:${g.exp/nd*100}%;background:#3a9bff"></u></div>${f('HP / SP',g.hp+'/'+g.mx+' · '+g.sp2+'/'+g.mxsp)}${f('ATK/DEF/SPD',g.atk+' / '+g.def+' / '+g.spd)}<div class="sh" style="font-weight:700;margin:.4cqh 0">สกิล (${g.sk.length}/4)</div><div class="sk4">${[0,1,2,3].map(j=>{const s=g.sk[j];return s?`<div title="${s.n}: พลัง ${s.p} · SP ${s.c} · ธาตุ${s.e||'-'}" onmouseenter="sk(${i},${j})" onclick="sk(${i},${j})"><span style="color:${s.e?EC[s.e]:'#888'}">●</span> ${s.n}</div>`:'<div class="em">— ว่าง —</div>'}).join('')}</div><div class="fv" id="sd">ชี้หรือกดที่สกิลเพื่อดูรายละเอียด</div></div>
+ <div class="sr"><div class="sh"><b>${nm(g)}</b> &nbsp; ${LV(g)}<button class="bn rnb" onclick="gRen(${i})" title="เปลี่ยนชื่อผี (ครั้งแรกฟรี · ต่อไป ${RENAME_GOLD} ทอง)">✏️ เปลี่ยนชื่อ</button></div><canvas id="sc" width="48" height="48"></canvas><br><span class="et" style="background:${EC[g.sp.e]}">${g.sp.e}</span>${f('ไอเทมที่ถือ',g.held?ALL[g.held][0]+' '+ALL[g.held][1]:'ไม่มี')}</div></div>
  <div class="ss">${party.map((_,j)=>`<canvas data-j="${j}" width="32" height="32" class="${j==i?'on':''}"></canvas>`).join('')}</div><button class="bn" onclick="team()">← กลับ</button>`);
- spr($('#sc'),g,3);document.querySelectorAll('#mb .ss canvas').forEach(k=>{spr(k,party[+k.dataset.j],2);k.onclick=()=>det(+k.dataset.j)})}
+ sprA($('#sc'),g,3);document.querySelectorAll('#mb .ss canvas').forEach(k=>{spr(k,party[+k.dataset.j],2);k.onclick=()=>det(+k.dataset.j)})}
 let AV;
 /* หน้าสร้างตัวละคร / ปรับอวาตาร์ (อวาตาร์แบบใหม่: js/render/avatar.js) */
 const AVG=[['เพศ','g',[['m','ชาย'],['f','หญิง']]],['ทรงผม','hs'],['สีผม','hc','sw'],['สีผิว','sk','sw'],['หมวก','hat'],['ชุด','out']];
@@ -4019,7 +4070,7 @@ function wh(){if(WH.p>=WHN)WH.p=WHN-1;const L=k=>k=='b'?box:party,g=WH.s&&L(WH.s
  const selB=WH.s&&WH.s.k=='b',selP=WH.s&&WH.s.k=='p';
  openM('โกดังผี 📦',`<div class="wh"><div class="wi">${info}</div><div class="wm"><div class="wt">${Array.from({length:WHN},(_,i)=>`<button class="bn" style="${i==WH.p?'border-color:#ffd84a;color:#ffd84a':''}" onclick="WH.p=${i};WH.s=null;wh()">กล่อง ${i+1}</button>`).join('')}</div><div class="wg">${Array.from({length:30},(_,j)=>sl('b',WH.p*30+j)).join('')}</div></div><div class="wr"><b>ทีม (${party.length}/4)</b><div class="wp">${[0,1,2,3].map(i=>sl('p',i)).join('')}</div><button class="bn" ${selP?'':'disabled'} onclick="whm()">← ฝากเข้าโกดัง</button><button class="bn" ${selB?'':'disabled'} onclick="whm()">→ ย้ายเข้าทีม</button></div></div>`);
  $('#md .bx').classList.add('wide');fitM();whFit();
- document.querySelectorAll('#mb canvas[data-k]').forEach(k=>spr(k,L(k.dataset.k)[+k.dataset.i],2));if(g)spr($('#sc'),g,8)}
+ document.querySelectorAll('#mb canvas[data-k]').forEach(k=>spr(k,L(k.dataset.k)[+k.dataset.i],2));if(g)sprA($('#sc'),g,8)}
 function whs(k,i){WH.s=WH.s&&WH.s.k==k&&WH.s.i==i?null:{k,i};wh()}
 function whm(){const s=WH.s;if(!s)return;if(s.k=='b'){if(party.length>=4)return toast('ทีมเต็ม (4/4)');party.push(box.splice(s.i,1)[0])}else{if(party.length<2)return toast('ต้องเหลือผีในทีมอย่างน้อย 1 ตัว');box.push(party.splice(s.i,1)[0])}WH.s=null;hud();save();wh()}
 /* โหมดทดสอบ (เสกไอเทม / เสกผี) */
@@ -4618,7 +4669,7 @@ const BV=(()=>{
  /* ---------- คู่ประลอง (เรียลไทม์): สั่งผีของตัวเอง ---------- */
  function rtUI(k){const V=S.V;if(!V||!V.on||!B)return;const L=lead(),bc=$('#bc'),b=(t,f,d,st)=>`<button ${d?'disabled':''} style="${st||''}" onclick="${f}">${t}</button>`;if(!L)return;
   if(k=='pk'){const al=party.filter(g=>g.hp>0);bc.innerHTML=`<div style="grid-column:1/3;font-size:.85em;color:#ffe9a8">💀 ผีของคุณสลบ — เลือกผีตัวต่อไป</div>`+party.map((g,i)=>g.hp>0?b(`${nm(g)} ${LV(g)} <small>HP ${g.hp}/${g.mx}</small>`,`BV.rtSend('next',${i})`,0,`border-color:${EC[g.sp.e]}`):'').join('')+(al.length?'':'<div>—</div>');return}
-  if(k=='sk')bc.innerHTML=L.sk.map((s,i)=>b(s.n,`BV.rtSend('skill',${i})`,!canSk(L,s),sst(s))).join('')+b('กลับ',"BV.rtUI('main')");
+  if(k=='sk'){bc.innerHTML=L.sk.map((s,i)=>b(s.n,`BV.rtSend('skill',${i})`,!canSk(L,s),sst(s))).join('')+b('กลับ',"BV.rtUI('main')");skTip(L.sk)}
   else if(k=='sw')bc.innerHTML=party.map((g,i)=>g.hp>0&&g!==L?b(`${nm(g)} <small>HP ${g.hp}/${g.mx}</small>`,`BV.rtSend('switch',${i})`,0,`border-color:${EC[g.sp.e]}`):'').join('')+b('กลับ',"BV.rtUI('main')");
   else{const fl=floating(L),bn=party.some(g=>g.hp>0&&g!==L);bc.innerHTML=`<div style="grid-column:1/3;font-size:.85em;color:#8fe3ff">⚔️ ประลองกับ ${esc(V.n)} — สั่ง ${nm(L)}</div>`+b('โจมตี <small>+6 SP</small>',"BV.rtSend('attack')",fl)+b('ป้องกัน <small>+3 SP</small>',"BV.rtSend('defend')")+b(silenced()?'ทักษะ <small>🔇</small>':'ทักษะ',"BV.rtUI('sk')",fl||silenced())+b('สลับตัว',"BV.rtUI('sw')",fl||!bn||lockedIn(L))+b('🏳️ ยอมแพ้',"BV.rtSend('ff')",0,'grid-column:1/3')}}
  function rtSend(ty,i){const V=S.V;if(!V||!V.rt||!B||B.busy)return;
@@ -4696,6 +4747,11 @@ async function toggleFS(){const h=document.documentElement;
  if(rq){try{await rq.call(h);h.classList.add('fs');try{await screen.orientation.lock('landscape')}catch(e){}return}catch(e){}}
  h.classList.add('fs');toast('เบราว์เซอร์นี้ไม่อนุญาตเต็มจอเต็มรูปแบบ — iPhone: กดแชร์ → เพิ่มไปหน้าจอโฮม จะเล่นเต็มจอได้')}
 document.addEventListener('fullscreenchange',()=>{if(!fsEl())document.documentElement.classList.remove('fs')});document.addEventListener('webkitfullscreenchange',()=>{if(!fsEl())document.documentElement.classList.remove('fs')});
+/* มือถือ: แตะครั้งแรกเข้าเต็มจอ + ล็อกแนวนอนอัตโนมัติ (Android) / iPhone ล็อกไม่ได้ จะขึ้นหน้าบอกให้หมุนจอแทน */
+const isTouch=()=>matchMedia('(pointer:coarse)').matches;
+async function autoLand(){if(!isTouch()||fsEl())return;const h=document.documentElement,rq=h.requestFullscreen||h.webkitRequestFullscreen;if(!rq)return;
+ try{await rq.call(h,{navigationUI:'hide'});h.classList.add('fs');try{await screen.orientation.lock('landscape')}catch(e){}}catch(e){}}
+addEventListener('pointerdown',e=>{if(e.target&&e.target.id=='fs')return;if(e.target&&e.target.tagName=='INPUT')return;autoLand()},true);
 const pad=$('#pad'),kn=$('#kn');let padId=null;
 function padMove(e){const r=pad.getBoundingClientRect();let dx=(e.clientX-r.left-r.width/2)/(r.width/2),dy=(e.clientY-r.top-r.height/2)/(r.height/2);const l=Math.hypot(dx,dy);if(l>1){dx/=l;dy/=l}const dead=l<.15;JOY.x=dead?0:dx;JOY.y=dead?0:dy;kn.style.transform=`translate(${dx*r.width*.29}px,${dy*r.height*.29}px)`}
 pad.addEventListener('pointerdown',e=>{e.preventDefault();padId=e.pointerId;pad.setPointerCapture(padId);TG=null;padMove(e)});
